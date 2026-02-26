@@ -6,30 +6,33 @@ using Microsoft.Extensions.Logging;
 
 namespace EcoBank.Infrastructure.Xpollens.Auth;
 
-internal sealed record TokenRequestBody(
-    [property: JsonPropertyName("grant_type")] string GrantType,
-    [property: JsonPropertyName("client_id")] string ClientId,
-    [property: JsonPropertyName("client_secret")] string ClientSecret);
-
 internal sealed record TokenResponseDto(
     [property: JsonPropertyName("access_token")] string AccessToken,
     [property: JsonPropertyName("token_type")] string TokenType,
     [property: JsonPropertyName("expires_in")] int ExpiresIn);
 
 /// <summary>
-/// TODO: Map to Xpollens OAuth2 token endpoint — see https://docs.xpollens.com/reference/overview
-/// Current assumption: POST /v1/oauth/token with client_credentials grant.
+/// Authenticates against the Xpollens sandbox identity server using the
+/// OAuth2 client_credentials flow.
+/// POST https://sb-connect.xpollens.com/connect/token
+/// Content-Type: application/x-www-form-urlencoded
 /// </summary>
 public sealed class XpollensAuthService(HttpClient httpClient, ILogger<XpollensAuthService> logger) : IAuthService
 {
-    private const string TokenEndpoint = "v1/oauth/token"; // TODO: confirm exact path from Xpollens docs
+    private const string TokenEndpoint = "connect/token";
 
     public async Task<TokenResponse> AuthenticateAsync(Credentials credentials, CancellationToken ct = default)
     {
         logger.LogInformation("Authenticating with Xpollens (client_id={ClientId})", credentials.ClientId);
 
-        var body = new TokenRequestBody("client_credentials", credentials.ClientId, credentials.ClientSecret);
-        using var response = await httpClient.PostAsJsonAsync(TokenEndpoint, body, ct);
+        var formContent = new FormUrlEncodedContent([
+            new KeyValuePair<string, string>("grant_type", "client_credentials"),
+            new KeyValuePair<string, string>("client_id", credentials.ClientId),
+            new KeyValuePair<string, string>("client_secret", credentials.ClientSecret),
+            new KeyValuePair<string, string>("scope", "partner"),
+        ]);
+
+        using var response = await httpClient.PostAsync(TokenEndpoint, formContent, ct);
 
         if (!response.IsSuccessStatusCode)
         {

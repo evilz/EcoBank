@@ -14,14 +14,15 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddXpollensInfrastructure(
         this IServiceCollection services,
-        string baseUrl = "https://api.xpollens.com/") // TODO: confirm base URL from docs
+        string baseUrl = "https://sb-api.xpollens.com/",
+        string authBaseUrl = "https://sb-connect.xpollens.com/")
     {
         services.AddSingleton<UserContext>();
         services.AddTransient<AuthenticatedHandler>();
         services.AddTransient<CorrelationIdHandler>();
         services.AddTransient<LoggingHandler>();
 
-        services.AddHttpClient<IAuthService, XpollensAuthService>(c => c.BaseAddress = new Uri(baseUrl))
+        services.AddHttpClient<IAuthService, XpollensAuthService>(c => c.BaseAddress = new Uri(authBaseUrl))
             .AddHttpMessageHandler<CorrelationIdHandler>()
             .AddHttpMessageHandler<LoggingHandler>();
 
