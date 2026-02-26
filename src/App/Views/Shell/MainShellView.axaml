@@ -17,7 +17,7 @@
       <!-- Sidebar -->
       <Border Grid.Column="0"
               Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
-              BoxShadow="2 0 8px 0 #10000000"
+              BoxShadow="2 0 8 0 #10000000"
               Padding="0,24">
         <StackPanel Spacing="4" Margin="12,0">
           <!-- App branding -->
@@ -61,7 +61,7 @@
       <!-- Bottom nav -->
       <Border Grid.Row="1"
               Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
-              BoxShadow="0 -2px 8px 0 #10000000"
+              BoxShadow="0 -2 8 0 #10000000"
               Padding="4,6">
         <ItemsControl ItemsSource="{Binding Tabs}">
           <ItemsControl.ItemsPanel>

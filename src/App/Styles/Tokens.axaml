@@ -10,7 +10,7 @@
   <x:Double x:Key="SpacingXxl">32</x:Double>
   <x:Double x:Key="SpacingXxxl">48</x:Double>
   <x:Double x:Key="ScreenPadding">16</x:Double>
-  <x:Double x:Key="CardPadding">16</x:Double>
+  <Thickness x:Key="CardPadding">16</Thickness>
   <x:Double x:Key="ListItemHeight">72</x:Double>
   <x:Double x:Key="ListItemHeightCompact">56</x:Double>
 

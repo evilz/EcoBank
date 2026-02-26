@@ -13,7 +13,7 @@
     <CornerRadius x:Key="RadiusLg">16</CornerRadius>
     <CornerRadius x:Key="RadiusXl">24</CornerRadius>
     <CornerRadius x:Key="RadiusFull">9999</CornerRadius>
-    <x:Double x:Key="CardPadding">16</x:Double>
+    <Thickness x:Key="CardPadding">16</Thickness>
     <x:Double x:Key="MinTouchTarget">48</x:Double>
   </Styles.Resources>
 
@@ -22,18 +22,18 @@
     <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
     <Setter Property="Padding" Value="{StaticResource CardPadding}" />
-    <Setter Property="BoxShadow" Value="0 2px 8px 0 #18000000" />
+    <Setter Property="BoxShadow" Value="0 2 8 0 #18000000" />
   </Style>
 
   <Style Selector="Border.CardInteractive">
     <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
     <Setter Property="Padding" Value="{StaticResource CardPadding}" />
-    <Setter Property="BoxShadow" Value="0 2px 8px 0 #18000000" />
+    <Setter Property="BoxShadow" Value="0 2 8 0 #18000000" />
     <Setter Property="Cursor" Value="Hand" />
   </Style>
   <Style Selector="Border.CardInteractive:pointerover">
-    <Setter Property="BoxShadow" Value="0 4px 16px 0 #28000000" />
+    <Setter Property="BoxShadow" Value="0 4 16 0 #28000000" />
   </Style>
 
   <!-- ===== PRIMARY BUTTON ===== -->

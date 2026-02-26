@@ -7,7 +7,7 @@
 
   <DockPanel>
     <!-- Header -->
-    <Border DockPanel.Dock="Top" Padding="16,12" BoxShadow="0 1px 4px 0 #10000000">
+    <Border DockPanel.Dock="Top" Padding="16,12" BoxShadow="0 1 4 0 #10000000">
       <Grid ColumnDefinitions="Auto,*,Auto">
         <Button Grid.Column="0"
                 Classes="Secondary"
