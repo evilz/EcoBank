@@ -12,4 +12,16 @@
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/EcoBank.Shared.csproj" />
   </Folder>
+  <Folder Name="/src/Desktop/">
+    <Project Path="src/Desktop/EcoBank.Desktop.csproj" />
+  </Folder>
+  <Folder Name="/src/Android/">
+    <Project Path="src/Android/EcoBank.Android.csproj" />
+  </Folder>
+  <Folder Name="/src/iOS/">
+    <Project Path="src/iOS/EcoBank.iOS.csproj" />
+  </Folder>
+  <Folder Name="/src/Browser/">
+    <Project Path="src/Browser/EcoBank.Browser.csproj" />
+  </Folder>
 </Solution>

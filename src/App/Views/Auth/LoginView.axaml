@@ -60,7 +60,7 @@
 
           <!-- Error message -->
           <Border Background="#FEE2E2"
-                  CornerRadius="{StaticResource RadiusSm}"
+                  CornerRadius="{DynamicResource RadiusSm}"
                   Padding="12,10"
                   IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
             <TextBlock Text="{Binding ErrorMessage}"

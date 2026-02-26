@@ -10,7 +10,7 @@
     <StackPanel Margin="16" Spacing="16">
 
       <!-- Welcome + Balance Hero -->
-      <Border CornerRadius="{StaticResource RadiusXl}"
+      <Border CornerRadius="{DynamicResource RadiusXl}"
               Padding="24"
               Background="#1A56DB">
         <StackPanel Spacing="8">

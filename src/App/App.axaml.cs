@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
@@ -27,17 +28,21 @@ public partial class App : Application
         services.AddApp();
         _services = services.BuildServiceProvider();
 
+        // Start on the login page
+        var navigation = _services.GetRequiredService<INavigationService>();
+        var loginVm = _services.GetRequiredService<LoginViewModel>();
+        navigation.NavigateTo(loginVm);
+
+        var mainVm = _services.GetRequiredService<MainWindowViewModel>();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             DisableAvaloniaDataAnnotationValidation();
-
-            // Start on the login page
-            var navigation = _services.GetRequiredService<INavigationService>();
-            var loginVm = _services.GetRequiredService<LoginViewModel>();
-            navigation.NavigateTo(loginVm);
-
-            var mainVm = _services.GetRequiredService<MainWindowViewModel>();
             desktop.MainWindow = new MainWindow { DataContext = mainVm };
+        }
+        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleView)
+        {
+            singleView.MainView = new MainView { DataContext = mainVm };
         }
 
         base.OnFrameworkInitializationCompleted();

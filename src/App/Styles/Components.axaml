@@ -1,6 +1,22 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+  <!--
+    Design tokens are declared here so that {StaticResource} lookups inside <Setter> elements
+    resolve correctly when this Styles file is loaded as part of Application.Styles — before
+    Application.Resources has been fully populated.
+  -->
+  <Styles.Resources>
+    <CornerRadius x:Key="RadiusXs">4</CornerRadius>
+    <CornerRadius x:Key="RadiusSm">8</CornerRadius>
+    <CornerRadius x:Key="RadiusMd">12</CornerRadius>
+    <CornerRadius x:Key="RadiusLg">16</CornerRadius>
+    <CornerRadius x:Key="RadiusXl">24</CornerRadius>
+    <CornerRadius x:Key="RadiusFull">9999</CornerRadius>
+    <x:Double x:Key="CardPadding">16</x:Double>
+    <x:Double x:Key="MinTouchTarget">48</x:Double>
+  </Styles.Resources>
+
   <!-- ===== CARD ===== -->
   <Style Selector="Border.Card">
     <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
