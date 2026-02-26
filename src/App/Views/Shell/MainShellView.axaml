@@ -1,0 +1,91 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EcoBank.App.ViewModels.Shell"
+             x:Class="EcoBank.App.Views.Shell.MainShellView"
+             x:DataType="vm:MainShellViewModel">
+
+  <!-- Responsive layout:
+       - Narrow (<600px): bottom navigation bar
+       - Wide (>=600px): side navigation rail
+  -->
+  <Panel>
+
+    <!-- WIDE layout (sidebar) -->
+    <Grid ColumnDefinitions="220,*"
+          IsVisible="{Binding $parent[UserControl].Bounds.Width, Converter={x:Static vm:WidthToBoolConverter.IsWide}}">
+
+      <!-- Sidebar -->
+      <Border Grid.Column="0"
+              Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+              BoxShadow="2 0 8px 0 #10000000"
+              Padding="0,24">
+        <StackPanel Spacing="4" Margin="12,0">
+          <!-- App branding -->
+          <StackPanel Orientation="Horizontal" Spacing="10" Margin="12,0,0,24">
+            <TextBlock Text="🏦" FontSize="24"/>
+            <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+          </StackPanel>
+
+          <!-- Nav items -->
+          <ItemsControl ItemsSource="{Binding Tabs}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:NavTab">
+                <Button Classes="NavItem"
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
+                        CommandParameter="{Binding}">
+                  <StackPanel Orientation="Horizontal" Spacing="12" Margin="4,0">
+                    <TextBlock Text="{Binding Icon}" FontSize="18" Width="24" TextAlignment="Center"/>
+                    <TextBlock Text="{Binding Label}" FontSize="15" VerticalAlignment="Center"/>
+                  </StackPanel>
+                </Button>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Border>
+
+      <!-- Content area -->
+      <ContentControl Grid.Column="1"
+                      Content="{Binding CurrentContent}"/>
+    </Grid>
+
+    <!-- NARROW layout (bottom nav) -->
+    <Grid RowDefinitions="*,Auto"
+          IsVisible="{Binding $parent[UserControl].Bounds.Width, Converter={x:Static vm:WidthToBoolConverter.IsNarrow}}">
+
+      <!-- Content -->
+      <ContentControl Grid.Row="0"
+                      Content="{Binding CurrentContent}"/>
+
+      <!-- Bottom nav -->
+      <Border Grid.Row="1"
+              Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+              BoxShadow="0 -2px 8px 0 #10000000"
+              Padding="4,6">
+        <ItemsControl ItemsSource="{Binding Tabs}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <UniformGrid Rows="1"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:NavTab">
+              <Button Classes="NavItem"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
+                      CommandParameter="{Binding}">
+                <StackPanel Spacing="3" HorizontalAlignment="Center">
+                  <TextBlock Text="{Binding Icon}" FontSize="22" HorizontalAlignment="Center"/>
+                  <TextBlock Text="{Binding Label}" FontSize="10" HorizontalAlignment="Center"/>
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Border>
+    </Grid>
+
+  </Panel>
+</UserControl>

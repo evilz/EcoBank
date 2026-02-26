@@ -1,0 +1,16 @@
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/bin/Debug/net10.0/EcoBank.Infrastructure.Xpollens.deps.json
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/bin/Debug/net10.0/EcoBank.Infrastructure.Xpollens.dll
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/bin/Debug/net10.0/EcoBank.Infrastructure.Xpollens.pdb
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/bin/Debug/net10.0/EcoBank.Core.dll
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/bin/Debug/net10.0/EcoBank.Core.pdb
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank.Infrastructure.Xpollens.csproj.AssemblyReference.cache
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank.Infrastructure.Xpollens.GeneratedMSBuildEditorConfig.editorconfig
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank.Infrastructure.Xpollens.AssemblyInfoInputs.cache
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank.Infrastructure.Xpollens.AssemblyInfo.cs
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank.Infrastructure.Xpollens.csproj.CoreCompileInputs.cache
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank.Infrastructure.Xpollens.sourcelink.json
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank..308541EB.Up2Date
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank.Infrastructure.Xpollens.dll
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/refint/EcoBank.Infrastructure.Xpollens.dll
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/EcoBank.Infrastructure.Xpollens.pdb
+/home/runner/work/EcoBank/EcoBank/src/Infrastructure.Xpollens/obj/Debug/net10.0/ref/EcoBank.Infrastructure.Xpollens.dll
