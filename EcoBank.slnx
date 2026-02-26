@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/App/">
+    <Project Path="src/App/EcoBank.App.csproj" />
+  </Folder>
+  <Folder Name="/src/Core/">
+    <Project Path="src/Core/EcoBank.Core.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure.Xpollens/">
+    <Project Path="src/Infrastructure.Xpollens/EcoBank.Infrastructure.Xpollens.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/EcoBank.Shared.csproj" />
+  </Folder>
+</Solution>
