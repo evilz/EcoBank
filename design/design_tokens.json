@@ -1,0 +1,39 @@
+{
+  "colors": {
+    "primary": "#7ED957",
+    "primaryDark": "#1E7F4F",
+    "accent": "#C6FF00",
+    "background": "#F7F8F5",
+    "cardBackground": "#FFFFFF",
+    "textPrimary": "#1B1D1F",
+    "textSecondary": "#7A7F85",
+    "danger": "#FF4D4F"
+  },
+  "typography": {
+    "fontFamily": "Inter, SF Pro, sans-serif",
+    "headingWeight": 700,
+    "bodyWeight": 400,
+    "largeBalanceSize": 28,
+    "sectionTitleSize": 18,
+    "bodySize": 14
+  },
+  "radius": {
+    "card": 24,
+    "button": 28,
+    "small": 16
+  },
+  "shadow": {
+    "card": {
+      "offsetY": 10,
+      "blur": 30,
+      "opacity": 0.15
+    }
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32
+  }
+}
