@@ -7,8 +7,11 @@ using Microsoft.Extensions.Logging;
 namespace EcoBank.Infrastructure.Xpollens.Cards;
 
 /// <summary>
-/// TODO: Map to Xpollens card endpoints — see https://docs.xpollens.com/reference/overview
-/// Current assumption: GET /v1/users/{appUserId}/cards, POST /v1/cards/{cardId}/lock, POST /v1/cards/{cardId}/unlock
+/// Xpollens card endpoints.
+/// GET api/v3.0/cards — list cards for the authenticated user
+/// GET api/v3.0/cards/{cardId} — get a single card
+/// POST api/v3.0/cards/{cardId}/lock — lock a card
+/// POST api/v3.0/cards/{cardId}/unlock — unlock a card
 /// </summary>
 internal sealed record CardDto(
     [property: JsonPropertyName("cardId")] string CardId,
@@ -22,31 +25,31 @@ internal sealed record CardDto(
 
 public sealed class XpollensCardRepository(HttpClient httpClient, ILogger<XpollensCardRepository> logger) : ICardRepository
 {
-    public async Task<IReadOnlyList<Card>> GetCardsAsync(string appUserId, CancellationToken ct = default)
+    public async Task<IReadOnlyList<Card>> GetCardsAsync(CancellationToken ct = default)
     {
-        logger.LogDebug("Fetching cards for user {AppUserId}", appUserId);
-        var dtos = await httpClient.GetFromJsonAsync<List<CardDto>>($"v1/users/{appUserId}/cards", ct) ?? [];
+        logger.LogDebug("Fetching cards");
+        var dtos = await httpClient.GetFromJsonAsync<List<CardDto>>("api/v3.0/cards", ct) ?? [];
         return dtos.Select(Map).ToList().AsReadOnly();
     }
 
     public async Task<Card?> GetCardAsync(string cardId, CancellationToken ct = default)
     {
         logger.LogDebug("Fetching card {CardId}", cardId);
-        var dto = await httpClient.GetFromJsonAsync<CardDto>($"v1/cards/{cardId}", ct);
+        var dto = await httpClient.GetFromJsonAsync<CardDto>($"api/v3.0/cards/{cardId}", ct);
         return dto is null ? null : Map(dto);
     }
 
     public async Task LockCardAsync(string cardId, CancellationToken ct = default)
     {
         logger.LogInformation("Locking card {CardId}", cardId);
-        var response = await httpClient.PostAsync($"v1/cards/{cardId}/lock", null, ct);
+        var response = await httpClient.PostAsync($"api/v3.0/cards/{cardId}/lock", null, ct);
         response.EnsureSuccessStatusCode();
     }
 
     public async Task UnlockCardAsync(string cardId, CancellationToken ct = default)
     {
         logger.LogInformation("Unlocking card {CardId}", cardId);
-        var response = await httpClient.PostAsync($"v1/cards/{cardId}/unlock", null, ct);
+        var response = await httpClient.PostAsync($"api/v3.0/cards/{cardId}/unlock", null, ct);
         response.EnsureSuccessStatusCode();
     }
 

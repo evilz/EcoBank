@@ -13,6 +13,7 @@ namespace EcoBank.App.ViewModels.Auth;
 public partial class LoginViewModel : ViewModelBase
 {
     private readonly AuthenticateUseCase _authenticateUseCase;
+    private readonly GetUserUseCase _getUserUseCase;
     private readonly SelectUserUseCase _selectUserUseCase;
     private readonly INavigationService _navigation;
     private readonly ISecureStorage _secureStorage;
@@ -31,11 +32,13 @@ public partial class LoginViewModel : ViewModelBase
 
     public LoginViewModel(
         AuthenticateUseCase authenticateUseCase,
+        GetUserUseCase getUserUseCase,
         SelectUserUseCase selectUserUseCase,
         INavigationService navigation,
         ISecureStorage secureStorage)
     {
         _authenticateUseCase = authenticateUseCase;
+        _getUserUseCase = getUserUseCase;
         _selectUserUseCase = selectUserUseCase;
         _navigation = navigation;
         _secureStorage = secureStorage;
@@ -80,7 +83,10 @@ public partial class LoginViewModel : ViewModelBase
                 await _secureStorage.DeleteAsync("appUserId", ct);
             }
 
-            _selectUserUseCase.Execute(new User(AppUserId.Trim(), null, null, null, KycStatus.Unknown, null));
+            var appUserId = AppUserId.Trim();
+            var user = await _getUserUseCase.ExecuteAsync(appUserId, ct)
+                ?? new User(appUserId, null, null, null, KycStatus.Unknown, null);
+            _selectUserUseCase.Execute(user);
             _navigation.NavigateTo<MainShellViewModel>();
         }
         catch (HttpRequestException ex) when ((int?)ex.StatusCode is 401 or 403)

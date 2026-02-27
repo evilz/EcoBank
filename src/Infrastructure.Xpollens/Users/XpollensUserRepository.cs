@@ -7,8 +7,9 @@ using Microsoft.Extensions.Logging;
 namespace EcoBank.Infrastructure.Xpollens.Users;
 
 /// <summary>
-/// TODO: Map to Xpollens endpoint for listing app users — see https://docs.xpollens.com/reference/overview
-/// Current assumption: GET /v1/users?page={page}&pageSize={pageSize}&search={search}
+/// Xpollens user endpoints.
+/// GET api/v2.0/users — list users
+/// GET api/v2.0/users/{appUserId} — get a specific user's info
 /// </summary>
 internal sealed record UserDto(
     [property: JsonPropertyName("appUserId")] string AppUserId,
@@ -22,8 +23,7 @@ public sealed class XpollensUserRepository(HttpClient httpClient, ILogger<Xpolle
 {
     public async Task<IReadOnlyList<User>> GetUsersAsync(int page = 1, int pageSize = 20, string? search = null, CancellationToken ct = default)
     {
-        // TODO: confirm exact endpoint from Xpollens docs
-        var query = $"v1/users?page={page}&pageSize={pageSize}";
+        var query = $"api/v2.0/users?page={page}&pageSize={pageSize}";
         if (!string.IsNullOrWhiteSpace(search))
             query += $"&search={Uri.EscapeDataString(search)}";
 
@@ -32,6 +32,13 @@ public sealed class XpollensUserRepository(HttpClient httpClient, ILogger<Xpolle
         var dtos = await httpClient.GetFromJsonAsync<List<UserDto>>(query, ct) ?? [];
 
         return dtos.Select(MapUser).ToList().AsReadOnly();
+    }
+
+    public async Task<User?> GetUserAsync(string appUserId, CancellationToken ct = default)
+    {
+        logger.LogDebug("Fetching user {AppUserId}", appUserId);
+        var dto = await httpClient.GetFromJsonAsync<UserDto>($"api/v2.0/users/{appUserId}", ct);
+        return dto is null ? null : MapUser(dto);
     }
 
     private static User MapUser(UserDto dto) => new(

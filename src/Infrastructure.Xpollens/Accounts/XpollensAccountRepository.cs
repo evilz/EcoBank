@@ -7,8 +7,9 @@ using Microsoft.Extensions.Logging;
 namespace EcoBank.Infrastructure.Xpollens.Accounts;
 
 /// <summary>
-/// TODO: Map to Xpollens account endpoints — see https://docs.xpollens.com/reference/overview
-/// Current assumption: GET /v1/users/{appUserId}/accounts
+/// Xpollens account endpoints.
+/// GET api/v3.0/accounts — list accounts for the authenticated user
+/// GET api/v3.0/accounts/{accountId} — get a single account
 /// </summary>
 internal sealed record AccountDto(
     [property: JsonPropertyName("accountId")] string AccountId,
@@ -21,17 +22,17 @@ internal sealed record AccountDto(
 
 public sealed class XpollensAccountRepository(HttpClient httpClient, ILogger<XpollensAccountRepository> logger) : IAccountRepository
 {
-    public async Task<IReadOnlyList<Account>> GetAccountsAsync(string appUserId, CancellationToken ct = default)
+    public async Task<IReadOnlyList<Account>> GetAccountsAsync(CancellationToken ct = default)
     {
-        logger.LogDebug("Fetching accounts for user {AppUserId}", appUserId);
-        var dtos = await httpClient.GetFromJsonAsync<List<AccountDto>>($"v1/users/{appUserId}/accounts", ct) ?? [];
+        logger.LogDebug("Fetching accounts");
+        var dtos = await httpClient.GetFromJsonAsync<List<AccountDto>>("api/v3.0/accounts", ct) ?? [];
         return dtos.Select(Map).ToList().AsReadOnly();
     }
 
     public async Task<Account?> GetAccountAsync(string accountId, CancellationToken ct = default)
     {
         logger.LogDebug("Fetching account {AccountId}", accountId);
-        var dto = await httpClient.GetFromJsonAsync<AccountDto>($"v1/accounts/{accountId}", ct);
+        var dto = await httpClient.GetFromJsonAsync<AccountDto>($"api/v3.0/accounts/{accountId}", ct);
         return dto is null ? null : Map(dto);
     }
 

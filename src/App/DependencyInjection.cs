@@ -29,10 +29,13 @@ public static class DependencyInjection
         // Use Cases
         services.AddTransient<AuthenticateUseCase>();
         services.AddTransient<GetUsersUseCase>();
+        services.AddTransient<GetUserUseCase>();
         services.AddTransient<SelectUserUseCase>();
         services.AddTransient<GetAccountsUseCase>();
+        services.AddTransient<GetBankStatementUseCase>();
         services.AddTransient<GetOperationsUseCase>();
         services.AddTransient<GetCardsUseCase>();
+        services.AddTransient<GetCardOperationsUseCase>();
         services.AddTransient<ToggleCardLockUseCase>();
 
         // Navigation

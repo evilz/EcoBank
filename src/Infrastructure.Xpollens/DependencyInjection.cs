@@ -36,12 +36,22 @@ public static class DependencyInjection
             .AddHttpMessageHandler<CorrelationIdHandler>()
             .AddHttpMessageHandler<LoggingHandler>();
 
+        services.AddHttpClient<IBankStatementRepository, XpollensBankStatementRepository>(c => c.BaseAddress = new Uri(baseUrl))
+            .AddHttpMessageHandler<AuthenticatedHandler>()
+            .AddHttpMessageHandler<CorrelationIdHandler>()
+            .AddHttpMessageHandler<LoggingHandler>();
+
         services.AddHttpClient<IOperationRepository, XpollensOperationRepository>(c => c.BaseAddress = new Uri(baseUrl))
             .AddHttpMessageHandler<AuthenticatedHandler>()
             .AddHttpMessageHandler<CorrelationIdHandler>()
             .AddHttpMessageHandler<LoggingHandler>();
 
         services.AddHttpClient<ICardRepository, XpollensCardRepository>(c => c.BaseAddress = new Uri(baseUrl))
+            .AddHttpMessageHandler<AuthenticatedHandler>()
+            .AddHttpMessageHandler<CorrelationIdHandler>()
+            .AddHttpMessageHandler<LoggingHandler>();
+
+        services.AddHttpClient<ICardOperationRepository, XpollensCardOperationRepository>(c => c.BaseAddress = new Uri(baseUrl))
             .AddHttpMessageHandler<AuthenticatedHandler>()
             .AddHttpMessageHandler<CorrelationIdHandler>()
             .AddHttpMessageHandler<LoggingHandler>();

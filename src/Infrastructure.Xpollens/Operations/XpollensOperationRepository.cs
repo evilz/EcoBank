@@ -7,8 +7,8 @@ using Microsoft.Extensions.Logging;
 namespace EcoBank.Infrastructure.Xpollens.Operations;
 
 /// <summary>
-/// TODO: Map to Xpollens transaction/operation endpoints — see https://docs.xpollens.com/reference/overview
-/// Current assumption: GET /v1/accounts/{accountId}/transactions or GET /v1/transactions
+/// Xpollens transaction endpoints.
+/// GET api/v3.0/accounts/{accountId}/transactions — list transactions for an account
 /// </summary>
 internal sealed record OperationDto(
     [property: JsonPropertyName("operationId")] string OperationId,
@@ -34,10 +34,12 @@ public sealed class XpollensOperationRepository(HttpClient httpClient, ILogger<X
         int pageSize = 20,
         CancellationToken ct = default)
     {
-        // TODO: confirm exact endpoint — may be per-account or global
+        // Transactions require an accountId per the Xpollens API spec.
+        // If no accountId is provided the call is made without account scoping,
+        // which may not be supported — callers should always pass an accountId.
         var path = accountId is not null
-            ? $"v1/accounts/{accountId}/transactions"
-            : "v1/transactions";
+            ? $"api/v3.0/accounts/{accountId}/transactions"
+            : "api/v3.0/accounts/transactions";
 
         var query = $"{path}?page={page}&pageSize={pageSize}";
         if (type is not null) query += $"&type={type.ToString()!.ToLowerInvariant()}";
@@ -53,7 +55,7 @@ public sealed class XpollensOperationRepository(HttpClient httpClient, ILogger<X
     public async Task<Operation?> GetOperationAsync(string operationId, CancellationToken ct = default)
     {
         logger.LogDebug("Fetching operation {OperationId}", operationId);
-        var dto = await httpClient.GetFromJsonAsync<OperationDto>($"v1/transactions/{operationId}", ct);
+        var dto = await httpClient.GetFromJsonAsync<OperationDto>($"api/v3.0/transactions/{operationId}", ct);
         return dto is null ? null : Map(dto);
     }
 
