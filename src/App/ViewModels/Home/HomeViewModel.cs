@@ -45,7 +45,7 @@ public partial class HomeViewModel : ViewModelBase
             TotalBalance = accounts.Sum(a => a.Balance);
             Currency = accounts.FirstOrDefault()?.Currency ?? "EUR";
 
-            var ops = await _getOperations.ExecuteAsync(pageSize: 5, ct: ct);
+            var ops = await _getOperations.ExecuteAsync(accountId: accounts.FirstOrDefault()?.AccountId, pageSize: 5, ct: ct);
             RecentOperations.Clear();
             foreach (var o in ops) RecentOperations.Add(o);
         }

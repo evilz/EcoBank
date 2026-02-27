@@ -7,10 +7,10 @@ using Microsoft.Extensions.Logging;
 namespace EcoBank.Infrastructure.Xpollens.Operations;
 
 /// <summary>
-/// Xpollens transaction endpoints.
-/// GET api/v3.0/accounts/{accountId}/transactions — list transactions for an account
+/// Xpollens operations endpoints.
+/// GET api/v2.0/accounts/{accountId}/operations — list operations for an account (paged envelope)
 /// </summary>
-internal sealed record OperationDto(
+internal sealed record XpollensOperationDto(
     [property: JsonPropertyName("operationId")] string OperationId,
     [property: JsonPropertyName("accountId")] string AccountId,
     [property: JsonPropertyName("amount")] decimal Amount,
@@ -21,6 +21,9 @@ internal sealed record OperationDto(
     [property: JsonPropertyName("date")] DateTimeOffset Date,
     [property: JsonPropertyName("category")] string? Category,
     [property: JsonPropertyName("note")] string? Note);
+
+internal sealed record OperationPagedResponseDto(
+    [property: JsonPropertyName("values")] List<XpollensOperationDto>? Values);
 
 public sealed class XpollensOperationRepository(HttpClient httpClient, ILogger<XpollensOperationRepository> logger) : IOperationRepository
 {
@@ -34,32 +37,27 @@ public sealed class XpollensOperationRepository(HttpClient httpClient, ILogger<X
         int pageSize = 20,
         CancellationToken ct = default)
     {
-        // Transactions require an accountId per the Xpollens API spec.
-        // If no accountId is provided the call is made without account scoping,
-        // which may not be supported — callers should always pass an accountId.
-        var path = accountId is not null
-            ? $"api/v3.0/accounts/{accountId}/transactions"
-            : "api/v3.0/accounts/transactions";
+        // accountId is required by the Xpollens API; return empty list if not provided.
+        if (string.IsNullOrEmpty(accountId))
+        {
+            logger.LogWarning("GetOperationsAsync called without an accountId; returning empty list");
+            return [];
+        }
 
-        var query = $"{path}?page={page}&pageSize={pageSize}";
-        if (type is not null) query += $"&type={type.ToString()!.ToLowerInvariant()}";
-        if (from is not null) query += $"&from={from.Value:O}";
-        if (to is not null) query += $"&to={to.Value:O}";
-        if (!string.IsNullOrWhiteSpace(search)) query += $"&search={Uri.EscapeDataString(search)}";
-
-        logger.LogDebug("Fetching operations: accountId={AccountId}, page={Page}", accountId, page);
-        var dtos = await httpClient.GetFromJsonAsync<List<OperationDto>>(query, ct) ?? [];
-        return dtos.Select(Map).ToList().AsReadOnly();
+        logger.LogDebug("Fetching operations: accountId={AccountId}", accountId);
+        var paged = await httpClient.GetFromJsonAsync<OperationPagedResponseDto>(
+            $"api/v2.0/accounts/{Uri.EscapeDataString(accountId)}/operations?limit={pageSize}", ct);
+        return (paged?.Values ?? []).Select(Map).ToList().AsReadOnly();
     }
 
     public async Task<Operation?> GetOperationAsync(string operationId, CancellationToken ct = default)
     {
         logger.LogDebug("Fetching operation {OperationId}", operationId);
-        var dto = await httpClient.GetFromJsonAsync<OperationDto>($"api/v3.0/transactions/{operationId}", ct);
+        var dto = await httpClient.GetFromJsonAsync<XpollensOperationDto>($"api/v2.0/operations/{operationId}", ct);
         return dto is null ? null : Map(dto);
     }
 
-    private static Operation Map(OperationDto dto) => new(
+    private static Operation Map(XpollensOperationDto dto) => new(
         dto.OperationId,
         dto.AccountId,
         dto.Amount,
