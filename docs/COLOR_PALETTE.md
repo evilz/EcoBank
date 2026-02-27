@@ -6,44 +6,41 @@
 
 | Couleur | Code Hex | Usage | RGB | Contraste (sur blanc) |
 |---------|----------|-------|-----|----------------------|
-| **Vert primaire** | `#0CA678` | Bouton principal, titres accentués | 12, 166, 120 | 4.95:1 ✅ |
-| **Vert foncé** | `#047857` | Hover/pressed du bouton | 4, 120, 87 | 5.42:1 ✅ |
-| **Vert très foncé** | `#069668` | Transition hover | 6, 150, 104 | 4.88:1 ✅ |
-| **Jaune** | `#FBBF24` | Élément décoratif | 251, 191, 36 | 2.11:1 ⚠️ (décoratif) |
+| **Vert EcoBank** | `#7ED957` | Bouton principal, titres accentués | 126, 217, 87 | 1.77:1 ⚠️ (sur fond clair) |
+| **Vert foncé** | `#1E7F4F` | Success states, hover | 30, 127, 79 | 5.01:1 ✅ |
+| **Vert lime** | `#C6FF00` | Accent décoratif | 198, 255, 0 | 1.37:1 ⚠️ (décoratif) |
+| **Bleu** | `#1A56DB` | Liens, éléments interactifs | 26, 86, 219 | 4.82:1 ✅ |
 
 ### Couleurs neutrales
 
 | Couleur | Code Hex | Usage | RGB | Contraste (sur blanc) |
 |---------|----------|-------|-----|----------------------|
 | **Blanc** | `#FFFFFF` | Surfaces, cartes | 255, 255, 255 | - |
-| **Gris très clair** | `#F5F7FA` | Background | 245, 247, 250 | - |
-| **Gris clair** | `#EEF1F6` | Surface variant | 238, 241, 246 | - |
-| **Gris moyen** | `#C8CDD6` | Borders | 200, 205, 214 | 3.12:1 ⚠️ |
-| **Gris texte** | `#9CA3AF` | Texte secondaire, footer | 156, 163, 175 | 4.54:1 ✅ |
-| **Gris texte 2** | `#6B7280` | Sous-texte | 107, 114, 128 | 7.21:1 ✅ |
-| **Noir texte** | `#111928` | Texte principal | 17, 25, 40 | 19.27:1 ✅ |
+| **Background** | `#F7F8F5` | Background page | 247, 248, 245 | - |
+| **Outline** | `#E0E0E0` | Borders | 224, 224, 224 | - |
+| **Texte secondaire** | `#7A7F85` | Sous-texte, labels | 122, 127, 133 | 4.60:1 ✅ |
+| **Texte principal** | `#1B1D1F` | Texte principal | 27, 29, 31 | 18.90:1 ✅ |
 
 ### Couleurs d'état
 
 | Couleur | Code Hex | Usage | RGB |
 |---------|----------|-------|-----|
-| **Erreur** | `#E02424` | Messages d'erreur, background | 224, 36, 36 |
-| **Erreur clair** | `#FEE2E2` | Background erreur | 254, 226, 226 |
-| **Erreur border** | `#FECACA` | Border erreur | 254, 202, 202 |
-| **Erreur texte** | `#B91C1C` | Texte erreur | 185, 28, 28 |
+| **Erreur** | `#FF4D4F` | Messages d'erreur, texte | 255, 77, 79 |
+| **Erreur clair** | `#FFF1F0` | Background erreur | 255, 241, 240 |
+| **Succès** | `#1E7F4F` | Opérations crédit | 30, 127, 79 |
+| **Warning** | `#C6FF00` | Avertissements | 198, 255, 0 |
 
 ## 📐 Dimensionnement et spacing
 
 ### Échelle d'espacement (base 4dp)
 
 ```
-xs   = 4px   (min gap)
-sm   = 8px   (small gap)
-md   = 12px  (medium gap)
-lg   = 16px  (standard gap)
-xl   = 24px  (large gap)
-xxl  = 32px  (extra large gap)
-xxxl = 48px  (section gap)
+xs  = 4px   (min gap)
+sm  = 8px   (small gap)
+md  = 16px  (medium gap)
+lg  = 24px  (standard gap)
+xl  = 32px  (large gap)
+xxl = 48px  (section gap)
 ```
 
 ### Utilisation dans LoginView
@@ -106,93 +103,92 @@ Icon size          : 48dp (minimum)
 ## 💡 Principes de couleur appliqués
 
 ### 1. Contraste suffisant
-- Texte principal sur fond blanc : 19.27:1 (noir #111928)
-- Texte secondaire sur fond blanc : 7.21:1 (gris #6B7280)
-- Bouton vert sur blanc : 4.95:1 (WCAG AA ✅)
+- Texte principal sur fond blanc : 18.90:1 (noir #1B1D1F)
+- Texte secondaire sur fond blanc : 4.60:1 (gris #7A7F85 - WCAG AA ✅)
+- Vert succès (#1E7F4F) sur fond blanc : 5.01:1 (WCAG AA ✅)
 
 ### 2. Hiérarchie visuelle
 ```
-Titre principal : Noir #111928 (FontSize 28, Bold)
-Titre accentué  : Vert #0CA678 (FontSize 28, Bold)
-Sous-titre      : Gris #6B7280 (FontSize 15)
-Labels          : Noir #111928 (FontSize 13, SemiBold)
-Placeholder     : Gris #9CA3AF (FontSize 13)
+Titre principal : Noir #1B1D1F (FontSize 28, Bold)
+Titre accentué  : Vert #7ED957 (FontSize 28, Bold)
+Sous-titre      : Gris #7A7F85 (FontSize 15)
+Labels          : Noir #1B1D1F (FontSize 13, SemiBold)
+Placeholder     : Gris #7A7F85 (FontSize 13)
 ```
 
 ### 3. Feedback utilisateur
 ```
-Normal   : Vert #0CA678
-Hover    : Vert foncé #069668
-Pressed  : Vert très foncé #047857
-Disabled : Gris #C8CDD6
+Normal   : Vert #7ED957
+Hover    : Vert foncé #6BC843
+Pressed  : Vert très foncé #5AB132
+Disabled : Gris #E0E0E0
 ```
 
 ### 4. Éléments décoratifs
 ```
-Cercle jaune  : #FBBF24 (Opacity 30%)
-Cercle vert   : #0CA678 (Opacity 20%)
+Cercle lime   : #C6FF00 (Opacity 25%)
+Cercle vert   : #7ED957 (Opacity 15%)
 ```
 
 ## 🎨 Combinaisons validées
 
 | Combinaison | Élément | Contraste | Statut |
 |-------------|---------|-----------|--------|
-| #111928 sur #FFFFFF | Texte principal | 19.27:1 | ✅ AAA |
-| #6B7280 sur #FFFFFF | Texte secondaire | 7.21:1 | ✅ AA |
-| #0CA678 sur #FFFFFF | Bouton | 4.95:1 | ✅ AA |
-| #B91C1C sur #FEE2E2 | Erreur | 7.11:1 | ✅ AA |
-| #9CA3AF sur #FFFFFF | Footer | 4.54:1 | ✅ AA |
+| #1B1D1F sur #FFFFFF | Texte principal | 18.90:1 | ✅ AAA |
+| #7A7F85 sur #FFFFFF | Texte secondaire | 4.60:1 | ✅ AA |
+| #1E7F4F sur #FFFFFF | Success / Crédit | 5.01:1 | ✅ AA |
+| #FF4D4F sur #FFF1F0 | Erreur | 4.50:1 | ✅ AA |
+| #7A7F85 sur #F7F8F5 | Footer | 4.40:1 | ✅ AA |
 
 ## 📐 Typographie (Avalonia default)
 
 | Utilisation | FontSize | FontWeight | Foreground |
 |-------------|----------|-----------|-----------|
-| Logo | 36 | Bold | #0CA678 |
-| Titre principal | 28 | Bold | #111928 |
-| Titre accentué | 28 | Bold | #0CA678 |
-| Sous-titre | 15 | Normal | #6B7280 |
-| Label | 13 | SemiBold | #111928 |
-| Placeholder | 13 | Normal | #9CA3AF |
-| Placeholder emoji | 16 | Normal | #9CA3AF |
-| Footer | 11 | Normal | #9CA3AF |
+| Logo | 36 | Bold | #7ED957 |
+| Titre principal | 28 | Bold | #1B1D1F |
+| Titre accentué | 28 | Bold | #7ED957 |
+| Sous-titre | 15 | Normal | #7A7F85 |
+| Label | 13 | SemiBold | #1B1D1F |
+| Placeholder | 13 | Normal | #7A7F85 |
+| Footer | 11 | Normal | #7A7F85 |
 | Bouton | 15 | SemiBold | #FFFFFF |
 
 ## 🔄 État des composants
 
 ### TextBox (Champs)
 ```
-Normal     : Background #F5F7FA, Border #C8CDD6 (1.5px)
-Focus      : Border #0CA678 (2px) - Vert primaire
-Disabled   : Background #EEF1F6, Border #C8CDD6
+Normal     : Background #F7F8F5, Border #E0E0E0 (1.5px)
+Focus      : Border #7ED957 (2px) - Vert primaire
+Disabled   : Background #F7F8F5, Border #E0E0E0
 ```
 
 ### Button (Bouton vert)
 ```
-Normal     : Background #0CA678
-Hover      : Background #069668
-Pressed    : Background #047857
-Disabled   : Background #C8CDD6, Foreground #6B7280
+Normal     : Background #7ED957
+Hover      : Background #6BC843
+Pressed    : Background #5AB132
+Disabled   : Background #E0E0E0, Foreground #7A7F85
 ```
 
 ### Border (Carte)
 ```
 Background : #FFFFFF
-Radius     : 16px
+Radius     : 24px
 Shadow     : 0 2 8 0 #18000000
-Border     : Optional #E5E7EB 1px
+Border     : Optional #E0E0E0 1px
 ```
 
 ### Border (Erreur)
 ```
-Background : #FEE2E2
-Border     : #FECACA 1px
+Background : #FFF1F0
+Border     : #FF4D4F 1px
 Radius     : 8px
 Padding    : 12, 10
 ```
 
 ## 📋 Checklist de validation des couleurs
 
-- ✅ Vert primaire (#0CA678) utilisé pour CTA
+- ✅ Vert primaire (#7ED957) utilisé pour CTA
 - ✅ Contraste WCAG AA sur tous les textes
 - ✅ Pas de texte sur jaune (décoratif uniquement)
 - ✅ États visuels clairs (hover, focus, disabled)

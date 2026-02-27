@@ -100,7 +100,6 @@ Les tokens sont définis dans `src/App/Styles/Tokens.axaml` (ResourceDictionary)
 | Classe | Utilisation | Couleur |
 |--------|-------------|---------|
 | `Button.Primary` | Bouton principal | `#7ED957` |
-| `Button.PrimaryGreen` | Bouton action (identique à Primary) | `#7ED957` |
 | `Button.Secondary` | Bouton secondaire (transparent) | - |
 | `Button.Danger` | Bouton destructive | `#FF4D4F` |
 | `TextBox.EcoField` | Champ de formulaire | - |

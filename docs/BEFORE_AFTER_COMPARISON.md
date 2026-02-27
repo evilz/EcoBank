@@ -146,11 +146,11 @@ Accents : Rouge erreur #E02424
 
 ### Palette APRÈS
 ```
-Primaire : Bleu #1A56DB
-Secondaire : Vert #0CA678 (nouveau domaine)
-Accent : Jaune #FBBF24 (décoratif)
-Texte : Noir #111928
-Accents : Rouge erreur #E02424 (inchangé)
+Primaire : Vert EcoBank #7ED957
+Secondaire : Vert lime #C6FF00
+Accent : Bleu #1A56DB (liens / éléments interactifs)
+Texte : Noir #1B1D1F
+Accents : Rouge erreur #FF4D4F
 ```
 
 ## 📱 Responsive Design
