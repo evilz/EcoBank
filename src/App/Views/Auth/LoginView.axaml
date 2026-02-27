@@ -53,6 +53,18 @@
                      IsEnabled="{Binding !IsBusy}"/>
           </StackPanel>
 
+          <!-- App User ID -->
+          <StackPanel Spacing="6">
+            <TextBlock Text="App User ID"
+                       FontWeight="Medium"
+                       FontSize="14"/>
+            <TextBox Classes="EcoField"
+                     Text="{Binding AppUserId}"
+                     Watermark="Votre App User ID"
+                     AutomationProperties.Name="App User ID"
+                     IsEnabled="{Binding !IsBusy}"/>
+          </StackPanel>
+
           <!-- Remember credentials -->
           <CheckBox IsChecked="{Binding RememberCredentials}"
                     Content="Enregistrer sur cet appareil"

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using EcoBank.App.Services;
 using EcoBank.App.ViewModels.Shell;
 using EcoBank.Core.Domain.Auth;
+using EcoBank.Core.Domain.Users;
 using EcoBank.Core.Ports;
 using EcoBank.Core.UseCases.Auth;
 using EcoBank.Core.UseCases.Users;
@@ -12,7 +13,7 @@ namespace EcoBank.App.ViewModels.Auth;
 public partial class LoginViewModel : ViewModelBase
 {
     private readonly AuthenticateUseCase _authenticateUseCase;
-    private readonly GetUsersUseCase _getUsersUseCase;
+    private readonly SelectUserUseCase _selectUserUseCase;
     private readonly INavigationService _navigation;
     private readonly ISecureStorage _secureStorage;
 
@@ -23,16 +24,19 @@ public partial class LoginViewModel : ViewModelBase
     private string _clientSecret = string.Empty;
 
     [ObservableProperty]
+    private string _appUserId = string.Empty;
+
+    [ObservableProperty]
     private bool _rememberCredentials;
 
     public LoginViewModel(
         AuthenticateUseCase authenticateUseCase,
-        GetUsersUseCase getUsersUseCase,
+        SelectUserUseCase selectUserUseCase,
         INavigationService navigation,
         ISecureStorage secureStorage)
     {
         _authenticateUseCase = authenticateUseCase;
-        _getUsersUseCase = getUsersUseCase;
+        _selectUserUseCase = selectUserUseCase;
         _navigation = navigation;
         _secureStorage = secureStorage;
         _ = TryLoadSavedCredentialsAsync();
@@ -47,6 +51,9 @@ public partial class LoginViewModel : ViewModelBase
             {
                 ClientId = savedId;
                 RememberCredentials = true;
+                var savedAppUserId = await _secureStorage.LoadAsync("appUserId");
+                if (!string.IsNullOrEmpty(savedAppUserId))
+                    AppUserId = savedAppUserId;
             }
         }
         catch { /* ignore */ }
@@ -63,11 +70,18 @@ public partial class LoginViewModel : ViewModelBase
             await _authenticateUseCase.ExecuteAsync(credentials, ct);
 
             if (RememberCredentials)
+            {
                 await _secureStorage.SaveAsync("clientId", ClientId.Trim(), ct);
+                await _secureStorage.SaveAsync("appUserId", AppUserId.Trim(), ct);
+            }
             else
+            {
                 await _secureStorage.DeleteAsync("clientId", ct);
+                await _secureStorage.DeleteAsync("appUserId", ct);
+            }
 
-            _navigation.NavigateTo<UserSelectionViewModel>();
+            _selectUserUseCase.Execute(new User(AppUserId.Trim(), null, null, null, KycStatus.Unknown, null));
+            _navigation.NavigateTo<MainShellViewModel>();
         }
         catch (HttpRequestException ex) when ((int?)ex.StatusCode is 401 or 403)
         {
@@ -99,8 +113,12 @@ public partial class LoginViewModel : ViewModelBase
         }
     }
 
-    private bool CanLogin() => !string.IsNullOrWhiteSpace(ClientId) && !string.IsNullOrWhiteSpace(ClientSecret);
+    private bool CanLogin() =>
+        !string.IsNullOrWhiteSpace(ClientId) &&
+        !string.IsNullOrWhiteSpace(ClientSecret) &&
+        !string.IsNullOrWhiteSpace(AppUserId);
 
     partial void OnClientIdChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
     partial void OnClientSecretChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
+    partial void OnAppUserIdChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
 }
