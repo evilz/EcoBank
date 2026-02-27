@@ -8,42 +8,45 @@ namespace EcoBank.Infrastructure.Xpollens.Accounts;
 
 /// <summary>
 /// Xpollens account endpoints.
-/// GET api/v3.0/accounts — list accounts for the authenticated user
+/// GET api/v3.0/accounts?accountHolder={appUserId} — list accounts for a user (paged envelope)
 /// GET api/v3.0/accounts/{accountId} — get a single account
 /// </summary>
-internal sealed record AccountDto(
+internal sealed record XpollensAccountDto(
     [property: JsonPropertyName("accountId")] string AccountId,
-    [property: JsonPropertyName("label")] string? Label,
-    [property: JsonPropertyName("type")] string? Type,
-    [property: JsonPropertyName("balance")] decimal Balance,
+    [property: JsonPropertyName("accountType")] string? AccountType,
     [property: JsonPropertyName("currency")] string Currency,
     [property: JsonPropertyName("iban")] string? Iban,
-    [property: JsonPropertyName("status")] string? Status);
+    [property: JsonPropertyName("accountStatus")] string? AccountStatus,
+    [property: JsonPropertyName("accountingBalance")] decimal AccountingBalance);
+
+internal sealed record AccountPagedResponseDto(
+    [property: JsonPropertyName("values")] List<XpollensAccountDto>? Values);
 
 public sealed class XpollensAccountRepository(HttpClient httpClient, ILogger<XpollensAccountRepository> logger) : IAccountRepository
 {
-    public async Task<IReadOnlyList<Account>> GetAccountsAsync(CancellationToken ct = default)
+    public async Task<IReadOnlyList<Account>> GetAccountsAsync(string appUserId, CancellationToken ct = default)
     {
-        logger.LogDebug("Fetching accounts");
-        var dtos = await httpClient.GetFromJsonAsync<List<AccountDto>>("api/v3.0/accounts", ct) ?? [];
-        return dtos.Select(Map).ToList().AsReadOnly();
+        logger.LogDebug("Fetching accounts for {AppUserId}", appUserId);
+        var paged = await httpClient.GetFromJsonAsync<AccountPagedResponseDto>(
+            $"api/v3.0/accounts?accountHolder={Uri.EscapeDataString(appUserId)}", ct);
+        return (paged?.Values ?? []).Select(Map).ToList().AsReadOnly();
     }
 
     public async Task<Account?> GetAccountAsync(string accountId, CancellationToken ct = default)
     {
         logger.LogDebug("Fetching account {AccountId}", accountId);
-        var dto = await httpClient.GetFromJsonAsync<AccountDto>($"api/v3.0/accounts/{accountId}", ct);
+        var dto = await httpClient.GetFromJsonAsync<XpollensAccountDto>($"api/v3.0/accounts/{accountId}", ct);
         return dto is null ? null : Map(dto);
     }
 
-    private static Account Map(AccountDto dto) => new(
+    private static Account Map(XpollensAccountDto dto) => new(
         dto.AccountId,
-        dto.Label,
-        ParseType(dto.Type),
-        dto.Balance,
+        null,  // label is not provided by the Xpollens accounts API
+        ParseType(dto.AccountType),
+        dto.AccountingBalance,
         dto.Currency,
         dto.Iban,
-        ParseStatus(dto.Status));
+        ParseStatus(dto.AccountStatus));
 
     private static AccountType ParseType(string? t) => t?.ToLowerInvariant() switch
     {
@@ -54,7 +57,7 @@ public sealed class XpollensAccountRepository(HttpClient httpClient, ILogger<Xpo
 
     private static AccountStatus ParseStatus(string? s) => s?.ToLowerInvariant() switch
     {
-        "active" => AccountStatus.Active,
+        "active" or "activated" => AccountStatus.Active,
         "closed" => AccountStatus.Closed,
         "blocked" => AccountStatus.Blocked,
         _ => AccountStatus.Unknown
