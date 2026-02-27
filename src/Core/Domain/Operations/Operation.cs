@@ -13,4 +13,4 @@ public record Operation(
     string? Note);
 
 public enum OperationType { Credit, Debit, Unknown }
-public enum OperationStatus { Pending, Completed, Cancelled, Failed, Unknown }
+public enum OperationStatus { Pending, Approved, Completed, Cancelled, Rejected, Failed, Unknown }
