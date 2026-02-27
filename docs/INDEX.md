@@ -3,16 +3,16 @@
 ## 🎯 Guide de navigation
 
 ### Pour les concepteurs UI/UX
-1. **Démarrer par** → [`BEFORE_AFTER_COMPARISON.md`](docs/BEFORE_AFTER_COMPARISON.md)
+1. **Démarrer par** → [`BEFORE_AFTER_COMPARISON.md`](BEFORE_AFTER_COMPARISON.md)
    - Voir les améliorations visuelles
    - Comprendre les changements de palette
 
-2. **Approfondir** → [`COLOR_PALETTE.md`](docs/COLOR_PALETTE.md)
+2. **Approfondir** → [`COLOR_PALETTE.md`](COLOR_PALETTE.md)
    - Détails des couleurs et contraste
    - Accessibility standards
    - Spacing et typography
 
-3. **Référence** → [`screenshot-login.png`](docs/screenshot-login.png)
+3. **Référence** → [`screenshot-login.png`](screenshot-login.png)
    - Capture du design final
    - Utiliser pour comparaisons
 
@@ -21,7 +21,7 @@
    - Vue d'ensemble des modifications
    - Fichiers touchés et changements
 
-2. **Approfondir** → [`DESIGN_BEST_PRACTICES.md`](docs/DESIGN_BEST_PRACTICES.md)
+2. **Approfondir** → [`DESIGN_BEST_PRACTICES.md`](DESIGN_BEST_PRACTICES.md)
    - Principes XML/XAML
    - Architecture et patterns
    - Code examples
@@ -35,7 +35,7 @@
    - Résumé exécutif
    - Impacts et validations
 
-2. **Approfondir** → [`DESIGN_BEST_PRACTICES.md`](docs/DESIGN_BEST_PRACTICES.md)
+2. **Approfondir** → [`DESIGN_BEST_PRACTICES.md`](DESIGN_BEST_PRACTICES.md)
    - Alignement avec standards
    - Scalabilité et maintenabilité
 
@@ -51,10 +51,10 @@
 |----------|------|-------|----------|
 | [`IMPLEMENTATION_SUMMARY.md`](IMPLEMENTATION_SUMMARY.md) | Résumé | 4 | Vue d'ensemble complète |
 | [`CHANGELOG_LOGIN_DESIGN.md`](CHANGELOG_LOGIN_DESIGN.md) | Changelog | 4 | Historique des modifications |
-| [`docs/DESIGN_BEST_PRACTICES.md`](docs/DESIGN_BEST_PRACTICES.md) | Guide | 8 | Meilleures pratiques appliquées |
-| [`docs/BEFORE_AFTER_COMPARISON.md`](docs/BEFORE_AFTER_COMPARISON.md) | Comparaison | 6 | Avant/après avec visuels |
-| [`docs/COLOR_PALETTE.md`](docs/COLOR_PALETTE.md) | Palette | 7 | Couleurs, spacing, typography |
-| [`docs/screenshot-login.png`](docs/screenshot-login.png) | Image | 1 | Capture du design final |
+| [`docs/DESIGN_BEST_PRACTICES.md`](DESIGN_BEST_PRACTICES.md) | Guide | 8 | Meilleures pratiques appliquées |
+| [`docs/BEFORE_AFTER_COMPARISON.md`](BEFORE_AFTER_COMPARISON.md) | Comparaison | 6 | Avant/après avec visuels |
+| [`docs/COLOR_PALETTE.md`](COLOR_PALETTE.md) | Palette | 7 | Couleurs, spacing, typography |
+| [`docs/screenshot-login.png`](screenshot-login.png) | Image | 1 | Capture du design final |
 | [`README.md`](README.md) (modifié) | Projet | 3 | Documentation du projet |
 
 ## 🎨 Fichiers modifiés
@@ -137,9 +137,9 @@
 ### Documentation
 - [Résumé d'implémentation](IMPLEMENTATION_SUMMARY.md)
 - [Changelog](CHANGELOG_LOGIN_DESIGN.md)
-- [Meilleures pratiques](docs/DESIGN_BEST_PRACTICES.md)
-- [Comparaison Avant/Après](docs/BEFORE_AFTER_COMPARISON.md)
-- [Palette de couleurs](docs/COLOR_PALETTE.md)
+- [Meilleures pratiques](DESIGN_BEST_PRACTICES.md)
+- [Comparaison Avant/Après](BEFORE_AFTER_COMPARISON.md)
+- [Palette de couleurs](COLOR_PALETTE.md)
 
 ### Fichiers sources
 - [LoginView.axaml](src/App/Views/Auth/LoginView.axaml)
@@ -148,7 +148,7 @@
 - [README.md](README.md)
 
 ### Assets
-- [Screenshot Login](docs/screenshot-login.png)
+- [Screenshot Login](screenshot-login.png)
 
 ## 💡 Prochaines étapes
 
@@ -161,13 +161,13 @@
 ## 📞 Questions fréquentes
 
 **Q: Où voir le nouveau design?**  
-A: Consultez [`screenshot-login.png`](docs/screenshot-login.png) ou lancez l'application.
+A: Consultez [`screenshot-login.png`](screenshot-login.png) ou lancez l'application.
 
 **Q: Comment utiliser les nouveaux styles?**  
-A: Voir [`DESIGN_BEST_PRACTICES.md`](docs/DESIGN_BEST_PRACTICES.md) section "Composants réutilisables".
+A: Voir [`DESIGN_BEST_PRACTICES.md`](DESIGN_BEST_PRACTICES.md) section "Composants réutilisables".
 
 **Q: Quels sont les tokens de couleur?**  
-A: Voir [`COLOR_PALETTE.md`](docs/COLOR_PALETTE.md) pour la liste complète.
+A: Voir [`COLOR_PALETTE.md`](COLOR_PALETTE.md) pour la liste complète.
 
 **Q: Comment ajouter le dark mode?**  
 A: Les couleurs DarkTheme sont dans `Tokens.axaml`, utiliser `{DynamicResource}`.

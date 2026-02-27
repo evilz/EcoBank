@@ -8,7 +8,7 @@
 - Nommage explicite des zones fonctionnelles via commentaires XML
 
 ### Séparation des préoccupations
-- **Styles** : Définis dans `Components.axaml` (classe `PrimaryGreen`)
+- **Styles** : Définis dans `Components.axaml` (style `Button.Primary`)
 - **Tokens de design** : Centralisés dans `Tokens.axaml`
 - **Logique** : Séparée dans le code-behind (`LoginView.axaml.cs`)
 
@@ -37,7 +37,7 @@
 <TextBlock FontSize="28" FontWeight="Bold"/>
 
 <!-- Contenu secondaire en plus petit -->
-<TextBlock FontSize="15" Foreground="#6B7280"/>
+<TextBlock FontSize="15" Foreground="#7A7F85"/>
 
 <!-- Labels de formulaire -->
 <TextBlock FontSize="13" FontWeight="SemiBold"/>
@@ -45,7 +45,7 @@
 
 ### Couleurs et contraste
 - Respecte WCAG AA (contraste ≥ 4.5:1 pour le texte)
-- Vert primaire `#0CA678` sur fond blanc → excellente lisibilité
+- Vert primaire `#7ED957` sur fond blanc → couleur de marque EcoBank
 - États visuels clairs : hover, focus, disabled
 - Feedback immédiat pour les interactions
 
@@ -68,7 +68,7 @@
 ### Réutilisabilité avec classes CSS
 ```xml
 <!-- Bouton réutilisable -->
-<Button Classes="PrimaryGreen" Content="Commencer →" />
+<Button Classes="Primary" Content="Commencer →" />
 
 <!-- Champ réutilisable -->
 <TextBox Classes="EcoField" />
@@ -97,9 +97,9 @@
 ### Centralisation des valeurs
 ```xml
 <!-- Tokens.axaml -->
-<x:Double x:Key="SpacingLg">16</x:Double>
+<x:Double x:Key="SpacingLg">24</x:Double>
 <CornerRadius x:Key="RadiusXl">24</CornerRadius>
-<Color x:Key="LightSecondary">#0CA678</Color>
+<Color x:Key="LightPrimary">#7ED957</Color>
 ```
 
 ### Utilisation cohérente
