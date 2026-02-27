@@ -12,57 +12,59 @@
     <CornerRadius x:Key="RadiusMd">12</CornerRadius>
     <CornerRadius x:Key="RadiusLg">16</CornerRadius>
     <CornerRadius x:Key="RadiusXl">24</CornerRadius>
+    <CornerRadius x:Key="RadiusCard">24</CornerRadius>
+    <CornerRadius x:Key="RadiusButton">28</CornerRadius>
     <CornerRadius x:Key="RadiusFull">9999</CornerRadius>
     <Thickness x:Key="CardPadding">16</Thickness>
     <x:Double x:Key="MinTouchTarget">48</x:Double>
   </Styles.Resources>
 
-  <!-- ===== CARD ===== -->
+  <!-- ===== CARD - OFFICIAL ECOBANK TOKENS ===== -->
   <Style Selector="Border.Card">
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusCard}" />
     <Setter Property="Padding" Value="{StaticResource CardPadding}" />
-    <Setter Property="BoxShadow" Value="0 2 8 0 #18000000" />
+    <Setter Property="BoxShadow" Value="0 10 30 0 #26000000" />
   </Style>
 
   <Style Selector="Border.CardInteractive">
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusCard}" />
     <Setter Property="Padding" Value="{StaticResource CardPadding}" />
-    <Setter Property="BoxShadow" Value="0 2 8 0 #18000000" />
+    <Setter Property="BoxShadow" Value="0 10 30 0 #26000000" />
     <Setter Property="Cursor" Value="Hand" />
   </Style>
   <Style Selector="Border.CardInteractive:pointerover">
-    <Setter Property="BoxShadow" Value="0 4 16 0 #28000000" />
+    <Setter Property="BoxShadow" Value="0 12 40 0 #30000000" />
   </Style>
 
-  <!-- ===== PRIMARY BUTTON ===== -->
+  <!-- ===== PRIMARY BUTTON - OFFICIAL ECOBANK COLORS ===== -->
   <Style Selector="Button.Primary">
-    <Setter Property="Background" Value="#1A56DB" />
+    <Setter Property="Background" Value="#7ED957" />
     <Setter Property="Foreground" Value="White" />
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
-    <Setter Property="Padding" Value="16,12" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusButton}" />
+    <Setter Property="Padding" Value="16,14" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="Cursor" Value="Hand" />
   </Style>
   <Style Selector="Button.Primary:pointerover /template/ ContentPresenter">
-    <Setter Property="Background" Value="#1446C0" />
+    <Setter Property="Background" Value="#6BC843" />
   </Style>
   <Style Selector="Button.Primary:pressed /template/ ContentPresenter">
-    <Setter Property="Background" Value="#0E348F" />
+    <Setter Property="Background" Value="#5AB132" />
   </Style>
   <Style Selector="Button.Primary:disabled /template/ ContentPresenter">
-    <Setter Property="Background" Value="#C8CDD6" />
-    <Setter Property="Foreground" Value="#6B7280" />
+    <Setter Property="Background" Value="#E0E0E0" />
+    <Setter Property="Foreground" Value="#7A7F85" />
   </Style>
 
   <!-- ===== SECONDARY BUTTON ===== -->
   <Style Selector="Button.Secondary">
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="#1A56DB" />
-    <Setter Property="BorderBrush" Value="#1A56DB" />
+    <Setter Property="Foreground" Value="#7ED957" />
+    <Setter Property="BorderBrush" Value="#7ED957" />
     <Setter Property="BorderThickness" Value="1.5" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="16,12" />
@@ -74,7 +76,7 @@
 
   <!-- ===== DANGER BUTTON ===== -->
   <Style Selector="Button.Danger">
-    <Setter Property="Background" Value="#E02424" />
+    <Setter Property="Background" Value="#FF4D4F" />
     <Setter Property="Foreground" Value="White" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="16,12" />
@@ -84,10 +86,10 @@
     <Setter Property="Cursor" Value="Hand" />
   </Style>
 
-  <!-- ===== TEXT FIELD ===== -->
+  <!-- ===== TEXT FIELD - OFFICIAL ECOBANK COLORS ===== -->
   <Style Selector="TextBox.EcoField">
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
-    <Setter Property="BorderBrush" Value="#C8CDD6" />
+    <Setter Property="Background" Value="#F7F8F5" />
+    <Setter Property="BorderBrush" Value="#E0E0E0" />
     <Setter Property="BorderThickness" Value="1.5" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="12,10" />
@@ -95,36 +97,36 @@
     <Setter Property="FontSize" Value="15" />
   </Style>
   <Style Selector="TextBox.EcoField:focus">
-    <Setter Property="BorderBrush" Value="#1A56DB" />
+    <Setter Property="BorderBrush" Value="#7ED957" />
     <Setter Property="BorderThickness" Value="2" />
   </Style>
 
   <!-- ===== AMOUNT COLORS ===== -->
   <Style Selector="TextBlock.AmountCredit">
-    <Setter Property="Foreground" Value="#059669" />
+    <Setter Property="Foreground" Value="#1E7F4F" />
     <Setter Property="FontWeight" Value="SemiBold" />
   </Style>
   <Style Selector="TextBlock.AmountDebit">
-    <Setter Property="Foreground" Value="#DC2626" />
+    <Setter Property="Foreground" Value="#FF4D4F" />
     <Setter Property="FontWeight" Value="SemiBold" />
   </Style>
   <Style Selector="TextBlock.AmountPending">
-    <Setter Property="Foreground" Value="#6B7280" />
+    <Setter Property="Foreground" Value="#7A7F85" />
   </Style>
 
   <!-- ===== BADGE ===== -->
   <Style Selector="Border.BadgeSuccess">
-    <Setter Property="Background" Value="#D1FAE5" />
+    <Setter Property="Background" Value="#E8F5DB" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusFull}" />
     <Setter Property="Padding" Value="8,3" />
   </Style>
   <Style Selector="Border.BadgeWarning">
-    <Setter Property="Background" Value="#FEF3C7" />
+    <Setter Property="Background" Value="#FFFBEB" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusFull}" />
     <Setter Property="Padding" Value="8,3" />
   </Style>
   <Style Selector="Border.BadgeError">
-    <Setter Property="Background" Value="#FEE2E2" />
+    <Setter Property="Background" Value="#FCE7E7" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusFull}" />
     <Setter Property="Padding" Value="8,3" />
   </Style>
@@ -145,7 +147,7 @@
     <Setter Property="MinWidth" Value="{StaticResource MinTouchTarget}" />
   </Style>
   <Style Selector="Button.NavItem:pointerover /template/ ContentPresenter">
-    <Setter Property="Background" Value="#1A1A56DB" />
+    <Setter Property="Background" Value="#1A7ED957" />
   </Style>
 
 </Styles>

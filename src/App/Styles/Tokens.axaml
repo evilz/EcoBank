@@ -4,63 +4,50 @@
   <!-- ===== SPACING ===== -->
   <x:Double x:Key="SpacingXs">4</x:Double>
   <x:Double x:Key="SpacingSm">8</x:Double>
-  <x:Double x:Key="SpacingMd">12</x:Double>
-  <x:Double x:Key="SpacingLg">16</x:Double>
-  <x:Double x:Key="SpacingXl">24</x:Double>
-  <x:Double x:Key="SpacingXxl">32</x:Double>
-  <x:Double x:Key="SpacingXxxl">48</x:Double>
+  <x:Double x:Key="SpacingMd">16</x:Double>
+  <x:Double x:Key="SpacingLg">24</x:Double>
+  <x:Double x:Key="SpacingXl">32</x:Double>
+  <x:Double x:Key="SpacingXxl">48</x:Double>
   <x:Double x:Key="ScreenPadding">16</x:Double>
   <Thickness x:Key="CardPadding">16</Thickness>
   <x:Double x:Key="ListItemHeight">72</x:Double>
   <x:Double x:Key="ListItemHeightCompact">56</x:Double>
 
-  <!-- ===== RADIUS ===== -->
+  <!-- ===== RADIUS - OFFICIAL ECOBANK TOKENS ===== -->
   <CornerRadius x:Key="RadiusXs">4</CornerRadius>
   <CornerRadius x:Key="RadiusSm">8</CornerRadius>
   <CornerRadius x:Key="RadiusMd">12</CornerRadius>
   <CornerRadius x:Key="RadiusLg">16</CornerRadius>
+  <CornerRadius x:Key="RadiusCard">24</CornerRadius>
+  <CornerRadius x:Key="RadiusButton">28</CornerRadius>
   <CornerRadius x:Key="RadiusXl">24</CornerRadius>
   <CornerRadius x:Key="RadiusFull">9999</CornerRadius>
 
   <!-- ===== ACCESSIBILITY ===== -->
   <x:Double x:Key="MinTouchTarget">48</x:Double>
 
-  <!-- ===== LIGHT THEME COLORS ===== -->
-  <Color x:Key="LightBackground">#F5F7FA</Color>
+  <!-- ===== LIGHT THEME COLORS - OFFICIAL ECOBANK PALETTE ===== -->
+  <Color x:Key="LightBackground">#F7F8F5</Color>
   <Color x:Key="LightSurface">#FFFFFF</Color>
-  <Color x:Key="LightSurfaceVariant">#EEF1F6</Color>
-  <Color x:Key="LightOutline">#C8CDD6</Color>
-  <Color x:Key="LightPrimary">#1A56DB</Color>
+  <Color x:Key="LightSurfaceVariant">#F7F8F5</Color>
+  <Color x:Key="LightOutline">#E0E0E0</Color>
+  <Color x:Key="LightPrimary">#7ED957</Color>
   <Color x:Key="LightOnPrimary">#FFFFFF</Color>
-  <Color x:Key="LightPrimaryContainer">#D1E0FF</Color>
-  <Color x:Key="LightSecondary">#0CA678</Color>
+  <Color x:Key="LightPrimaryContainer">#E8F5DB</Color>
+  <Color x:Key="LightSecondary">#7ED957</Color>
   <Color x:Key="LightOnSecondary">#FFFFFF</Color>
-  <Color x:Key="LightTertiary">#7C5CFC</Color>
-  <Color x:Key="LightSuccess">#0CA678</Color>
-  <Color x:Key="LightWarning">#F59E0B</Color>
-  <Color x:Key="LightError">#E02424</Color>
-  <Color x:Key="LightOnSurface">#111928</Color>
-  <Color x:Key="LightOnSurfaceVariant">#4B5563</Color>
-  <Color x:Key="LightCredit">#059669</Color>
-  <Color x:Key="LightDebit">#DC2626</Color>
-  <Color x:Key="LightPending">#6B7280</Color>
+  <Color x:Key="LightTertiary">#C6FF00</Color>
+  <Color x:Key="LightSuccess">#1E7F4F</Color>
+  <Color x:Key="LightWarning">#C6FF00</Color>
+  <Color x:Key="LightError">#FF4D4F</Color>
+  <Color x:Key="LightOnSurface">#1B1D1F</Color>
+  <Color x:Key="LightOnSurfaceVariant">#7A7F85</Color>
+  <Color x:Key="LightCredit">#1E7F4F</Color>
+  <Color x:Key="LightDebit">#FF4D4F</Color>
+  <Color x:Key="LightPending">#7A7F85</Color>
 
-  <!-- ===== DARK THEME COLORS ===== -->
-  <Color x:Key="DarkBackground">#111928</Color>
-  <Color x:Key="DarkSurface">#1F2A3C</Color>
-  <Color x:Key="DarkSurfaceVariant">#2D3748</Color>
-  <Color x:Key="DarkOutline">#4B5563</Color>
-  <Color x:Key="DarkPrimary">#6B9FF4</Color>
-  <Color x:Key="DarkOnPrimary">#001A6E</Color>
-  <Color x:Key="DarkSecondary">#34D399</Color>
-  <Color x:Key="DarkTertiary">#A78BFA</Color>
-  <Color x:Key="DarkSuccess">#34D399</Color>
-  <Color x:Key="DarkWarning">#FCD34D</Color>
-  <Color x:Key="DarkError">#F87171</Color>
-  <Color x:Key="DarkOnSurface">#F9FAFB</Color>
-  <Color x:Key="DarkOnSurfaceVariant">#9CA3AF</Color>
-  <Color x:Key="DarkCredit">#34D399</Color>
-  <Color x:Key="DarkDebit">#F87171</Color>
-  <Color x:Key="DarkPending">#9CA3AF</Color>
+  <!-- ===== DARK THEME COLORS - DISABLED FOR NOW ===== -->
+  <!-- Dark theme will be enabled in future updates -->
+  <!-- When enabled, update with LIGHT theme colors as fallback -->
 
 </ResourceDictionary>

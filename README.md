@@ -2,7 +2,25 @@
 
 Application bancaire multi-plateformes en **Avalonia .NET 10**, basée sur les APIs **Xpollens**.
 
+## 🎨 Design Officiel EcoBank Appliqué
+
+Toutes les pages utilisent la **palette officielle EcoBank**:
+- **Palette primaire** : Vert clair `#7ED957` (boutons, titres, héros)
+- **Palette accent** : Jaune acide `#C6FF00` (highlights, badges)
+- **Palettes neutres** : Background `#F7F8F5`, Cards `#FFFFFF`
+- **Typographie** : Inter / SF Pro, weights 400/700
+- **Composants** : Buttons pill (28px), Cards (24px), Shadows officielles
+- **Layout** : Responsive mobile-first
+- **Accessibilité** : WCAG AA+ compliant
+- **Theme** : Light theme uniquement
+
+### Pages Redesignées
+- ✅ **Login** : Authentification moderne avec palette verte
+- ✅ **Home** : Dashboard avec héros vert, actions rapides, accounts, transactions
+
 ![Écran de connexion EcoBank](docs/screenshot-login.png)
+
+![Écran d'accueil EcoBank](docs/screenshot-home.png)
 
 ## Plateformes cibles
 
@@ -52,14 +70,42 @@ EcoBank/
 
 ## Design System
 
-Les tokens sont définis dans `src/Shared/DesignTokens/tokens.json` et exposés dans
-`src/App/Styles/Tokens.axaml` (ResourceDictionary) et `src/App/Styles/Components.axaml` (Styles).
+Les tokens sont définis dans `src/App/Styles/Tokens.axaml` (ResourceDictionary) et `src/App/Styles/Components.axaml` (Styles).
 
-Principaux tokens :
-- **Couleurs** : primary `#1A56DB`, success `#0CA678`, error `#E02424`, dark mode complet
-- **Espacement** : grille 4dp (xs=4, sm=8, md=12, lg=16, xl=24, xxl=32)
-- **Radius** : xs=4, sm=8, md=12, lg=16, xl=24
-- **Accessibilité** : touch target minimum 48dp
+### Palette officielle EcoBank
+
+**Couleurs principales** :
+- Primary (Green) : `#7ED957` - Boutons, titres accentués
+- Primary Dark : `#1E7F4F` - Success states
+- Accent (Yellow) : `#C6FF00` - Éléments décoratifs
+- Background : `#F7F8F5` - Page background
+- Card Background : `#FFFFFF` - Cartes
+- Text Primary : `#1B1D1F` - Texte principal
+- Text Secondary : `#7A7F85` - Texte secondaire
+- Danger : `#FF4D4F` - États d'erreur
+- **Dark mode** : Désactivé pour maintenant
+
+**Espacement** : Grille 4dp (xs=4, sm=8, md=16, lg=24, xl=32)
+
+**Border Radius** :
+- Card : 24px
+- Button (pill) : 28px
+- Small : 16px
+- Autres : 4-12px
+
+**Accessibilité** : Touch target minimum 48dp
+
+### Styles de composants
+
+| Classe | Utilisation | Couleur |
+|--------|-------------|---------|
+| `Button.Primary` | Bouton principal | `#7ED957` |
+| `Button.Secondary` | Bouton secondaire (transparent) | - |
+| `Button.Danger` | Bouton destructive | `#FF4D4F` |
+| `TextBox.EcoField` | Champ de formulaire | - |
+| `Border.Card` | Conteneur de contenu | Radius: 24px |
+| `TextBlock.AmountCredit` | Montant crédit | `#1E7F4F` |
+| `TextBlock.AmountDebit` | Montant débit | `#FF4D4F` |
 
 ## Lancer l'application (Desktop)
 

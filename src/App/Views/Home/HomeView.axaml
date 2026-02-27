@@ -4,22 +4,24 @@
              xmlns:domain="using:EcoBank.Core.Domain.Accounts"
              xmlns:ops="using:EcoBank.Core.Domain.Operations"
              x:Class="EcoBank.App.Views.Home.HomeView"
-             x:DataType="vm:HomeViewModel">
+             x:DataType="vm:HomeViewModel"
+             Background="#F7F8F5">
 
   <ScrollViewer>
     <StackPanel Margin="16" Spacing="16">
 
-      <!-- Welcome + Balance Hero -->
-      <Border CornerRadius="{DynamicResource RadiusXl}"
+      <!-- Welcome + Balance Hero - Official Green Palette -->
+      <Border CornerRadius="{StaticResource RadiusCard}"
               Padding="24"
-              Background="#1A56DB">
+              Background="#7ED957">
         <StackPanel Spacing="8">
           <TextBlock Text="{Binding WelcomeMessage}"
                      Foreground="White"
                      FontSize="18"
-                     FontWeight="Medium"/>
+                     FontWeight="SemiBold"/>
           <TextBlock Text="Solde total"
-                     Foreground="#C7D7FF"
+                     Foreground="White"
+                     Opacity="0.85"
                      FontSize="13"/>
           <TextBlock FontSize="36"
                      FontWeight="Bold"
@@ -34,14 +36,127 @@
         </StackPanel>
       </Border>
 
-      <!-- Quick actions -->
+      <!-- Chart/Progress area - Accent Yellow highlight -->
+      <Border Classes="Card" Padding="16">
+        <StackPanel Spacing="12">
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Évolution du solde"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       Foreground="#1B1D1F"/>
+            <Border Background="#F0F9E8"
+                    CornerRadius="{StaticResource RadiusButton}"
+                    Padding="8,4">
+              <TextBlock Text="+12.5%"
+                         FontSize="14"
+                         FontWeight="SemiBold"
+                         Foreground="#7ED957"/>
+            </Border>
+          </Grid>
+          <TextBlock Text="📊 Chart placeholder"
+                     Foreground="#7A7F85"
+                     TextAlignment="Center"
+                     Padding="0,40"
+                     FontSize="14"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Quick actions - With official styling -->
       <StackPanel Spacing="8">
         <TextBlock Classes="SectionTitle" Text="Actions rapides"/>
-        <UniformGrid Columns="3" Rows="1">
-          <Button Classes="Secondary" Content="Virement" Margin="0,0,4,0"/>
-          <Button Classes="Secondary" Content="Mon RIB"  Margin="4,0"/>
-          <Button Classes="Secondary" Content="Scanner"  Margin="4,0,0,0"/>
+        <UniformGrid Columns="4" Rows="1" ColumnSpacing="8" RowSpacing="8">
+          <StackPanel HorizontalAlignment="Center" Spacing="8">
+            <Border Background="#F0F9E8"
+                    CornerRadius="{StaticResource RadiusButton}"
+                    Padding="16"
+                    HorizontalAlignment="Center">
+              <TextBlock Text="📤" FontSize="24"/>
+            </Border>
+            <TextBlock Text="Envoyer"
+                       FontSize="12"
+                       TextAlignment="Center"
+                       Foreground="#1B1D1F"
+                       FontWeight="Medium"/>
+          </StackPanel>
+          <StackPanel HorizontalAlignment="Center" Spacing="8">
+            <Border Background="#F0F9E8"
+                    CornerRadius="{StaticResource RadiusButton}"
+                    Padding="16"
+                    HorizontalAlignment="Center">
+              <TextBlock Text="✓" FontSize="24" Foreground="#7ED957"/>
+            </Border>
+            <TextBlock Text="Reçu"
+                       FontSize="12"
+                       TextAlignment="Center"
+                       Foreground="#1B1D1F"
+                       FontWeight="Medium"/>
+          </StackPanel>
+          <StackPanel HorizontalAlignment="Center" Spacing="8">
+            <Border Background="#F0F9E8"
+                    CornerRadius="{StaticResource RadiusButton}"
+                    Padding="16"
+                    HorizontalAlignment="Center">
+              <TextBlock Text="🔄" FontSize="24"/>
+            </Border>
+            <TextBlock Text="Virement"
+                       FontSize="12"
+                       TextAlignment="Center"
+                       Foreground="#1B1D1F"
+                       FontWeight="Medium"/>
+          </StackPanel>
+          <StackPanel HorizontalAlignment="Center" Spacing="8">
+            <Border Background="#F0F9E8"
+                    CornerRadius="{StaticResource RadiusButton}"
+                    Padding="16"
+                    HorizontalAlignment="Center">
+              <TextBlock Text="•••" FontSize="24"/>
+            </Border>
+            <TextBlock Text="Plus"
+                       FontSize="12"
+                       TextAlignment="Center"
+                       Foreground="#1B1D1F"
+                       FontWeight="Medium"/>
+          </StackPanel>
         </UniformGrid>
+      </StackPanel>
+
+      <!-- Account Summary Cards -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="SectionTitle" Text="Mes comptes"/>
+        <ItemsControl ItemsSource="{Binding Accounts}" Margin="0,0,0,8">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="domain:Account">
+              <Border Classes="Card" Margin="0,0,0,8">
+                <Grid ColumnDefinitions="*,Auto">
+                  <StackPanel Grid.Column="0" Spacing="4">
+                    <TextBlock Text="{Binding Label}"
+                               FontWeight="SemiBold"
+                               FontSize="14"
+                               Foreground="#1B1D1F"
+                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Iban}"
+                               FontSize="12"
+                               Foreground="#7A7F85"
+                               TextTrimming="CharacterEllipsis"/>
+                  </StackPanel>
+                  <TextBlock Grid.Column="1"
+                             FontSize="16"
+                             FontWeight="SemiBold"
+                             VerticalAlignment="Center"
+                             Margin="8,0,0,0"
+                             Foreground="#7ED957">
+                    <TextBlock.Text>
+                      <MultiBinding StringFormat="{}{0:N2} {1}">
+                        <Binding Path="Balance"/>
+                        <Binding Path="Currency"/>
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
       </StackPanel>
 
       <!-- Last operations -->
@@ -51,23 +166,43 @@
         <ProgressBar IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
 
         <TextBlock Text="{Binding ErrorMessage}"
-                   Foreground="#B91C1C"
+                   Foreground="#FF4D4F"
                    TextWrapping="Wrap"
                    IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
 
         <ItemsControl ItemsSource="{Binding RecentOperations}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="ops:Operation">
-              <Border Classes="CardInteractive" Margin="0,0,0,8">
-                <Grid ColumnDefinitions="*,Auto">
-                  <StackPanel Grid.Column="0" Spacing="3">
-                    <TextBlock Text="{Binding Label}" FontWeight="Medium" FontSize="14"
+              <Border Classes="Card" Margin="0,0,0,8">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                  <!-- Icon/Avatar -->
+                  <Border Grid.Column="0"
+                          Background="#F0F9E8"
+                          CornerRadius="{StaticResource RadiusButton}"
+                          Padding="12"
+                          VerticalAlignment="Center">
+                    <TextBlock Text="💳"
+                               FontSize="18"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                  </Border>
+                  
+                  <!-- Label and Date -->
+                  <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Label}"
+                               FontWeight="SemiBold"
+                               FontSize="14"
+                               Foreground="#1B1D1F"
                                TextTrimming="CharacterEllipsis"/>
                     <TextBlock Text="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"
-                               FontSize="12" Foreground="#6B7280"/>
+                               FontSize="12"
+                               Foreground="#7A7F85"/>
                   </StackPanel>
-                  <TextBlock Grid.Column="1"
-                             FontSize="15"
+                  
+                  <!-- Amount -->
+                  <TextBlock Grid.Column="2"
+                             FontSize="14"
+                             FontWeight="SemiBold"
                              VerticalAlignment="Center"
                              Margin="8,0,0,0">
                     <TextBlock.Text>
