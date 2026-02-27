@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EcoBank.App.ViewModels.Home"
+             xmlns:domain="using:EcoBank.Core.Domain.Accounts"
+             xmlns:ops="using:EcoBank.Core.Domain.Operations"
+             x:Class="EcoBank.App.Views.Home.HomeView"
+             x:DataType="vm:HomeViewModel">
+
+  <ScrollViewer>
+    <StackPanel Margin="16" Spacing="16">
+
+      <!-- Welcome + Balance Hero -->
+      <Border CornerRadius="{DynamicResource RadiusXl}"
+              Padding="24"
+              Background="#1A56DB">
+        <StackPanel Spacing="8">
+          <TextBlock Text="{Binding WelcomeMessage}"
+                     Foreground="White"
+                     FontSize="18"
+                     FontWeight="Medium"/>
+          <TextBlock Text="Solde total"
+                     Foreground="#C7D7FF"
+                     FontSize="13"/>
+          <TextBlock FontSize="36"
+                     FontWeight="Bold"
+                     Foreground="White">
+            <TextBlock.Text>
+              <MultiBinding StringFormat="{}{0:N2} {1}">
+                <Binding Path="TotalBalance"/>
+                <Binding Path="Currency"/>
+              </MultiBinding>
+            </TextBlock.Text>
+          </TextBlock>
+        </StackPanel>
+      </Border>
+
+      <!-- Quick actions -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="SectionTitle" Text="Actions rapides"/>
+        <UniformGrid Columns="3" Rows="1">
+          <Button Classes="Secondary" Content="Virement" Margin="0,0,4,0"/>
+          <Button Classes="Secondary" Content="Mon RIB"  Margin="4,0"/>
+          <Button Classes="Secondary" Content="Scanner"  Margin="4,0,0,0"/>
+        </UniformGrid>
+      </StackPanel>
+
+      <!-- Last operations -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="SectionTitle" Text="Dernières opérations"/>
+
+        <ProgressBar IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
+
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Foreground="#B91C1C"
+                   TextWrapping="Wrap"
+                   IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+        <ItemsControl ItemsSource="{Binding RecentOperations}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="ops:Operation">
+              <Border Classes="CardInteractive" Margin="0,0,0,8">
+                <Grid ColumnDefinitions="*,Auto">
+                  <StackPanel Grid.Column="0" Spacing="3">
+                    <TextBlock Text="{Binding Label}" FontWeight="Medium" FontSize="14"
+                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"
+                               FontSize="12" Foreground="#6B7280"/>
+                  </StackPanel>
+                  <TextBlock Grid.Column="1"
+                             FontSize="15"
+                             VerticalAlignment="Center"
+                             Margin="8,0,0,0">
+                    <TextBlock.Text>
+                      <MultiBinding StringFormat="{}{0:+0.00;-0.00} {1}">
+                        <Binding Path="Amount"/>
+                        <Binding Path="Currency"/>
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

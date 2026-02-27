@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EcoBank.App.ViewModels.Operations"
+             xmlns:domain="using:EcoBank.Core.Domain.Operations"
+             x:Class="EcoBank.App.Views.Operations.OperationsView"
+             x:DataType="vm:OperationsViewModel">
+
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Padding="16,12">
+      <TextBlock Text="Opérations" FontSize="22" FontWeight="SemiBold"/>
+    </Border>
+
+    <Border DockPanel.Dock="Top" Padding="16,4">
+      <TextBox Classes="EcoField"
+               Text="{Binding SearchQuery}"
+               Watermark="🔍  Rechercher..."
+               AutomationProperties.Name="Recherche opérations"/>
+    </Border>
+
+    <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
+
+    <ScrollViewer>
+      <StackPanel Margin="16" Spacing="8">
+        <ItemsControl ItemsSource="{Binding Operations}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="domain:Operation">
+              <Border Classes="CardInteractive" Margin="0,0,0,4">
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                  <TextBlock Grid.Row="0" Grid.Column="0"
+                             Text="{Binding Label}"
+                             FontWeight="Medium"
+                             FontSize="14"
+                             TextTrimming="CharacterEllipsis"/>
+                  <TextBlock Grid.Row="1" Grid.Column="0"
+                             FontSize="12"
+                             Foreground="#6B7280">
+                    <TextBlock.Text>
+                      <MultiBinding StringFormat="{}{0:dd/MM/yyyy} · {1}">
+                        <Binding Path="Date"/>
+                        <Binding Path="Status"/>
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                  <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                             FontSize="15"
+                             FontWeight="SemiBold"
+                             VerticalAlignment="Center"
+                             Margin="8,0,0,0">
+                    <TextBlock.Text>
+                      <MultiBinding StringFormat="{}{0:+0.00;-0.00} {1}">
+                        <Binding Path="Amount"/>
+                        <Binding Path="Currency"/>
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>

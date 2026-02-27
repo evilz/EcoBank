@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EcoBank.App.ViewModels.Profile"
+             x:Class="EcoBank.App.Views.Profile.ProfileView"
+             x:DataType="vm:ProfileViewModel">
+
+  <ScrollViewer>
+    <StackPanel Margin="16" Spacing="16">
+      <TextBlock Text="Profil" FontSize="22" FontWeight="SemiBold"/>
+
+      <!-- User info card -->
+      <Border Classes="Card">
+        <StackPanel Spacing="8">
+          <TextBlock Text="👤" FontSize="40" HorizontalAlignment="Center"/>
+          <TextBlock Text="{Binding UserDisplayName}"
+                     FontSize="18"
+                     FontWeight="SemiBold"
+                     HorizontalAlignment="Center"/>
+          <TextBlock Text="{Binding CurrentUser.Email}"
+                     Foreground="#6B7280"
+                     HorizontalAlignment="Center"
+                     IsVisible="{Binding CurrentUser.Email, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+          <Border Classes="BadgeSuccess" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding CurrentUser.KycStatus}" FontSize="12" FontWeight="Medium"/>
+          </Border>
+        </StackPanel>
+      </Border>
+
+      <!-- Preferences -->
+      <Border Classes="Card">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Préférences" FontSize="16" FontWeight="SemiBold"/>
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Mode sombre" VerticalAlignment="Center" FontSize="14"/>
+            <ToggleSwitch IsChecked="{Binding DarkModeEnabled}" Margin="0"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Langue" VerticalAlignment="Center" FontSize="14"/>
+            <ComboBox SelectedItem="{Binding SelectedLanguage}">
+              <ComboBoxItem>fr</ComboBoxItem>
+              <ComboBoxItem>en</ComboBoxItem>
+            </ComboBox>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!-- Actions -->
+      <Button Classes="Danger"
+              Content="Se déconnecter"
+              Command="{Binding ResetSessionCommand}"
+              HorizontalAlignment="Stretch"/>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

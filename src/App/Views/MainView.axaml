@@ -1,0 +1,8 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EcoBank.App.ViewModels"
+             x:Class="EcoBank.App.Views.MainView"
+             x:DataType="vm:MainWindowViewModel">
+
+  <ContentControl Content="{Binding CurrentPage}"/>
+</UserControl>

@@ -1,0 +1,151 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    Design tokens are declared here so that {StaticResource} lookups inside <Setter> elements
+    resolve correctly when this Styles file is loaded as part of Application.Styles — before
+    Application.Resources has been fully populated.
+  -->
+  <Styles.Resources>
+    <CornerRadius x:Key="RadiusXs">4</CornerRadius>
+    <CornerRadius x:Key="RadiusSm">8</CornerRadius>
+    <CornerRadius x:Key="RadiusMd">12</CornerRadius>
+    <CornerRadius x:Key="RadiusLg">16</CornerRadius>
+    <CornerRadius x:Key="RadiusXl">24</CornerRadius>
+    <CornerRadius x:Key="RadiusFull">9999</CornerRadius>
+    <Thickness x:Key="CardPadding">16</Thickness>
+    <x:Double x:Key="MinTouchTarget">48</x:Double>
+  </Styles.Resources>
+
+  <!-- ===== CARD ===== -->
+  <Style Selector="Border.Card">
+    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
+    <Setter Property="Padding" Value="{StaticResource CardPadding}" />
+    <Setter Property="BoxShadow" Value="0 2 8 0 #18000000" />
+  </Style>
+
+  <Style Selector="Border.CardInteractive">
+    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
+    <Setter Property="Padding" Value="{StaticResource CardPadding}" />
+    <Setter Property="BoxShadow" Value="0 2 8 0 #18000000" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Border.CardInteractive:pointerover">
+    <Setter Property="BoxShadow" Value="0 4 16 0 #28000000" />
+  </Style>
+
+  <!-- ===== PRIMARY BUTTON ===== -->
+  <Style Selector="Button.Primary">
+    <Setter Property="Background" Value="#1A56DB" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Padding" Value="16,12" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button.Primary:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#1446C0" />
+  </Style>
+  <Style Selector="Button.Primary:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="#0E348F" />
+  </Style>
+  <Style Selector="Button.Primary:disabled /template/ ContentPresenter">
+    <Setter Property="Background" Value="#C8CDD6" />
+    <Setter Property="Foreground" Value="#6B7280" />
+  </Style>
+
+  <!-- ===== SECONDARY BUTTON ===== -->
+  <Style Selector="Button.Secondary">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="#1A56DB" />
+    <Setter Property="BorderBrush" Value="#1A56DB" />
+    <Setter Property="BorderThickness" Value="1.5" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Padding" Value="16,12" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+
+  <!-- ===== DANGER BUTTON ===== -->
+  <Style Selector="Button.Danger">
+    <Setter Property="Background" Value="#E02424" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Padding" Value="16,12" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+
+  <!-- ===== TEXT FIELD ===== -->
+  <Style Selector="TextBox.EcoField">
+    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+    <Setter Property="BorderBrush" Value="#C8CDD6" />
+    <Setter Property="BorderThickness" Value="1.5" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Padding" Value="12,10" />
+    <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
+    <Setter Property="FontSize" Value="15" />
+  </Style>
+  <Style Selector="TextBox.EcoField:focus">
+    <Setter Property="BorderBrush" Value="#1A56DB" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <!-- ===== AMOUNT COLORS ===== -->
+  <Style Selector="TextBlock.AmountCredit">
+    <Setter Property="Foreground" Value="#059669" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="TextBlock.AmountDebit">
+    <Setter Property="Foreground" Value="#DC2626" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="TextBlock.AmountPending">
+    <Setter Property="Foreground" Value="#6B7280" />
+  </Style>
+
+  <!-- ===== BADGE ===== -->
+  <Style Selector="Border.BadgeSuccess">
+    <Setter Property="Background" Value="#D1FAE5" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusFull}" />
+    <Setter Property="Padding" Value="8,3" />
+  </Style>
+  <Style Selector="Border.BadgeWarning">
+    <Setter Property="Background" Value="#FEF3C7" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusFull}" />
+    <Setter Property="Padding" Value="8,3" />
+  </Style>
+  <Style Selector="Border.BadgeError">
+    <Setter Property="Background" Value="#FEE2E2" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusFull}" />
+    <Setter Property="Padding" Value="8,3" />
+  </Style>
+
+  <!-- ===== SECTION TITLE ===== -->
+  <Style Selector="TextBlock.SectionTitle">
+    <Setter Property="FontSize" Value="18" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Margin" Value="0,0,0,8" />
+  </Style>
+
+  <!-- ===== NAVIGATION BAR BUTTON ===== -->
+  <Style Selector="Button.NavItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="8" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
+    <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
+    <Setter Property="MinWidth" Value="{StaticResource MinTouchTarget}" />
+  </Style>
+  <Style Selector="Button.NavItem:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#1A1A56DB" />
+  </Style>
+
+</Styles>

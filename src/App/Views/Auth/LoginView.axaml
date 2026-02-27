@@ -1,0 +1,104 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EcoBank.App.ViewModels.Auth"
+             x:Class="EcoBank.App.Views.Auth.LoginView"
+             x:DataType="vm:LoginViewModel">
+
+  <Grid RowDefinitions="*,Auto,*">
+    <StackPanel Grid.Row="1"
+                MaxWidth="440"
+                HorizontalAlignment="Center"
+                Spacing="16"
+                Margin="24">
+
+      <!-- Logo / App Name -->
+      <StackPanel HorizontalAlignment="Center" Spacing="8" Margin="0,0,0,16">
+        <TextBlock Text="🏦" FontSize="52" HorizontalAlignment="Center"/>
+        <TextBlock Text="EcoBank"
+                   FontSize="30"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"/>
+        <TextBlock Text="Connexion Xpollens"
+                   FontSize="16"
+                   Foreground="#4B5563"
+                   HorizontalAlignment="Center"/>
+      </StackPanel>
+
+      <!-- Card container -->
+      <Border Classes="Card">
+        <StackPanel Spacing="16">
+
+          <!-- Client ID -->
+          <StackPanel Spacing="6">
+            <TextBlock Text="Client ID"
+                       FontWeight="Medium"
+                       FontSize="14"/>
+            <TextBox Classes="EcoField"
+                     Text="{Binding ClientId}"
+                     Watermark="Votre Client ID Xpollens"
+                     AutomationProperties.Name="Client ID"
+                     IsEnabled="{Binding !IsBusy}"/>
+          </StackPanel>
+
+          <!-- Client Secret -->
+          <StackPanel Spacing="6">
+            <TextBlock Text="Client Secret"
+                       FontWeight="Medium"
+                       FontSize="14"/>
+            <TextBox Classes="EcoField"
+                     Text="{Binding ClientSecret}"
+                     PasswordChar="•"
+                     Watermark="Votre Client Secret"
+                     AutomationProperties.Name="Client Secret"
+                     IsEnabled="{Binding !IsBusy}"/>
+          </StackPanel>
+
+          <!-- App User ID -->
+          <StackPanel Spacing="6">
+            <TextBlock Text="App User ID"
+                       FontWeight="Medium"
+                       FontSize="14"/>
+            <TextBox Classes="EcoField"
+                     Text="{Binding AppUserId}"
+                     Watermark="Votre App User ID"
+                     AutomationProperties.Name="App User ID"
+                     IsEnabled="{Binding !IsBusy}"/>
+          </StackPanel>
+
+          <!-- Remember credentials -->
+          <CheckBox IsChecked="{Binding RememberCredentials}"
+                    Content="Enregistrer sur cet appareil"
+                    IsEnabled="{Binding !IsBusy}"/>
+
+          <!-- Error message -->
+          <Border Background="#FEE2E2"
+                  CornerRadius="{DynamicResource RadiusSm}"
+                  Padding="12,10"
+                  IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+            <TextBlock Text="{Binding ErrorMessage}"
+                       Foreground="#B91C1C"
+                       TextWrapping="Wrap"
+                       AutomationProperties.LiveSetting="Assertive"/>
+          </Border>
+
+          <!-- Login button -->
+          <Button Classes="Primary"
+                  Content="Se connecter"
+                  Command="{Binding LoginCommand}"
+                  HorizontalAlignment="Stretch"
+                  IsEnabled="{Binding !IsBusy}"/>
+
+          <!-- Loading indicator -->
+          <ProgressBar IsIndeterminate="True"
+                       IsVisible="{Binding IsBusy}"
+                       Height="3"/>
+        </StackPanel>
+      </Border>
+
+      <TextBlock Text="v1.0 — EcoBank © 2025"
+                 Foreground="#9CA3AF"
+                 FontSize="11"
+                 HorizontalAlignment="Center"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

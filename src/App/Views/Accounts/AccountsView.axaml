@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EcoBank.App.ViewModels.Accounts"
+             xmlns:domain="using:EcoBank.Core.Domain.Accounts"
+             x:Class="EcoBank.App.Views.Accounts.AccountsView"
+             x:DataType="vm:AccountsViewModel">
+
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Padding="16,12">
+      <TextBlock Text="Mes comptes" FontSize="22" FontWeight="SemiBold"/>
+    </Border>
+
+    <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
+
+    <ScrollViewer>
+      <StackPanel Margin="16" Spacing="12">
+        <ItemsControl ItemsSource="{Binding Accounts}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="domain:Account">
+              <Border Classes="CardInteractive" Margin="0,0,0,4">
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                  <TextBlock Grid.Row="0" Grid.Column="0"
+                             Text="{Binding Label}"
+                             FontWeight="SemiBold"
+                             FontSize="16"/>
+                  <TextBlock Grid.Row="1" Grid.Column="0"
+                             Text="{Binding Iban}"
+                             FontSize="12"
+                             Foreground="#6B7280"
+                             IsVisible="{Binding Iban, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                  <TextBlock Grid.Row="2" Grid.Column="0"
+                             Text="{Binding Status}"
+                             FontSize="12"
+                             Foreground="#6B7280"/>
+                  <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
+                             FontSize="22"
+                             FontWeight="Bold"
+                             VerticalAlignment="Center"
+                             Margin="8,0,0,0">
+                    <TextBlock.Text>
+                      <MultiBinding StringFormat="{}{0:N2} {1}">
+                        <Binding Path="Balance"/>
+                        <Binding Path="Currency"/>
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>
