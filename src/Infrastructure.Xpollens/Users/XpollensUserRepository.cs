@@ -8,16 +8,22 @@ namespace EcoBank.Infrastructure.Xpollens.Users;
 
 /// <summary>
 /// Xpollens user endpoints.
-/// GET api/v2.0/users — list users
-/// GET api/v2.0/users/{appUserId} — get a specific user's info
+/// GET api/v2.0/users — list users (paginated envelope)
+/// GET api/v2.0/users?AppUserId={appUserId} — filter by appUserId, returns paged envelope; first value is selected
 /// </summary>
-internal sealed record UserDto(
-    [property: JsonPropertyName("appUserId")] string AppUserId,
+internal sealed record UserProfileDto(
     [property: JsonPropertyName("firstName")] string? FirstName,
     [property: JsonPropertyName("lastName")] string? LastName,
-    [property: JsonPropertyName("email")] string? Email,
-    [property: JsonPropertyName("kycStatus")] string? KycStatus,
-    [property: JsonPropertyName("lastLogin")] DateTimeOffset? LastLogin);
+    [property: JsonPropertyName("email")] string? Email);
+
+internal sealed record XpollensUserDto(
+    [property: JsonPropertyName("appUserId")] string AppUserId,
+    [property: JsonPropertyName("userRecordStatus")] string? UserRecordStatus,
+    [property: JsonPropertyName("activationDate")] DateTimeOffset? ActivationDate,
+    [property: JsonPropertyName("profile")] UserProfileDto? Profile);
+
+internal sealed record UserPagedResponseDto(
+    [property: JsonPropertyName("values")] List<XpollensUserDto>? Values);
 
 public sealed class XpollensUserRepository(HttpClient httpClient, ILogger<XpollensUserRepository> logger) : IUserRepository
 {
@@ -29,25 +35,26 @@ public sealed class XpollensUserRepository(HttpClient httpClient, ILogger<Xpolle
 
         logger.LogDebug("Fetching users: page={Page}, pageSize={PageSize}", page, pageSize);
 
-        var dtos = await httpClient.GetFromJsonAsync<List<UserDto>>(query, ct) ?? [];
-
-        return dtos.Select(MapUser).ToList().AsReadOnly();
+        var paged = await httpClient.GetFromJsonAsync<UserPagedResponseDto>(query, ct);
+        return (paged?.Values ?? []).Select(MapUser).ToList().AsReadOnly();
     }
 
     public async Task<User?> GetUserAsync(string appUserId, CancellationToken ct = default)
     {
         logger.LogDebug("Fetching user {AppUserId}", appUserId);
-        var dto = await httpClient.GetFromJsonAsync<UserDto>($"api/v2.0/users/{appUserId}", ct);
+        var paged = await httpClient.GetFromJsonAsync<UserPagedResponseDto>(
+            $"api/v2.0/users?AppUserId={Uri.EscapeDataString(appUserId)}", ct);
+        var dto = paged?.Values?.FirstOrDefault();
         return dto is null ? null : MapUser(dto);
     }
 
-    private static User MapUser(UserDto dto) => new(
+    private static User MapUser(XpollensUserDto dto) => new(
         dto.AppUserId,
-        dto.FirstName,
-        dto.LastName,
-        dto.Email,
-        ParseKycStatus(dto.KycStatus),
-        dto.LastLogin);
+        dto.Profile?.FirstName,
+        dto.Profile?.LastName,
+        dto.Profile?.Email,
+        ParseKycStatus(dto.UserRecordStatus),
+        dto.ActivationDate);
 
     private static KycStatus ParseKycStatus(string? status) => status?.ToLowerInvariant() switch
     {
