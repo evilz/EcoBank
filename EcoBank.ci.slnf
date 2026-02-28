@@ -5,7 +5,8 @@
       "src/Core/EcoBank.Core.csproj",
       "src/Shared/EcoBank.Shared.csproj",
       "src/Infrastructure.Xpollens/EcoBank.Infrastructure.Xpollens.csproj",
-      "src/App/EcoBank.App.csproj"
+      "src/App/EcoBank.App.csproj",
+      "tests/EcoBank.App.Tests/EcoBank.App.Tests.csproj"
     ]
   }
 }

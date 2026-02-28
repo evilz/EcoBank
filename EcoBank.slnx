@@ -24,4 +24,7 @@
   <Folder Name="/src/Browser/">
     <Project Path="src/Browser/EcoBank.Browser.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EcoBank.App.Tests/EcoBank.App.Tests.csproj" />
+  </Folder>
 </Solution>
