@@ -8,6 +8,7 @@ using EcoBank.Core.Domain.Users;
 using EcoBank.Core.Ports;
 using EcoBank.Core.UseCases.Auth;
 using EcoBank.Core.UseCases.Users;
+using Xunit;
 
 namespace EcoBank.App.Tests.ViewModels;
 
