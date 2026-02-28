@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "path": "EcoBank.slnx",
+    "projects": [
+      "src/Core/EcoBank.Core.csproj",
+      "src/Shared/EcoBank.Shared.csproj",
+      "src/Infrastructure.Xpollens/EcoBank.Infrastructure.Xpollens.csproj",
+      "src/App/EcoBank.App.csproj"
+    ]
+  }
+}
