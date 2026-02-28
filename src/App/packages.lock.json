@@ -57,15 +57,52 @@
           "Microsoft.Extensions.Options": "10.0.0"
         }
       },
+      "ShadUI": {
+        "type": "Direct",
+        "requested": "[0.1.6, )",
+        "resolved": "0.1.6",
+        "contentHash": "puR0uohrz8yikAwzcy1+TjsxzNEbJUS1Y/eS6HEVuZqzAtoLvgDd6k+unHcfR1/q/+/QGw90f02BbDNOlLW2jQ==",
+        "dependencies": {
+          "Avalonia": "11.3.10",
+          "Avalonia.Controls.ColorPicker": "11.3.10",
+          "Avalonia.Controls.DataGrid": "11.3.10",
+          "Avalonia.Themes.Simple": "11.3.10"
+        }
+      },
       "Avalonia.BuildServices": {
         "type": "Transitive",
         "resolved": "11.3.2",
         "contentHash": "qHDToxto1e3hci5YqbG9n0Ty8mlp3zBUN5wT66wKqaDVzXyQ0do3EnRILd4Ke9jpvsktaPpgE0YjEk7hornryQ=="
       },
+      "Avalonia.Controls.ColorPicker": {
+        "type": "Transitive",
+        "resolved": "11.3.10",
+        "contentHash": "KRlU3aPinqxcgP2471m73qi+qj+XZ24/d/vPwnpmA0Jy977h8iWDzDafnv4PCv8RTvnyt3duVmGTdxJHMmvoow==",
+        "dependencies": {
+          "Avalonia": "11.3.10",
+          "Avalonia.Remote.Protocol": "11.3.10"
+        }
+      },
+      "Avalonia.Controls.DataGrid": {
+        "type": "Transitive",
+        "resolved": "11.3.10",
+        "contentHash": "KSwme0XOL8594fFvoQ37s5rnSo9vCKutCpufCEmd0R7x/fRWOjK3g3su1Z3nukgbobryPVjQvZxi/E92DPPYpw==",
+        "dependencies": {
+          "Avalonia": "11.3.10"
+        }
+      },
       "Avalonia.Remote.Protocol": {
         "type": "Transitive",
         "resolved": "11.3.12",
         "contentHash": "zaWTPaBKxGfHxqQfPh1WP+vWy3iVAwYWW/7FGlz63/wT1b+3b7Wn37H6c9C2E/M3cgllrW5/cirye516QUDZiA=="
+      },
+      "Avalonia.Themes.Simple": {
+        "type": "Transitive",
+        "resolved": "11.3.10",
+        "contentHash": "SwmIVuKZEiVW7lyflK9WWFo1Aw4BA5UJJviLoAwvw0x3HtnT5LDtlEzzkV7qiWxijaatMCP/xQH5k1NJnPSC+w==",
+        "dependencies": {
+          "Avalonia": "11.3.10"
+        }
       },
       "MicroCom.Runtime": {
         "type": "Transitive",
