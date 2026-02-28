@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Shell"
+             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              x:Class="EcoBank.App.Views.Shell.MainShellView"
              x:DataType="vm:MainShellViewModel">
 
@@ -11,39 +12,33 @@
   <Panel>
 
     <!-- WIDE layout (sidebar) -->
-    <Grid ColumnDefinitions="220,*"
+    <Grid ColumnDefinitions="Auto,*"
           IsVisible="{Binding $parent[UserControl].Bounds.Width, Converter={x:Static vm:WidthToBoolConverter.IsWide}}">
 
-      <!-- Sidebar -->
-      <Border Grid.Column="0"
-              Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
-              BoxShadow="2 0 8 0 #10000000"
-              Padding="0,24">
-        <StackPanel Spacing="4" Margin="12,0">
-          <!-- App branding -->
+      <!-- ShadUI Sidebar -->
+      <shad:Sidebar Grid.Column="0">
+        <shad:Sidebar.Header>
           <StackPanel Orientation="Horizontal" Spacing="10" Margin="12,0,0,24">
             <TextBlock Text="🏦" FontSize="24"/>
             <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
           </StackPanel>
+        </shad:Sidebar.Header>
 
-          <!-- Nav items -->
-          <ItemsControl ItemsSource="{Binding Tabs}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate x:DataType="vm:NavTab">
-                <Button Classes="NavItem"
-                        HorizontalAlignment="Stretch"
-                        Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
-                        CommandParameter="{Binding}">
-                  <StackPanel Orientation="Horizontal" Spacing="12" Margin="4,0">
-                    <TextBlock Text="{Binding Icon}" FontSize="18" Width="24" TextAlignment="Center"/>
-                    <TextBlock Text="{Binding Label}" FontSize="15" VerticalAlignment="Center"/>
-                  </StackPanel>
-                </Button>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
-        </StackPanel>
-      </Border>
+        <!-- Nav items -->
+        <ItemsControl ItemsSource="{Binding Tabs}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:NavTab">
+              <shad:SidebarItem Content="{Binding Label}"
+                                Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
+                                CommandParameter="{Binding}">
+                <shad:SidebarItem.Icon>
+                  <TextBlock Text="{Binding Icon}" FontSize="18"/>
+                </shad:SidebarItem.Icon>
+              </shad:SidebarItem>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </shad:Sidebar>
 
       <!-- Content area -->
       <ContentControl Grid.Column="1"
