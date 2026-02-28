@@ -10,9 +10,6 @@ on:
 permissions:
   contents: read
 
-env:
-  DOTNET_VERSION: '10.x'
-
 jobs:
   build-and-test:
     name: Build & Test
@@ -23,20 +20,22 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: global.json
+          cache: true
 
       - name: Restore dependencies
-        run: dotnet restore src/Core/EcoBank.Core.csproj src/Shared/EcoBank.Shared.csproj src/Infrastructure.Xpollens/EcoBank.Infrastructure.Xpollens.csproj src/App/EcoBank.App.csproj
+        run: dotnet restore EcoBank.ci.slnf
 
       - name: Build
-        run: dotnet build src/Core/EcoBank.Core.csproj src/Shared/EcoBank.Shared.csproj src/Infrastructure.Xpollens/EcoBank.Infrastructure.Xpollens.csproj src/App/EcoBank.App.csproj --no-restore --configuration Release
+        run: dotnet build EcoBank.ci.slnf --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test EcoBank.slnx --configuration Release --verbosity normal
+        run: dotnet test EcoBank.ci.slnf --configuration Release --verbosity normal --no-build
 
   publish-desktop:
     name: Publish Desktop (${{ matrix.rid }})
     needs: build-and-test
+    if: github.event_name != 'pull_request'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -53,7 +52,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: global.json
+          cache: true
 
       - name: Publish Desktop
         run: dotnet publish src/Desktop/EcoBank.Desktop.csproj --configuration Release --runtime ${{ matrix.rid }} --self-contained true --output publish/desktop/${{ matrix.rid }}
@@ -67,6 +67,7 @@ jobs:
   publish-android:
     name: Publish Android
     needs: build-and-test
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -74,7 +75,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: global.json
+          cache: true
 
       - name: Install Android workload
         run: dotnet workload install android
@@ -91,6 +93,7 @@ jobs:
   publish-ios:
     name: Publish iOS
     needs: build-and-test
+    if: github.event_name != 'pull_request'
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -98,7 +101,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: global.json
+          cache: true
 
       - name: Install iOS workload
         run: dotnet workload install ios
@@ -115,6 +119,7 @@ jobs:
   publish-browser:
     name: Publish Browser (WASM)
     needs: build-and-test
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -122,7 +127,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: global.json
+          cache: true
 
       - name: Install WASM workload
         run: dotnet workload install wasm-tools
