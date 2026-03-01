@@ -7,13 +7,28 @@ on:
       - 'V*'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  release-desktop-windows:
-    name: Desktop (Windows)
-    runs-on: windows-latest
+  release-desktop:
+    name: Desktop (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
     continue-on-error: true
+    strategy:
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            rid: win-x64
+            artifact: desktop-windows
+          - name: Linux
+            os: ubuntu-latest
+            rid: linux-x64
+            artifact: desktop-linux
+          - name: macOS
+            os: macos-latest
+            rid: osx-x64
+            artifact: desktop-macos
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,59 +40,13 @@ jobs:
           include-prerelease: true
 
       - name: Publish
-        run: dotnet publish src/Desktop/EcoBank.Desktop.csproj -c Release -r win-x64 --self-contained -o publish/win-x64
+        run: dotnet publish src/Desktop/EcoBank.Desktop.csproj -c Release -r ${{ matrix.rid }} --self-contained -o publish/${{ matrix.rid }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: desktop-windows
-          path: publish/win-x64
-
-  release-desktop-linux:
-    name: Desktop (Linux)
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.x'
-          include-prerelease: true
-
-      - name: Publish
-        run: dotnet publish src/Desktop/EcoBank.Desktop.csproj -c Release -r linux-x64 --self-contained -o publish/linux-x64
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: desktop-linux
-          path: publish/linux-x64
-
-  release-desktop-macos:
-    name: Desktop (macOS)
-    runs-on: macos-latest
-    continue-on-error: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.x'
-          include-prerelease: true
-
-      - name: Publish
-        run: dotnet publish src/Desktop/EcoBank.Desktop.csproj -c Release -r osx-x64 --self-contained -o publish/osx-x64
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: desktop-macos
-          path: publish/osx-x64
+          name: ${{ matrix.artifact }}
+          path: publish/${{ matrix.rid }}
 
   release-android:
     name: Android
@@ -161,10 +130,10 @@ jobs:
     name: Create GitHub Release
     runs-on: ubuntu-latest
     if: always()
+    permissions:
+      contents: write
     needs:
-      - release-desktop-windows
-      - release-desktop-linux
-      - release-desktop-macos
+      - release-desktop
       - release-android
       - release-ios
       - release-browser
@@ -174,8 +143,24 @@ jobs:
         with:
           path: artifacts
 
+      - name: Verify artifacts were downloaded
+        run: |
+          if [ -z "$(find artifacts -type f 2>/dev/null)" ]; then
+            echo "No artifacts were downloaded; aborting release creation." >&2
+            exit 1
+          fi
+
+      - name: Package artifacts
+        run: |
+          set -e
+          for dir in artifacts/*/; do
+            [ -d "$dir" ] || continue
+            name="$(basename "$dir")"
+            tar -czf "artifacts/${name}.tar.gz" -C "$dir" .
+          done
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/**/*
+          files: artifacts/*.tar.gz
           generate_release_notes: true
