@@ -1,0 +1,181 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - 'V*'
+
+permissions:
+  contents: write
+
+jobs:
+  release-desktop-windows:
+    name: Desktop (Windows)
+    runs-on: windows-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Publish
+        run: dotnet publish src/Desktop/EcoBank.Desktop.csproj -c Release -r win-x64 --self-contained -o publish/win-x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-windows
+          path: publish/win-x64
+
+  release-desktop-linux:
+    name: Desktop (Linux)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Publish
+        run: dotnet publish src/Desktop/EcoBank.Desktop.csproj -c Release -r linux-x64 --self-contained -o publish/linux-x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-linux
+          path: publish/linux-x64
+
+  release-desktop-macos:
+    name: Desktop (macOS)
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Publish
+        run: dotnet publish src/Desktop/EcoBank.Desktop.csproj -c Release -r osx-x64 --self-contained -o publish/osx-x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-macos
+          path: publish/osx-x64
+
+  release-android:
+    name: Android
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Install Android workload
+        run: dotnet workload install android
+
+      - name: Publish
+        run: dotnet publish src/Android/EcoBank.Android.csproj -c Release -o publish/android
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: publish/android
+
+  release-ios:
+    name: iOS
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Install iOS workload
+        run: dotnet workload install ios
+
+      - name: Publish
+        run: dotnet publish src/iOS/EcoBank.iOS.csproj -c Release -o publish/ios
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios
+          path: publish/ios
+
+  release-browser:
+    name: Browser (WebAssembly)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Install WASM workload
+        run: dotnet workload install wasm-tools
+
+      - name: Publish
+        run: dotnet publish src/Browser/EcoBank.Browser.csproj -c Release -o publish/browser
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser
+          path: publish/browser
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - release-desktop-windows
+      - release-desktop-linux
+      - release-desktop-macos
+      - release-android
+      - release-ios
+      - release-browser
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true
