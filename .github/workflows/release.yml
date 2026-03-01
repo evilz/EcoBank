@@ -1,0 +1,166 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - 'V*'
+
+permissions:
+  contents: read
+
+jobs:
+  release-desktop:
+    name: Desktop (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            rid: win-x64
+            artifact: desktop-windows
+          - name: Linux
+            os: ubuntu-latest
+            rid: linux-x64
+            artifact: desktop-linux
+          - name: macOS
+            os: macos-latest
+            rid: osx-x64
+            artifact: desktop-macos
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Publish
+        run: dotnet publish src/Desktop/EcoBank.Desktop.csproj -c Release -r ${{ matrix.rid }} --self-contained -o publish/${{ matrix.rid }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: publish/${{ matrix.rid }}
+
+  release-android:
+    name: Android
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Install Android workload
+        run: dotnet workload install android
+
+      - name: Publish
+        run: dotnet publish src/Android/EcoBank.Android.csproj -c Release -o publish/android
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: publish/android
+
+  release-ios:
+    name: iOS
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Install iOS workload
+        run: dotnet workload install ios
+
+      - name: Publish
+        run: dotnet publish src/iOS/EcoBank.iOS.csproj -c Release -o publish/ios
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios
+          path: publish/ios
+
+  release-browser:
+    name: Browser (WebAssembly)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+          include-prerelease: true
+
+      - name: Install WASM workload
+        run: dotnet workload install wasm-tools
+
+      - name: Publish
+        run: dotnet publish src/Browser/EcoBank.Browser.csproj -c Release -o publish/browser
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser
+          path: publish/browser
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    if: always()
+    permissions:
+      contents: write
+    needs:
+      - release-desktop
+      - release-android
+      - release-ios
+      - release-browser
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Verify artifacts were downloaded
+        run: |
+          if [ -z "$(find artifacts -type f 2>/dev/null)" ]; then
+            echo "No artifacts were downloaded; aborting release creation." >&2
+            exit 1
+          fi
+
+      - name: Package artifacts
+        run: |
+          set -e
+          for dir in artifacts/*/; do
+            [ -d "$dir" ] || continue
+            name="$(basename "$dir")"
+            tar -czf "artifacts/${name}.tar.gz" -C "$dir" .
+          done
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*.tar.gz
+          generate_release_notes: true
