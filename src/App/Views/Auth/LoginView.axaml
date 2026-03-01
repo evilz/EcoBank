@@ -1,17 +1,18 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Auth"
+             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              x:Class="EcoBank.App.Views.Auth.LoginView"
              x:DataType="vm:LoginViewModel"
-             Background="#F7F8F5">
+             Background="{DynamicResource BackgroundColor}">
 
   <Grid RowDefinitions="*,Auto">
     <!-- Main content area with gradient background -->
     <ScrollViewer Grid.Row="0">
       <StackPanel Spacing="0" Margin="0">
         <!-- Decorative gradient background section -->
-        <Border Height="300" 
-                Background="#F7F8F5"
+        <Border Height="300"
+                Background="{DynamicResource BackgroundColor}"
                 Padding="24">
           <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
             <!-- App Logo and Title -->
@@ -32,10 +33,10 @@
             <!-- Decorative elements (simulated with shapes) -->
             <Canvas Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False">
               <!-- Yellow circle (top right) -->
-              <Ellipse Canvas.Left="250" Canvas.Top="20" Width="120" Height="120" 
+              <Ellipse Canvas.Left="250" Canvas.Top="20" Width="120" Height="120"
                        Fill="#C6FF00" Opacity="0.25"/>
               <!-- Green circle (bottom left) -->
-              <Ellipse Canvas.Left="-40" Canvas.Top="150" Width="150" Height="150" 
+              <Ellipse Canvas.Left="-40" Canvas.Top="150" Width="150" Height="150"
                        Fill="#7ED957" Opacity="0.15"/>
             </Canvas>
           </Grid>
@@ -48,7 +49,6 @@
             <TextBlock Text="Votre Banque,"
                        FontSize="28"
                        FontWeight="Bold"
-                       Foreground="#1B1D1F"
                        LineHeight="36"/>
             <TextBlock Text="Plus Simple"
                        FontSize="28"
@@ -57,54 +57,36 @@
                        LineHeight="36"/>
             <TextBlock Text="Gérez vos finances en toute simplicité et sécurité."
                        FontSize="15"
-                       Foreground="#7A7F85"
+                       Foreground="{DynamicResource MutedColor}"
                        Margin="0,8,0,0"
                        TextWrapping="Wrap"/>
           </StackPanel>
 
-          <!-- Card container with form -->
-          <Border Classes="Card" Margin="0,0,0,24">
+          <!-- ShadUI Card container with form -->
+          <shad:Card Margin="0,0,0,24">
             <StackPanel Spacing="16">
 
               <!-- Client ID -->
-              <StackPanel Spacing="6">
-                <TextBlock Text="Client ID"
-                           FontWeight="SemiBold"
-                           FontSize="13"
-                           Foreground="#1B1D1F"/>
-                <TextBox Classes="EcoField"
-                         Text="{Binding ClientId}"
-                         Watermark="Votre Client ID Xpollens"
-                         AutomationProperties.Name="Client ID"
-                         IsEnabled="{Binding !IsBusy}"/>
-              </StackPanel>
+              <TextBox shad:ControlAssist.Label="Client ID"
+                       Text="{Binding ClientId}"
+                       Watermark="Votre Client ID Xpollens"
+                       AutomationProperties.Name="Client ID"
+                       IsEnabled="{Binding !IsBusy}"/>
 
               <!-- Client Secret -->
-              <StackPanel Spacing="6">
-                <TextBlock Text="Client Secret"
-                           FontWeight="SemiBold"
-                           FontSize="13"
-                           Foreground="#1B1D1F"/>
-                <TextBox Classes="EcoField"
-                         Text="{Binding ClientSecret}"
-                         PasswordChar="•"
-                         Watermark="Votre Client Secret"
-                         AutomationProperties.Name="Client Secret"
-                         IsEnabled="{Binding !IsBusy}"/>
-              </StackPanel>
+              <TextBox shad:ControlAssist.Label="Client Secret"
+                       Text="{Binding ClientSecret}"
+                       PasswordChar="•"
+                       Watermark="Votre Client Secret"
+                       AutomationProperties.Name="Client Secret"
+                       IsEnabled="{Binding !IsBusy}"/>
 
               <!-- App User ID -->
-              <StackPanel Spacing="6">
-                <TextBlock Text="App User ID"
-                           FontWeight="SemiBold"
-                           FontSize="13"
-                           Foreground="#1B1D1F"/>
-                <TextBox Classes="EcoField"
-                         Text="{Binding AppUserId}"
-                         Watermark="Votre App User ID"
-                         AutomationProperties.Name="App User ID"
-                         IsEnabled="{Binding !IsBusy}"/>
-              </StackPanel>
+              <TextBox shad:ControlAssist.Label="App User ID"
+                       Text="{Binding AppUserId}"
+                       Watermark="Votre App User ID"
+                       AutomationProperties.Name="App User ID"
+                       IsEnabled="{Binding !IsBusy}"/>
 
               <!-- Remember credentials -->
               <CheckBox IsChecked="{Binding RememberCredentials}"
@@ -132,16 +114,12 @@
                       Command="{Binding LoginCommand}"
                       HorizontalAlignment="Stretch"
                       IsEnabled="{Binding !IsBusy}"
+                      shad:ButtonAssist.ShowProgress="{Binding IsBusy}"
                       FontSize="15"
                       Padding="16,14"/>
 
-              <!-- Loading indicator -->
-              <ProgressBar IsIndeterminate="True"
-                           IsVisible="{Binding IsBusy}"
-                           Height="3"
-                           Margin="0,8,0,0"/>
             </StackPanel>
-          </Border>
+          </shad:Card>
 
           <!-- Connection info section -->
           <StackPanel HorizontalAlignment="Center" Spacing="12" Margin="0,16,0,32">
@@ -149,20 +127,20 @@
               <TextBlock Text="🔐" FontSize="16"/>
               <TextBlock Text="Connexion"
                          FontSize="13"
-                         Foreground="#7A7F85"
+                         Foreground="{DynamicResource MutedColor}"
                          VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Spacing="6" Orientation="Horizontal">
               <TextBlock Text="📝" FontSize="16"/>
               <TextBlock Text="Inscription"
                          FontSize="13"
-                         Foreground="#7A7F85"
+                         Foreground="{DynamicResource MutedColor}"
                          VerticalAlignment="Center"/>
             </StackPanel>
           </StackPanel>
 
           <TextBlock Text="v1.0 — EcoBank © 2025"
-                     Foreground="#7A7F85"
+                     Foreground="{DynamicResource MutedColor}"
                      FontSize="11"
                      HorizontalAlignment="Center"/>
         </StackPanel>

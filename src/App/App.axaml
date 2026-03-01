@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="EcoBank.App.App"
              xmlns:local="using:EcoBank.App"
+             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              RequestedThemeVariant="Light">
 
     <Application.DataTemplates>
@@ -9,7 +10,7 @@
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme />
+        <shad:ShadTheme />
         <StyleInclude Source="avares://EcoBank.App/Styles/Components.axaml"/>
     </Application.Styles>
 

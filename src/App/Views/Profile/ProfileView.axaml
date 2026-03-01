@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Profile"
+             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              x:Class="EcoBank.App.Views.Profile.ProfileView"
              x:DataType="vm:ProfileViewModel">
 
@@ -9,25 +10,24 @@
       <TextBlock Text="Profil" FontSize="22" FontWeight="SemiBold"/>
 
       <!-- User info card -->
-      <Border Classes="Card">
+      <shad:Card>
         <StackPanel Spacing="8">
-          <TextBlock Text="👤" FontSize="40" HorizontalAlignment="Center"/>
+          <shad:Avatar Fallback="👤" HorizontalAlignment="Center"/>
           <TextBlock Text="{Binding UserDisplayName}"
                      FontSize="18"
                      FontWeight="SemiBold"
                      HorizontalAlignment="Center"/>
           <TextBlock Text="{Binding CurrentUser.Email}"
-                     Foreground="#6B7280"
+                     Foreground="{DynamicResource MutedColor}"
                      HorizontalAlignment="Center"
                      IsVisible="{Binding CurrentUser.Email, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-          <Border Classes="BadgeSuccess" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding CurrentUser.KycStatus}" FontSize="12" FontWeight="Medium"/>
-          </Border>
+          <shad:Badge Content="{Binding CurrentUser.KycStatus}"
+                      HorizontalAlignment="Center"/>
         </StackPanel>
-      </Border>
+      </shad:Card>
 
       <!-- Preferences -->
-      <Border Classes="Card">
+      <shad:Card>
         <StackPanel Spacing="12">
           <TextBlock Text="Préférences" FontSize="16" FontWeight="SemiBold"/>
           <StackPanel Orientation="Horizontal" Spacing="12">
@@ -42,7 +42,7 @@
             </ComboBox>
           </StackPanel>
         </StackPanel>
-      </Border>
+      </shad:Card>
 
       <!-- Actions -->
       <Button Classes="Danger"

@@ -1,6 +1,7 @@
-<Window xmlns="https://github.com/avaloniaui"
+<shad:Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:EcoBank.App.ViewModels"
+        xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
         x:Class="EcoBank.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="EcoBank"
@@ -10,4 +11,4 @@
         MinHeight="600">
 
   <ContentControl Content="{Binding CurrentPage}"/>
-</Window>
+</shad:Window>
