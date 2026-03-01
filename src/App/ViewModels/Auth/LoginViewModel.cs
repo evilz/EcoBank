@@ -90,6 +90,10 @@ public partial class LoginViewModel : ViewModelBase
                 CurrentState = LoginState.AddProfile;
             }
         }
+        catch (Exception)
+        {
+            CurrentState = LoginState.AddProfile;
+        }
         finally
         {
             IsLoadingProfiles = false;

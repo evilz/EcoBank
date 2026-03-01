@@ -18,7 +18,7 @@ public record SavedProfile(
     {
         get
         {
-            if (string.IsNullOrEmpty(ClientId) || ClientId.Length <= 4) return ClientId;
+            if (string.IsNullOrEmpty(ClientId) || ClientId.Length <= 6) return ClientId;
             return ClientId[..3] + new string('•', ClientId.Length - 6) + ClientId[^3..];
         }
     }
