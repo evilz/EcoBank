@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Shell"
              xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
-             xmlns:ic="using:IconPacks.Avalonia.Material"
              x:Class="EcoBank.App.Views.Shell.MainShellView"
              x:DataType="vm:MainShellViewModel">
 
@@ -52,89 +51,40 @@
               Background="White"
               BoxShadow="0 -1 8 0 #18000000"
               Padding="0,6,0,4">
-        <Grid ColumnDefinitions="*,*,*,*,*">
-
-          <!-- Accueil -->
-          <Button Grid.Column="0" Classes="NavItem"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  Command="{Binding SelectTabCommand}"
-                  CommandParameter="{Binding Tabs[0]}">
-            <StackPanel Spacing="2" HorizontalAlignment="Center">
-              <ic:PackIconMaterial Kind="Home" Width="24" Height="24"
-                                   HorizontalAlignment="Center"
-                                   Foreground="{Binding SelectedTab.Key,
-                                     Converter={x:Static vm:NavActiveColorConverter.ForHome}}"/>
-              <TextBlock Text="Accueil" FontSize="10" HorizontalAlignment="Center"
-                         Foreground="{Binding SelectedTab.Key,
-                           Converter={x:Static vm:NavActiveColorConverter.ForHome}}"/>
-            </StackPanel>
-          </Button>
-
-          <!-- Carte -->
-          <Button Grid.Column="1" Classes="NavItem"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  Command="{Binding SelectTabCommand}"
-                  CommandParameter="{Binding Tabs[1]}">
-            <StackPanel Spacing="2" HorizontalAlignment="Center">
-              <ic:PackIconMaterial Kind="CreditCardOutline" Width="24" Height="24"
-                                   HorizontalAlignment="Center"
-                                   Foreground="{Binding SelectedTab.Key,
-                                     Converter={x:Static vm:NavActiveColorConverter.ForCards}}"/>
-              <TextBlock Text="Carte" FontSize="10" HorizontalAlignment="Center"
-                         Foreground="{Binding SelectedTab.Key,
-                           Converter={x:Static vm:NavActiveColorConverter.ForCards}}"/>
-            </StackPanel>
-          </Button>
-
-          <!-- Contact -->
-          <Button Grid.Column="2" Classes="NavItem"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  Command="{Binding SelectTabCommand}"
-                  CommandParameter="{Binding Tabs[2]}">
-            <StackPanel Spacing="2" HorizontalAlignment="Center">
-              <ic:PackIconMaterial Kind="MessageOutline" Width="24" Height="24"
-                                   HorizontalAlignment="Center"
-                                   Foreground="{Binding SelectedTab.Key,
-                                     Converter={x:Static vm:NavActiveColorConverter.ForContact}}"/>
-              <TextBlock Text="Contact" FontSize="10" HorizontalAlignment="Center"
-                         Foreground="{Binding SelectedTab.Key,
-                           Converter={x:Static vm:NavActiveColorConverter.ForContact}}"/>
-            </StackPanel>
-          </Button>
-
-          <!-- Virement -->
-          <Button Grid.Column="3" Classes="NavItem"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  Command="{Binding SelectTabCommand}"
-                  CommandParameter="{Binding Tabs[3]}">
-            <StackPanel Spacing="2" HorizontalAlignment="Center">
-              <ic:PackIconMaterial Kind="SwapHorizontal" Width="24" Height="24"
-                                   HorizontalAlignment="Center"
-                                   Foreground="{Binding SelectedTab.Key,
-                                     Converter={x:Static vm:NavActiveColorConverter.ForTransfer}}"/>
-              <TextBlock Text="Virement" FontSize="10" HorizontalAlignment="Center"
-                         Foreground="{Binding SelectedTab.Key,
-                           Converter={x:Static vm:NavActiveColorConverter.ForTransfer}}"/>
-            </StackPanel>
-          </Button>
-
-          <!-- Menu -->
-          <Button Grid.Column="4" Classes="NavItem"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  Command="{Binding SelectTabCommand}"
-                  CommandParameter="{Binding Tabs[4]}">
-            <StackPanel Spacing="2" HorizontalAlignment="Center">
-              <ic:PackIconMaterial Kind="Menu" Width="24" Height="24"
-                                   HorizontalAlignment="Center"
-                                   Foreground="{Binding SelectedTab.Key,
-                                     Converter={x:Static vm:NavActiveColorConverter.ForMenu}}"/>
-              <TextBlock Text="Menu" FontSize="10" HorizontalAlignment="Center"
-                         Foreground="{Binding SelectedTab.Key,
-                           Converter={x:Static vm:NavActiveColorConverter.ForMenu}}"/>
-            </StackPanel>
-          </Button>
-
-        </Grid>
+        <ItemsControl ItemsSource="{Binding Tabs}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <UniformGrid Rows="1"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:NavTab">
+              <Button Classes="NavItem"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
+                      CommandParameter="{Binding}">
+                <StackPanel Spacing="2" HorizontalAlignment="Center">
+                  <TextBlock Text="{Binding Icon}" FontSize="20" HorizontalAlignment="Center">
+                    <TextBlock.Foreground>
+                      <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
+                        <Binding Path="Key"/>
+                        <Binding Path="$parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectedTab.Key"/>
+                      </MultiBinding>
+                    </TextBlock.Foreground>
+                  </TextBlock>
+                  <TextBlock Text="{Binding Label}" FontSize="10" HorizontalAlignment="Center">
+                    <TextBlock.Foreground>
+                      <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
+                        <Binding Path="Key"/>
+                        <Binding Path="$parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectedTab.Key"/>
+                      </MultiBinding>
+                    </TextBlock.Foreground>
+                  </TextBlock>
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
       </Border>
     </Grid>
 

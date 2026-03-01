@@ -12,13 +12,14 @@ public sealed class AmountToColorConverter : IValueConverter
 {
     public static readonly AmountToColorConverter Instance = new();
 
+    private static readonly SolidColorBrush CreditBrush  = new(Color.Parse("#1E7F4F"));
+    private static readonly SolidColorBrush DebitBrush   = new(Color.Parse("#1B1D1F"));
+
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is decimal amount)
-            return amount >= 0
-                ? new SolidColorBrush(Color.Parse("#1E7F4F"))
-                : new SolidColorBrush(Color.Parse("#1B1D1F"));
-        return new SolidColorBrush(Color.Parse("#1B1D1F"));
+            return amount >= 0 ? CreditBrush : DebitBrush;
+        return DebitBrush;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -32,26 +33,25 @@ public sealed class CategoryToColorConverter : IValueConverter
 {
     public static readonly CategoryToColorConverter Instance = new();
 
-    private static readonly Dictionary<string, string> _map = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, SolidColorBrush> _map = new(StringComparer.OrdinalIgnoreCase)
     {
-        { "virement",     "#2E8B6E" },   // vert foncé  (virements entrants)
-        { "salaire",      "#2E8B6E" },
-        { "courses",      "#E07020" },   // orange      (courses/alimentation)
-        { "alimentation", "#E07020" },
-        { "transport",    "#5C6B7A" },   // gris-bleu   (transport/auto)
-        { "auto",         "#5C6B7A" },
-        { "loisirs",      "#8B46A0" },   // violet      (loisirs)
-        { "abonnement",   "#1565C0" },   // bleu        (abonnements)
-        { "sante",        "#C62828" },   // rouge       (santé)
-        { "banque",       "#37474F" },   // gris foncé  (opérations bancaires)
+        { "virement",     new SolidColorBrush(Color.Parse("#2E8B6E")) },
+        { "salaire",      new SolidColorBrush(Color.Parse("#2E8B6E")) },
+        { "courses",      new SolidColorBrush(Color.Parse("#E07020")) },
+        { "alimentation", new SolidColorBrush(Color.Parse("#E07020")) },
+        { "transport",    new SolidColorBrush(Color.Parse("#5C6B7A")) },
+        { "auto",         new SolidColorBrush(Color.Parse("#5C6B7A")) },
+        { "loisirs",      new SolidColorBrush(Color.Parse("#8B46A0")) },
+        { "abonnement",   new SolidColorBrush(Color.Parse("#1565C0")) },
+        { "sante",        new SolidColorBrush(Color.Parse("#C62828")) },
+        { "banque",       new SolidColorBrush(Color.Parse("#37474F")) },
     };
+    private static readonly SolidColorBrush DefaultBrush = new(Color.Parse("#7A8A8A"));
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var category = value as string ?? "";
-        if (_map.TryGetValue(category, out var hex))
-            return new SolidColorBrush(Color.Parse(hex));
-        return new SolidColorBrush(Color.Parse("#7A8A8A")); // gris par défaut
+        return _map.TryGetValue(category, out var brush) ? brush : DefaultBrush;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

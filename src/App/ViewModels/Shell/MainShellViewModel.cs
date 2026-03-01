@@ -41,11 +41,11 @@ public partial class MainShellViewModel : ViewModelBase
 
         Tabs =
         [
-            new("home",     "Accueil",   "home",     homeVm),
-            new("cards",    "Carte",     "card",     cardsVm),
-            new("contact",  "Contact",   "contact",  contactVm),
-            new("transfer", "Virement",  "transfer", operationsVm),
-            new("menu",     "Menu",      "menu",     profileVm),
+            new("home",       "Accueil",    "🏠",  homeVm),
+            new("cards",      "Carte",      "💳",  cardsVm),
+            new("contact",    "Contact",    "✉️",  contactVm),
+            new("operations", "Opérations", "💸",  operationsVm),
+            new("menu",       "Menu",       "☰",  profileVm),
         ];
 
         _selectedTab = Tabs[0];
