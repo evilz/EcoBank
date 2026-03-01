@@ -66,19 +66,33 @@ public partial class HomeViewModel : ViewModelBase
             OnPropertyChanged(nameof(FirstAccountBalance));
             OnPropertyChanged(nameof(FirstAccountCurrency));
 
+            var firstAccountId = accounts.FirstOrDefault()?.AccountId;
+
             var ops = await _getOperations.ExecuteAsync(
-                accountId: accounts.FirstOrDefault()?.AccountId,
+                accountId: firstAccountId,
                 pageSize: 3,
                 ct: ct);
             RecentOperations.Clear();
             foreach (var o in ops) RecentOperations.Add(o);
 
             // Calcul du solde à venir : solde courant + opérations Pending
+            // On charge une page large pour ne pas manquer les Pending hors des 3 dernières opérations.
             // TODO: remplacer par champ API Account.UpcomingBalance quand disponible
-            UpcomingBalance = FirstAccountBalance
-                + RecentOperations
-                    .Where(o => o.Status == OperationStatus.Pending)
-                    .Sum(o => o.Amount);
+            if (firstAccountId is not null)
+            {
+                var allPendingOps = await _getOperations.ExecuteAsync(
+                    accountId: firstAccountId,
+                    pageSize: 100,
+                    ct: ct);
+                UpcomingBalance = FirstAccountBalance
+                    + allPendingOps
+                        .Where(o => o.Status == OperationStatus.Pending)
+                        .Sum(o => o.Amount);
+            }
+            else
+            {
+                UpcomingBalance = FirstAccountBalance;
+            }
         }
         catch (Exception)
         {

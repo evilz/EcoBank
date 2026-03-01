@@ -1,9 +1,12 @@
-﻿using Avalonia.Markup.Xaml;
+using Avalonia.Controls;
 
 namespace EcoBank.App.Views.Contact;
 
-public partial class ContactView : Avalonia.Controls.UserControl
+public partial class ContactView : UserControl
 {
-    public ContactView() => AvaloniaXamlLoader.Load(this);
+    public ContactView()
+    {
+        InitializeComponent();
+    }
 }
 
