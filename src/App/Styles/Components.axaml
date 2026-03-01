@@ -1,5 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ic="using:IconPacks.Avalonia.Material"
+        xmlns:conv="using:EcoBank.App.Converters">
 
   <!--
     Design tokens are declared here so that {StaticResource} lookups inside <Setter> elements
@@ -145,9 +147,104 @@
     <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
     <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
     <Setter Property="MinWidth" Value="{StaticResource MinTouchTarget}" />
+    <Setter Property="BorderThickness" Value="0" />
   </Style>
   <Style Selector="Button.NavItem:pointerover /template/ ContentPresenter">
     <Setter Property="Background" Value="#1A7ED957" />
+  </Style>
+
+  <!-- ===== TAB ACTIF (ex: Comptes) ===== -->
+  <Style Selector="Button.TabActive">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="#1A7F4F" />
+    <Setter Property="BorderThickness" Value="0,0,0,2" />
+    <Setter Property="BorderBrush" Value="#1A7F4F" />
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="Padding" Value="12,10" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button.TabActive /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.TabActive TextBlock">
+    <Setter Property="Foreground" Value="#1A7F4F" />
+  </Style>
+
+  <!-- ===== TAB INACTIF (placeholder) ===== -->
+  <Style Selector="Button.TabInactive">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="#7A7F85" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="Padding" Value="12,10" />
+    <Setter Property="Cursor" Value="Arrow" />
+    <Setter Property="Opacity" Value="0.7" />
+  </Style>
+  <Style Selector="Button.TabInactive /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.TabInactive TextBlock">
+    <Setter Property="Foreground" Value="#7A7F85" />
+  </Style>
+
+  <!-- ===== BOUTON ICÔNE (œil, …) ===== -->
+  <Style Selector="Button.IconBtn">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="6" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button.IconBtn /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <!-- ===== BOUTON CLOCHE ===== -->
+  <Style Selector="Button.BellButton">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button.BellButton /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <!-- ===== QUICK ACTION BUTTON ===== -->
+  <Style Selector="Button.QuickAction">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="8,10" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button.QuickAction /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.QuickAction:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#F0F0EC" />
+  </Style>
+
+  <!-- ===== QUICK ACTION ICON CONTAINER ===== -->
+  <Style Selector="Border.QuickActionIcon">
+    <Setter Property="Background" Value="#F0F5EE" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Padding" Value="14" />
+    <Setter Property="HorizontalAlignment" Value="Center" />
+  </Style>
+
+  <!-- ===== PACKICON MATERIAL (template local) ===== -->
+  <Style Selector="ic|PackIconMaterial">
+    <Setter Property="Width" Value="24" />
+    <Setter Property="Height" Value="24" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Viewbox Stretch="Uniform">
+          <Image Source="{Binding Kind, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static conv:MaterialKindToImageConverter.Instance}, ConverterParameter={TemplateBinding Foreground}}" />
+        </Viewbox>
+      </ControlTemplate>
+    </Setter>
   </Style>
 
 </Styles>

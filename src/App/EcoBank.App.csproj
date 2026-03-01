@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaResource Include="Styles\**" />
+    <!-- Styles/*.axaml sont inclus par défaut via AvaloniaXaml; éviter le doublon -->
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +20,7 @@
     <PackageReference Include="Avalonia.Themes.Simple" Version="11.3.12" />
     <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.0-beta2" Condition="'$(Configuration)' == 'Debug'" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="IconPacks.Avalonia.Material" Version="1.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
     <PackageReference Include="ShadUI" Version="0.1.6" />

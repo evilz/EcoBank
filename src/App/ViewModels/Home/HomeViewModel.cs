@@ -17,13 +17,25 @@ public partial class HomeViewModel : ViewModelBase
 
     [ObservableProperty] private decimal _totalBalance;
     [ObservableProperty] private string _currency = "EUR";
+    [ObservableProperty] private bool _isBalanceVisible = true;
+
+    // Solde à venir : calculé depuis les opérations Pending (stub, à remplacer par API)
+    [ObservableProperty] private decimal _upcomingBalance;
+
     public ObservableCollection<Account> Accounts { get; } = [];
     public ObservableCollection<Operation> RecentOperations { get; } = [];
 
+    public Account? FirstAccount => Accounts.FirstOrDefault();
+
+    public string FirstAccountLabel => FirstAccount?.Label ?? "Compte de Dépôt";
+    public string FirstAccountNumber => FirstAccount?.Iban ?? "—";
+    public decimal FirstAccountBalance => FirstAccount?.Balance ?? 0m;
+    public string FirstAccountCurrency => FirstAccount?.Currency ?? "EUR";
+
     public string WelcomeMessage =>
         _userContext.SelectedUser is { } u
-            ? $"Bonjour, {u.FirstName ?? u.AppUserId} !"
-            : "Bonjour !";
+            ? $"Bonjour {u.FirstName ?? u.AppUserId}"
+            : "Bonjour";
 
     public HomeViewModel(UserContext userContext, GetAccountsUseCase getAccounts, GetOperationsUseCase getOperations)
     {
@@ -31,6 +43,9 @@ public partial class HomeViewModel : ViewModelBase
         _getAccounts = getAccounts;
         _getOperations = getOperations;
     }
+
+    [RelayCommand]
+    private void ToggleBalance() => IsBalanceVisible = !IsBalanceVisible;
 
     [RelayCommand]
     private async Task RefreshAsync(CancellationToken ct)
@@ -45,9 +60,25 @@ public partial class HomeViewModel : ViewModelBase
             TotalBalance = accounts.Sum(a => a.Balance);
             Currency = accounts.FirstOrDefault()?.Currency ?? "EUR";
 
-            var ops = await _getOperations.ExecuteAsync(accountId: accounts.FirstOrDefault()?.AccountId, pageSize: 5, ct: ct);
+            OnPropertyChanged(nameof(FirstAccount));
+            OnPropertyChanged(nameof(FirstAccountLabel));
+            OnPropertyChanged(nameof(FirstAccountNumber));
+            OnPropertyChanged(nameof(FirstAccountBalance));
+            OnPropertyChanged(nameof(FirstAccountCurrency));
+
+            var ops = await _getOperations.ExecuteAsync(
+                accountId: accounts.FirstOrDefault()?.AccountId,
+                pageSize: 3,
+                ct: ct);
             RecentOperations.Clear();
             foreach (var o in ops) RecentOperations.Add(o);
+
+            // Calcul du solde à venir : solde courant + opérations Pending
+            // TODO: remplacer par champ API Account.UpcomingBalance quand disponible
+            UpcomingBalance = FirstAccountBalance
+                + RecentOperations
+                    .Where(o => o.Status == OperationStatus.Pending)
+                    .Sum(o => o.Amount);
         }
         catch (Exception)
         {
