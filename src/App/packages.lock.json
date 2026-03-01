@@ -50,6 +50,18 @@
           "Avalonia": "11.3.12"
         }
       },
+      "AvaloniaUI.DiagnosticsSupport": {
+        "type": "Direct",
+        "requested": "[2.2.0-beta2, )",
+        "resolved": "2.2.0-beta2",
+        "contentHash": "O7jjjupIzZfktPt9FuSTq0mDzi6FpblvCVNLft5Ih/DuL4evJYh15ZBEUAIPxpP0kT/mr+N3rYAkyvTFXFdr7A==",
+        "dependencies": {
+          "Avalonia": "11.2.0",
+          "Avalonia.Markup.Xaml.Loader": "11.2.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Microsoft.IO.RecyclableMemoryStream": "3.0.1"
+        }
+      },
       "CommunityToolkit.Mvvm": {
         "type": "Direct",
         "requested": "[8.2.1, )",
@@ -92,6 +104,14 @@
         "type": "Transitive",
         "resolved": "11.3.2",
         "contentHash": "qHDToxto1e3hci5YqbG9n0Ty8mlp3zBUN5wT66wKqaDVzXyQ0do3EnRILd4Ke9jpvsktaPpgE0YjEk7hornryQ=="
+      },
+      "Avalonia.Markup.Xaml.Loader": {
+        "type": "Transitive",
+        "resolved": "11.2.0",
+        "contentHash": "WllsJCDBoK0rTSfSDBRlp3LMtVAJS87LUxByisKK8qJXmUg9CRP35flAnOwBxyKCxTI3lBt/MOlvB+GCyvZ8Ag==",
+        "dependencies": {
+          "Avalonia": "11.2.0"
+        }
       },
       "Avalonia.Remote.Protocol": {
         "type": "Transitive",
@@ -199,6 +219,11 @@
         "type": "Transitive",
         "resolved": "10.0.0",
         "contentHash": "inRnbpCS0nwO/RuoZIAqxQUuyjaknOOnCEZB55KSMMjRhl0RQDttSmLSGsUJN3RQ3ocf5NDLFd2mOQViHqMK5w=="
+      },
+      "Microsoft.IO.RecyclableMemoryStream": {
+        "type": "Transitive",
+        "resolved": "3.0.1",
+        "contentHash": "s/s20YTVY9r9TPfTrN5g8zPF1YhwxyqO6PxUkrYTGI2B+OGPe9AdajWZrLhFqXIvqIW23fnUE4+ztrUWNU1+9g=="
       },
       "ecobank.core": {
         "type": "Project"

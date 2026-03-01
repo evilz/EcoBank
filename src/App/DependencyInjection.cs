@@ -24,7 +24,8 @@ public static class DependencyInjection
     {
         // Infrastructure
         services.AddXpollensInfrastructure();
-        services.AddSingleton<ISecureStorage, InMemorySecureStorage>();
+        services.AddSingleton<ISecureStorage, FileSecureStorage>();
+        services.AddSingleton<ProfileService>();
 
         // Use Cases
         services.AddTransient<AuthenticateUseCase>();

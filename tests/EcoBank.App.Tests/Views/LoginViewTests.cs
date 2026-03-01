@@ -1,4 +1,3 @@
-using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.VisualTree;
@@ -9,16 +8,49 @@ namespace EcoBank.App.Tests.Views;
 
 public class LoginViewTests
 {
-    [AvaloniaFact]
-    public void LoginView_RendersExpectedInputFields()
+    private static Window CreateWindowWithView()
     {
-        var view = new LoginView();
+        var window = new Window { Width = 800, Height = 600 };
+        window.Content = new LoginView();
+        window.Show();
+        return window;
+    }
 
-        var textBoxes = view.GetVisualDescendants().OfType<TextBox>().ToList();
+    [AvaloniaFact]
+    public void LoginView_RendersWithoutCrashing()
+    {
+        var window = CreateWindowWithView();
 
-        Assert.True(textBoxes.Count >= 3);
-        Assert.Contains(textBoxes, box => AutomationProperties.GetName(box) == "Client ID");
-        Assert.Contains(textBoxes, box => AutomationProperties.GetName(box) == "Client Secret");
-        Assert.Contains(textBoxes, box => AutomationProperties.GetName(box) == "App User ID");
+        var descendants = window.GetVisualDescendants().ToList();
+        Assert.NotEmpty(descendants);
+    }
+
+    [AvaloniaFact]
+    public void LoginView_ContainsOtpPinInput()
+    {
+        var window = CreateWindowWithView();
+
+        var descendants = window.GetVisualDescendants().ToList();
+        var otpInput = descendants.OfType<OtpPinInput>().FirstOrDefault();
+        Assert.NotNull(otpInput);
+    }
+
+    [AvaloniaFact]
+    public void LoginView_AddProfileState_ContainsAccessibleTextBoxes()
+    {
+        var window = CreateWindowWithView();
+
+        var descendants = window.GetVisualDescendants().ToList();
+        var textBoxes = descendants.OfType<TextBox>().ToList();
+
+        var automationNames = textBoxes
+            .Select(tb => Avalonia.Automation.AutomationProperties.GetName(tb))
+            .Where(name => !string.IsNullOrEmpty(name))
+            .ToList();
+
+        Assert.Contains("Client ID", automationNames);
+        Assert.Contains("Client Secret", automationNames);
+        Assert.Contains("App User ID", automationNames);
+        Assert.Contains("Code PIN (Nouveau)", automationNames);
     }
 }
