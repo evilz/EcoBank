@@ -8,13 +8,18 @@ namespace EcoBank.App.Tests.Views;
 
 public class LoginViewTests
 {
+    private static Window CreateWindowWithView()
+    {
+        var window = new Window { Width = 800, Height = 600 };
+        window.Content = new LoginView();
+        window.Show();
+        return window;
+    }
+
     [AvaloniaFact]
     public void LoginView_RendersWithoutCrashing()
     {
-        var window = new Window { Width = 800, Height = 600 };
-        var view = new LoginView();
-        window.Content = view;
-        window.Show();
+        var window = CreateWindowWithView();
 
         var descendants = window.GetVisualDescendants().ToList();
         Assert.NotEmpty(descendants);
@@ -23,10 +28,7 @@ public class LoginViewTests
     [AvaloniaFact]
     public void LoginView_ContainsOtpPinInput()
     {
-        var window = new Window { Width = 800, Height = 600 };
-        var view = new LoginView();
-        window.Content = view;
-        window.Show();
+        var window = CreateWindowWithView();
 
         var descendants = window.GetVisualDescendants().ToList();
         var otpInput = descendants.OfType<OtpPinInput>().FirstOrDefault();
@@ -36,10 +38,7 @@ public class LoginViewTests
     [AvaloniaFact]
     public void LoginView_AddProfileState_ContainsAccessibleTextBoxes()
     {
-        var window = new Window { Width = 800, Height = 600 };
-        var view = new LoginView();
-        window.Content = view;
-        window.Show();
+        var window = CreateWindowWithView();
 
         var descendants = window.GetVisualDescendants().ToList();
         var textBoxes = descendants.OfType<TextBox>().ToList();

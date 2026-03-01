@@ -63,7 +63,8 @@ public class LoginViewModelTests
             getUserUseCase,
             selectUserUseCase,
             navigationService ?? new FakeNavigationService(),
-            profileService ?? new ProfileService(new FakeSecureStorage()));
+            profileService ?? new ProfileService(new FakeSecureStorage()),
+            Microsoft.Extensions.Logging.Abstractions.NullLogger<LoginViewModel>.Instance);
     }
 
     private sealed class FakeAuthService : IAuthService

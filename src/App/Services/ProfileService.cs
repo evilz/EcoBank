@@ -9,6 +9,15 @@ namespace EcoBank.App.Services;
 public class ProfileService
 {
     private const string ProfilesStorageKey = "saved_profiles";
+    private const int PinSaltSize = 16;
+    private const int PinKeySize = 32;
+    private const int PinIterations = 100_000;
+    private const int SecretSaltSize = 16;
+    private const int SecretKeySize = 32;
+    private const int SecretIterations = 100_000;
+    private const int AesNonceSize = 12;
+    private const int AesTagSize = 16;
+
     private readonly ISecureStorage _secureStorage;
 
     public ProfileService(ISecureStorage secureStorage)
@@ -62,20 +71,16 @@ public class ProfileService
 
     public string HashPin(string pin)
     {
-        const int saltSize = 16;
-        const int keySize = 32;
-        const int iterations = 100_000;
-
-        var salt = new byte[saltSize];
+        var salt = new byte[PinSaltSize];
         RandomNumberGenerator.Fill(salt);
 
-        var key = Rfc2898DeriveBytes.Pbkdf2(pin, salt, iterations, HashAlgorithmName.SHA256, keySize);
+        var key = Rfc2898DeriveBytes.Pbkdf2(pin, salt, PinIterations, HashAlgorithmName.SHA256, PinKeySize);
 
         // Layout: iterations (4) | salt (16) | key (32)
-        var result = new byte[sizeof(int) + saltSize + keySize];
-        Buffer.BlockCopy(BitConverter.GetBytes(iterations), 0, result, 0, sizeof(int));
-        Buffer.BlockCopy(salt, 0, result, sizeof(int), saltSize);
-        Buffer.BlockCopy(key, 0, result, sizeof(int) + saltSize, keySize);
+        var result = new byte[sizeof(int) + PinSaltSize + PinKeySize];
+        Buffer.BlockCopy(BitConverter.GetBytes(PinIterations), 0, result, 0, sizeof(int));
+        Buffer.BlockCopy(salt, 0, result, sizeof(int), PinSaltSize);
+        Buffer.BlockCopy(key, 0, result, sizeof(int) + PinSaltSize, PinKeySize);
 
         return Convert.ToBase64String(result);
     }
@@ -88,78 +93,64 @@ public class ProfileService
         try { decoded = Convert.FromBase64String(hash); }
         catch (FormatException) { return false; }
 
-        const int saltSize = 16;
-        const int keySize = 32;
-        if (decoded.Length < sizeof(int) + saltSize + keySize) return false;
+        if (decoded.Length < sizeof(int) + PinSaltSize + PinKeySize) return false;
 
         var iterations = BitConverter.ToInt32(decoded, 0);
         if (iterations <= 0) return false;
 
-        var salt = new byte[saltSize];
-        Buffer.BlockCopy(decoded, sizeof(int), salt, 0, saltSize);
+        var salt = new byte[PinSaltSize];
+        Buffer.BlockCopy(decoded, sizeof(int), salt, 0, PinSaltSize);
 
-        var storedKey = new byte[keySize];
-        Buffer.BlockCopy(decoded, sizeof(int) + saltSize, storedKey, 0, keySize);
+        var storedKey = new byte[PinKeySize];
+        Buffer.BlockCopy(decoded, sizeof(int) + PinSaltSize, storedKey, 0, PinKeySize);
 
-        var computedKey = Rfc2898DeriveBytes.Pbkdf2(pin, salt, iterations, HashAlgorithmName.SHA256, keySize);
+        var computedKey = Rfc2898DeriveBytes.Pbkdf2(pin, salt, iterations, HashAlgorithmName.SHA256, PinKeySize);
 
         return CryptographicOperations.FixedTimeEquals(storedKey, computedKey);
     }
 
     public string EncryptSecret(string secret, string pin)
     {
-        const int saltSize = 16;
-        const int keySize = 32;
-        const int iterations = 100_000;
-        const int nonceSize = 12;
-        const int tagSize = 16;
-
-        var salt = new byte[saltSize];
+        var salt = new byte[SecretSaltSize];
         RandomNumberGenerator.Fill(salt);
 
-        var key = Rfc2898DeriveBytes.Pbkdf2(pin, salt, iterations, HashAlgorithmName.SHA256, keySize);
+        var key = Rfc2898DeriveBytes.Pbkdf2(pin, salt, SecretIterations, HashAlgorithmName.SHA256, SecretKeySize);
 
-        var nonce = new byte[nonceSize];
+        var nonce = new byte[AesNonceSize];
         RandomNumberGenerator.Fill(nonce);
 
         var plaintextBytes = Encoding.UTF8.GetBytes(secret);
         var ciphertext = new byte[plaintextBytes.Length];
-        var tag = new byte[tagSize];
+        var tag = new byte[AesTagSize];
 
-        using var aesGcm = new AesGcm(key, tagSize);
+        using var aesGcm = new AesGcm(key, AesTagSize);
         aesGcm.Encrypt(nonce, plaintextBytes, ciphertext, tag);
 
         // Layout: salt (16) | nonce (12) | tag (16) | ciphertext
-        var result = new byte[saltSize + nonceSize + tagSize + ciphertext.Length];
-        Buffer.BlockCopy(salt, 0, result, 0, saltSize);
-        Buffer.BlockCopy(nonce, 0, result, saltSize, nonceSize);
-        Buffer.BlockCopy(tag, 0, result, saltSize + nonceSize, tagSize);
-        Buffer.BlockCopy(ciphertext, 0, result, saltSize + nonceSize + tagSize, ciphertext.Length);
+        var result = new byte[SecretSaltSize + AesNonceSize + AesTagSize + ciphertext.Length];
+        Buffer.BlockCopy(salt, 0, result, 0, SecretSaltSize);
+        Buffer.BlockCopy(nonce, 0, result, SecretSaltSize, AesNonceSize);
+        Buffer.BlockCopy(tag, 0, result, SecretSaltSize + AesNonceSize, AesTagSize);
+        Buffer.BlockCopy(ciphertext, 0, result, SecretSaltSize + AesNonceSize + AesTagSize, ciphertext.Length);
 
         return Convert.ToBase64String(result);
     }
 
     public string DecryptSecret(string encryptedSecret, string pin)
     {
-        const int saltSize = 16;
-        const int keySize = 32;
-        const int iterations = 100_000;
-        const int nonceSize = 12;
-        const int tagSize = 16;
-
         var data = Convert.FromBase64String(encryptedSecret);
-        if (data.Length < saltSize + nonceSize + tagSize)
+        if (data.Length < SecretSaltSize + AesNonceSize + AesTagSize)
             throw new CryptographicException("Invalid encrypted secret.");
 
-        var salt = data[..saltSize];
-        var nonce = data[saltSize..(saltSize + nonceSize)];
-        var tag = data[(saltSize + nonceSize)..(saltSize + nonceSize + tagSize)];
-        var ciphertext = data[(saltSize + nonceSize + tagSize)..];
+        var salt = data[..SecretSaltSize];
+        var nonce = data[SecretSaltSize..(SecretSaltSize + AesNonceSize)];
+        var tag = data[(SecretSaltSize + AesNonceSize)..(SecretSaltSize + AesNonceSize + AesTagSize)];
+        var ciphertext = data[(SecretSaltSize + AesNonceSize + AesTagSize)..];
         var plaintext = new byte[ciphertext.Length];
 
-        var key = Rfc2898DeriveBytes.Pbkdf2(pin, salt, iterations, HashAlgorithmName.SHA256, keySize);
+        var key = Rfc2898DeriveBytes.Pbkdf2(pin, salt, SecretIterations, HashAlgorithmName.SHA256, SecretKeySize);
 
-        using var aesGcm = new AesGcm(key, tagSize);
+        using var aesGcm = new AesGcm(key, AesTagSize);
         aesGcm.Decrypt(nonce, ciphertext, tag, plaintext);
 
         return Encoding.UTF8.GetString(plaintext);

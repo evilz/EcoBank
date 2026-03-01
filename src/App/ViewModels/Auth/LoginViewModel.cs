@@ -7,6 +7,7 @@ using EcoBank.Core.Domain.Auth;
 using EcoBank.Core.Domain.Users;
 using EcoBank.Core.UseCases.Auth;
 using EcoBank.Core.UseCases.Users;
+using Microsoft.Extensions.Logging;
 
 namespace EcoBank.App.ViewModels.Auth;
 
@@ -24,6 +25,7 @@ public partial class LoginViewModel : ViewModelBase
     private readonly SelectUserUseCase _selectUserUseCase;
     private readonly INavigationService _navigation;
     private readonly ProfileService _profileService;
+    private readonly ILogger<LoginViewModel> _logger;
 
     [ObservableProperty]
     private LoginState _currentState = LoginState.ProfileSelection;
@@ -63,13 +65,15 @@ public partial class LoginViewModel : ViewModelBase
         GetUserUseCase getUserUseCase,
         SelectUserUseCase selectUserUseCase,
         INavigationService navigation,
-        ProfileService profileService)
+        ProfileService profileService,
+        ILogger<LoginViewModel> logger)
     {
         _authenticateUseCase = authenticateUseCase;
         _getUserUseCase = getUserUseCase;
         _selectUserUseCase = selectUserUseCase;
         _navigation = navigation;
         _profileService = profileService;
+        _logger = logger;
         _ = InitializeAsync();
     }
 
@@ -90,8 +94,9 @@ public partial class LoginViewModel : ViewModelBase
                 CurrentState = LoginState.AddProfile;
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Failed to load saved profiles. Defaulting to AddProfile state.");
             CurrentState = LoginState.AddProfile;
         }
         finally
