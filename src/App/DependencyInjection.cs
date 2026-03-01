@@ -3,6 +3,7 @@ using EcoBank.App.ViewModels;
 using EcoBank.App.ViewModels.Accounts;
 using EcoBank.App.ViewModels.Auth;
 using EcoBank.App.ViewModels.Cards;
+using EcoBank.App.ViewModels.Contact;
 using EcoBank.App.ViewModels.Home;
 using EcoBank.App.ViewModels.Operations;
 using EcoBank.App.ViewModels.Profile;
@@ -53,6 +54,7 @@ public static class DependencyInjection
         services.AddTransient<OperationDetailViewModel>();
         services.AddTransient<CardsViewModel>();
         services.AddTransient<CardDetailViewModel>();
+        services.AddTransient<ContactViewModel>();
         services.AddTransient<ProfileViewModel>();
         services.AddTransient<MainShellViewModel>();
 
