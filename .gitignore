@@ -22,3 +22,6 @@ obj/
 
 # Avalonia Designer
 *.axaml.g.cs
+**/obj/**
+**/bin/**
+**/publish*

@@ -28,6 +28,8 @@ public class LoginViewModelTests
         Assert.False(vm.LoginCommand.CanExecute(null));
 
         vm.AppUserId = "user-1";
+        // RememberCredentials defaults to true so PIN is required
+        vm.NewPin = "1234";
 
         Assert.True(vm.LoginCommand.CanExecute(null));
     }
@@ -40,6 +42,7 @@ public class LoginViewModelTests
         vm.ClientId = "client";
         vm.ClientSecret = "secret";
         vm.AppUserId = "user-1";
+        vm.NewPin = "1234";
 
         await vm.LoginCommand.ExecuteAsync(null);
 
@@ -48,7 +51,7 @@ public class LoginViewModelTests
 
     private static LoginViewModel CreateViewModel(
         INavigationService? navigationService = null,
-        ISecureStorage? secureStorage = null)
+        ProfileService? profileService = null)
     {
         var context = new UserContext();
         var authUseCase = new AuthenticateUseCase(new FakeAuthService(), context);
@@ -60,7 +63,7 @@ public class LoginViewModelTests
             getUserUseCase,
             selectUserUseCase,
             navigationService ?? new FakeNavigationService(),
-            secureStorage ?? new FakeSecureStorage());
+            profileService ?? new ProfileService(new FakeSecureStorage()));
     }
 
     private sealed class FakeAuthService : IAuthService

@@ -1,0 +1,57 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EcoBank.App.Views.Auth.OtpPinInput"
+             Background="Transparent">
+
+  <UserControl.Styles>
+    <Style Selector="TextBox.OtpInput">
+      <Setter Property="FontSize" Value="36" />
+      <Setter Property="LineHeight" Value="36" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="TextAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Foreground" Value="#102636" />
+      <Setter Property="MaxLength" Value="1" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+    <Style Selector="Border.OtpBox">
+      <Setter Property="Width" Value="84" />
+      <Setter Property="Height" Value="84" />
+      <Setter Property="Background" Value="#F8F9FA" />
+      <Setter Property="BorderBrush" Value="#EAECEF" />
+      <Setter Property="BorderThickness" Value="1.5" />
+      <Setter Property="CornerRadius" Value="12" />
+    </Style>
+    <Style Selector="Border.OtpBox:pointerover">
+      <Setter Property="BorderBrush" Value="#0F523A" />
+    </Style>
+    <Style Selector="Border.OtpBox:focus-within">
+      <Setter Property="BorderBrush" Value="#0F523A" />
+    </Style>
+  </UserControl.Styles>
+
+  <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
+    <Border Classes="OtpBox">
+      <TextBox x:Name="OtpInput1"
+               Classes="OtpInput" />
+    </Border>
+    <Border Classes="OtpBox">
+      <TextBox x:Name="OtpInput2"
+               Classes="OtpInput" />
+    </Border>
+    <Border Classes="OtpBox">
+      <TextBox x:Name="OtpInput3"
+               Classes="OtpInput" />
+    </Border>
+    <Border Classes="OtpBox">
+      <TextBox x:Name="OtpInput4"
+               Classes="OtpInput" />
+    </Border>
+  </StackPanel>
+</UserControl>
+
