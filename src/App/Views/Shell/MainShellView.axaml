@@ -55,7 +55,7 @@
 
       <!-- Bottom nav -->
       <Border Grid.Row="1"
-              Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+              Background="{DynamicResource CardBackgroundColor}"
               BoxShadow="0 -2 8 0 #10000000"
               Padding="4,6">
         <ItemsControl ItemsSource="{Binding Tabs}">
