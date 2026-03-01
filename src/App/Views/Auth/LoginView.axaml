@@ -169,17 +169,35 @@
 
         <shad:Card Margin="0,0,0,24" CornerRadius="16" Padding="24">
           <StackPanel Spacing="20">
-            <TextBox shad:ControlAssist.Label="Client ID" Text="{Binding ClientId}" IsEnabled="{Binding !IsBusy}"/>
-            <TextBox shad:ControlAssist.Label="Client Secret" Text="{Binding ClientSecret}" PasswordChar="•" IsEnabled="{Binding !IsBusy}"/>
-            <TextBox shad:ControlAssist.Label="App User ID" Text="{Binding AppUserId}" IsEnabled="{Binding !IsBusy}"/>
+            <TextBox AutomationProperties.Name="Client ID"
+                     shad:ControlAssist.Label="Client ID"
+                     Text="{Binding ClientId}"
+                     IsEnabled="{Binding !IsBusy}"/>
+            <TextBox AutomationProperties.Name="Client Secret"
+                     shad:ControlAssist.Label="Client Secret"
+                     Text="{Binding ClientSecret}"
+                     PasswordChar="•"
+                     IsEnabled="{Binding !IsBusy}"/>
+            <TextBox AutomationProperties.Name="App User ID"
+                     shad:ControlAssist.Label="App User ID"
+                     Text="{Binding AppUserId}"
+                     IsEnabled="{Binding !IsBusy}"/>
             
             <Border Height="1" Background="#EAECEF" Margin="0,8"/>
             
             <TextBlock Text="Définissez un code PIN pour simplifier vos prochaines connexions :" FontSize="14" Foreground="#6C7A89" TextWrapping="Wrap"/>
             
-            <TextBox shad:ControlAssist.Label="Code PIN (Nouveau)" Text="{Binding NewPin}" PasswordChar="•" MaxLength="8" IsEnabled="{Binding !IsBusy}"/>
+            <TextBox AutomationProperties.Name="Code PIN (Nouveau)"
+                     shad:ControlAssist.Label="Code PIN (Nouveau)"
+                     Text="{Binding NewPin}"
+                     PasswordChar="•"
+                     MaxLength="8"
+                     IsEnabled="{Binding !IsBusy}"/>
             
-            <CheckBox IsChecked="{Binding RememberCredentials}" Content="Enregistrer le profil" IsEnabled="{Binding !IsBusy}"/>
+            <CheckBox AutomationProperties.Name="Enregistrer le profil"
+                      IsChecked="{Binding RememberCredentials}"
+                      Content="Enregistrer le profil"
+                      IsEnabled="{Binding !IsBusy}"/>
 
             <!-- Error message -->
             <Border Background="#FFF1F0" CornerRadius="8" Padding="12,10" IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" BorderBrush="#FF4D4F" BorderThickness="1">

@@ -1,88 +1,161 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 using EcoBank.Core.Ports;
 
 namespace EcoBank.App.Services;
 
 /// <summary>
 /// File-based secure storage that persists data to disk in the application's AppData directory.
-/// Provides basic encryption via Base64 encoding (use AES or similar for production).
+/// Data is encrypted at rest using AES-GCM with a per-installation key stored in the app data folder.
 /// </summary>
 public sealed class FileSecureStorage : ISecureStorage
 {
+    private const int NonceSize = 12;
+    private const int TagSize = 16;
+    private const int KeySize = 32;
+
     private readonly string _storagePath;
-    private readonly object _lockObject = new();
+    private readonly SemaphoreSlim _semaphore = new(1, 1);
+    private byte[]? _encryptionKey;
 
     public FileSecureStorage()
     {
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string appFolder = Path.Combine(appDataPath, "EcoBank");
-        
+
         _storagePath = Path.Combine(appFolder, "secure_storage");
-        
+
         if (!Directory.Exists(_storagePath))
         {
             Directory.CreateDirectory(_storagePath);
         }
     }
 
-    public Task SaveAsync(string key, string value, CancellationToken ct = default)
+    private byte[] GetOrCreateEncryptionKey()
     {
-        lock (_lockObject)
+        if (_encryptionKey is not null) return _encryptionKey;
+
+        var keyFile = Path.Combine(_storagePath, "_key.bin");
+
+        if (File.Exists(keyFile))
         {
-            var filePath = GetFilePath(key);
-            
-            // Simple Base64 encoding for demo. Use AES encryption in production.
-            var encodedValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
-            
-            File.WriteAllText(filePath, encodedValue, Encoding.UTF8);
+            var stored = File.ReadAllBytes(keyFile);
+            if (stored.Length == KeySize)
+            {
+                _encryptionKey = stored;
+                return _encryptionKey;
+            }
         }
 
-        return Task.CompletedTask;
+        _encryptionKey = new byte[KeySize];
+        RandomNumberGenerator.Fill(_encryptionKey);
+        File.WriteAllBytes(keyFile, _encryptionKey);
+        return _encryptionKey;
     }
 
-    public Task<string?> LoadAsync(string key, CancellationToken ct = default)
+    private byte[] Encrypt(string plaintext)
     {
-        lock (_lockObject)
-        {
-            var filePath = GetFilePath(key);
+        var key = GetOrCreateEncryptionKey();
+        var nonce = new byte[NonceSize];
+        RandomNumberGenerator.Fill(nonce);
 
-            if (!File.Exists(filePath))
-            {
-                return Task.FromResult<string?>(null);
-            }
+        var plaintextBytes = Encoding.UTF8.GetBytes(plaintext);
+        var ciphertext = new byte[plaintextBytes.Length];
+        var tag = new byte[TagSize];
+
+        using var aesGcm = new AesGcm(key, TagSize);
+        aesGcm.Encrypt(nonce, plaintextBytes, ciphertext, tag);
+
+        // Layout: nonce (12) | tag (16) | ciphertext
+        var result = new byte[NonceSize + TagSize + ciphertext.Length];
+        Buffer.BlockCopy(nonce, 0, result, 0, NonceSize);
+        Buffer.BlockCopy(tag, 0, result, NonceSize, TagSize);
+        Buffer.BlockCopy(ciphertext, 0, result, NonceSize + TagSize, ciphertext.Length);
+        return result;
+    }
+
+    private string Decrypt(byte[] data)
+    {
+        if (data.Length < NonceSize + TagSize)
+            throw new CryptographicException("Invalid encrypted data.");
+
+        var key = GetOrCreateEncryptionKey();
+        var nonce = data[..NonceSize];
+        var tag = data[NonceSize..(NonceSize + TagSize)];
+        var ciphertext = data[(NonceSize + TagSize)..];
+        var plaintext = new byte[ciphertext.Length];
+
+        using var aesGcm = new AesGcm(key, TagSize);
+        aesGcm.Decrypt(nonce, ciphertext, tag, plaintext);
+        return Encoding.UTF8.GetString(plaintext);
+    }
+
+    public async Task SaveAsync(string key, string value, CancellationToken ct = default)
+    {
+        var filePath = GetFilePath(key);
+        var encrypted = Encrypt(value);
+
+        await _semaphore.WaitAsync(ct);
+        try
+        {
+            await File.WriteAllBytesAsync(filePath, encrypted, ct);
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
+    }
+
+    public async Task<string?> LoadAsync(string key, CancellationToken ct = default)
+    {
+        var filePath = GetFilePath(key);
+
+        await _semaphore.WaitAsync(ct);
+        try
+        {
+            if (!File.Exists(filePath)) return null;
 
             try
             {
-                var encodedValue = File.ReadAllText(filePath, Encoding.UTF8);
-                var decodedValue = Encoding.UTF8.GetString(Convert.FromBase64String(encodedValue));
-                return Task.FromResult<string?>(decodedValue);
+                var encrypted = await File.ReadAllBytesAsync(filePath, ct);
+                return Decrypt(encrypted);
             }
             catch (Exception)
             {
-                return Task.FromResult<string?>(null);
+                return null;
             }
+        }
+        finally
+        {
+            _semaphore.Release();
         }
     }
 
-    public Task DeleteAsync(string key, CancellationToken ct = default)
+    public async Task DeleteAsync(string key, CancellationToken ct = default)
     {
-        lock (_lockObject)
-        {
-            var filePath = GetFilePath(key);
+        var filePath = GetFilePath(key);
 
+        await _semaphore.WaitAsync(ct);
+        try
+        {
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
         }
-
-        return Task.CompletedTask;
+        finally
+        {
+            _semaphore.Release();
+        }
     }
 
     private string GetFilePath(string key)
     {
-        // Sanitize key to create safe filename
         var safeKey = string.Concat(key.Where(c => char.IsLetterOrDigit(c) || c == '_' || c == '-'));
+
+        if (string.IsNullOrEmpty(safeKey))
+            throw new ArgumentException($"Key '{key}' produces an empty filename after sanitization.", nameof(key));
+
         return Path.Combine(_storagePath, $"{safeKey}.dat");
     }
 }
