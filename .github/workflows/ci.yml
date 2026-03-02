@@ -25,10 +25,10 @@ jobs:
           include-prerelease: true
 
       - name: Restore dependencies
-        run: dotnet restore src/Desktop/EcoBank.Desktop.csproj
+        run: dotnet restore EcoBank.ci.slnf
 
       - name: Build
-        run: dotnet build src/Desktop/EcoBank.Desktop.csproj --no-restore -c Release
+        run: dotnet build EcoBank.ci.slnf --no-restore -c Release
 
       - name: Test
-        run: dotnet test src/Desktop/EcoBank.Desktop.csproj --no-build -c Release --verbosity normal
+        run: dotnet test tests/EcoBank.App.Tests/EcoBank.App.Tests.csproj --no-build -c Release --verbosity normal
