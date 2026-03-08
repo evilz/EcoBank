@@ -52,7 +52,7 @@
         <ItemsControl ItemsSource="{Binding Profiles}">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <Border Margin="0,0,0,24" Padding="0" CornerRadius="16" Background="White" BoxShadow="0 2 8 0 #20000000">
+              <Border Classes="Card" Margin="0,0,0,24" Padding="0">
                 <Grid RowDefinitions="120, Auto">
                   
                   <!-- Cover image area / Bank abstract background -->
