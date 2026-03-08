@@ -25,8 +25,18 @@ public partial class CardsViewModel : ViewModelBase
             var cards = await _getCards.ExecuteAsync(ct);
             Cards.Clear();
             foreach (var c in cards) Cards.Add(c);
+            SelectedCard ??= Cards.FirstOrDefault();
         }
         catch (Exception) { ErrorMessage = "Impossible de charger les cartes."; }
         finally { IsBusy = false; }
     }
+
+    [RelayCommand]
+    private void ManageCard() { /* TODO: navigate to card management */ }
+
+    [RelayCommand]
+    private void ManageAlerts() { /* TODO: navigate to card alerts */ }
+
+    [RelayCommand]
+    private void ViewCardDetails() { /* TODO: navigate to card details */ }
 }
