@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Auth"
              xmlns:auth="using:EcoBank.App.Views.Auth"
-             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              x:Class="EcoBank.App.Views.Auth.LoginView"
              x:DataType="vm:LoginViewModel"
              Background="White">
@@ -53,20 +52,17 @@
         <ItemsControl ItemsSource="{Binding Profiles}">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <!-- Card mimicking the image -->
-              <shad:Card Margin="0,0,0,24" Padding="0" CornerRadius="16">
-                <!-- Wrap in a grid for precise layout inside the card -->
+              <!-- Card using standard Border -->
+              <Border Margin="0,0,0,24" Padding="0" CornerRadius="16" Background="White" BoxShadow="0 2 8 0 #20000000">
                 <Grid RowDefinitions="120, Auto">
                   
-                  <!-- Cover image area / Bank abstract background -->
+                  <!-- Cover image area -->
                   <Border Grid.Row="0" CornerRadius="16,16,0,0" Background="#A1D0B7" ClipToBounds="True">
                     <Grid>
-                       <!-- Layered green hills effect using simple shapes -->
                        <Border Background="#84C69E" CornerRadius="60" Height="80" Width="600" VerticalAlignment="Bottom" Margin="-50,0,-50,-30" />
                        <Border Background="#5EB27E" CornerRadius="50" Height="60" Width="500" VerticalAlignment="Bottom" Margin="-30,0,-30,-20" />
                        <Border Background="#35985A" CornerRadius="40" Height="40" Width="700" VerticalAlignment="Bottom" Margin="-100,0,-100,-10" />
                        
-                       <!-- Bank Logo mock -->
                        <Border Width="72" Height="72" CornerRadius="36" Background="White" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="24,0,0,0">
                          <TextBlock Text="🌿" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#0F523A" />
                        </Border>
@@ -94,7 +90,7 @@
                     </StackPanel>
                   </Border>
                 </Grid>
-              </shad:Card>
+              </Border>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -150,7 +146,6 @@
         <Button Classes="PrimaryAction"
                 Content="Continuer"
                 Command="{Binding SubmitPinCommand}"
-                shad:ButtonAssist.ShowProgress="{Binding IsBusy}"
                 HorizontalAlignment="Stretch"
                 Height="56"/>
       </StackPanel>
@@ -167,19 +162,19 @@
           <TextBlock Text="Saisissez vos informations pour associer votre compte." FontSize="15" Foreground="#6C7A89" TextWrapping="Wrap"/>
         </StackPanel>
 
-        <shad:Card Margin="0,0,0,24" CornerRadius="16" Padding="24">
+        <Border Margin="0,0,0,24" CornerRadius="16" Padding="24" Background="White" BoxShadow="0 2 8 0 #20000000">
           <StackPanel Spacing="20">
             <TextBox AutomationProperties.Name="Client ID"
-                     shad:ControlAssist.Label="Client ID"
+                     Watermark="Client ID"
                      Text="{Binding ClientId}"
                      IsEnabled="{Binding !IsBusy}"/>
             <TextBox AutomationProperties.Name="Client Secret"
-                     shad:ControlAssist.Label="Client Secret"
+                     Watermark="Client Secret"
                      Text="{Binding ClientSecret}"
                      PasswordChar="•"
                      IsEnabled="{Binding !IsBusy}"/>
             <TextBox AutomationProperties.Name="App User ID"
-                     shad:ControlAssist.Label="App User ID"
+                     Watermark="App User ID"
                      Text="{Binding AppUserId}"
                      IsEnabled="{Binding !IsBusy}"/>
             
@@ -188,7 +183,7 @@
             <TextBlock Text="Définissez un code PIN pour simplifier vos prochaines connexions :" FontSize="14" Foreground="#6C7A89" TextWrapping="Wrap"/>
             
             <TextBox AutomationProperties.Name="Code PIN (Nouveau)"
-                     shad:ControlAssist.Label="Code PIN (Nouveau)"
+                     Watermark="Code PIN (Nouveau)"
                      Text="{Binding NewPin}"
                      PasswordChar="•"
                      MaxLength="8"
@@ -204,7 +199,7 @@
               <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF4D4F" TextWrapping="Wrap" FontSize="13"/>
             </Border>
 
-            <Button Classes="PrimaryAction" Content="Enregistrer &amp; Continuer" Command="{Binding LoginCommand}" IsEnabled="{Binding !IsBusy}" shad:ButtonAssist.ShowProgress="{Binding IsBusy}" HorizontalAlignment="Stretch" Height="56" Margin="0,16,0,0"/>
+            <Button Classes="PrimaryAction" Content="Enregistrer &amp; Continuer" Command="{Binding LoginCommand}" IsEnabled="{Binding !IsBusy}" HorizontalAlignment="Stretch" Height="56" Margin="0,16,0,0"/>
             
             <Button Content="Annuler" 
                     Command="{Binding CancelAddProfileCommand}" 
@@ -215,7 +210,7 @@
                     IsVisible="{Binding HasProfiles}"
                     Height="48" />
           </StackPanel>
-        </shad:Card>
+        </Border>
       </StackPanel>
 
     </Panel>

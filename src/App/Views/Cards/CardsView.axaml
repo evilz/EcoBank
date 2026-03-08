@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Cards"
              xmlns:domain="using:EcoBank.Core.Domain.Cards"
-             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              x:Class="EcoBank.App.Views.Cards.CardsView"
              x:DataType="vm:CardsViewModel">
 
@@ -11,7 +10,7 @@
       <TextBlock Text="Mes cartes" FontSize="22" FontWeight="SemiBold"/>
     </Border>
 
-    <shad:Loading DockPanel.Dock="Top" IsVisible="{Binding IsBusy}"/>
+    <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
 
     <ScrollViewer>
       <StackPanel Margin="16" Spacing="12">
