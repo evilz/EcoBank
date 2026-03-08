@@ -1,4 +1,4 @@
-using ShadUI;
+using Avalonia.Controls;
 
 namespace EcoBank.App.Views;
 
