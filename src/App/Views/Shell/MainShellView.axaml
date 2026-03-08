@@ -31,8 +31,22 @@
                         Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
                         CommandParameter="{Binding}">
                   <StackPanel Orientation="Horizontal" Spacing="12">
-                    <TextBlock Text="{Binding Icon}" FontSize="18" VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding Label}" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Icon}" FontSize="18" VerticalAlignment="Center">
+                      <TextBlock.Foreground>
+                        <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
+                          <Binding Path="Key"/>
+                          <Binding Path="$parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectedTab.Key"/>
+                        </MultiBinding>
+                      </TextBlock.Foreground>
+                    </TextBlock>
+                    <TextBlock Text="{Binding Label}" FontSize="14" FontWeight="Medium" VerticalAlignment="Center">
+                      <TextBlock.Foreground>
+                        <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
+                          <Binding Path="Key"/>
+                          <Binding Path="$parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectedTab.Key"/>
+                        </MultiBinding>
+                      </TextBlock.Foreground>
+                    </TextBlock>
                   </StackPanel>
                 </Button>
               </DataTemplate>
