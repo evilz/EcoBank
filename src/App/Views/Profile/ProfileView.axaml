@@ -20,7 +20,7 @@
                      FontWeight="SemiBold"
                      HorizontalAlignment="Center"/>
           <TextBlock Text="{Binding CurrentUser.Email}"
-                     Foreground="{DynamicResource MutedColor}"
+                     Foreground="#808080"
                      HorizontalAlignment="Center"
                      IsVisible="{Binding CurrentUser.Email, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
           <!-- Badge replacement -->
