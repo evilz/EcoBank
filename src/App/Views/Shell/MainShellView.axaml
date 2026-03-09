@@ -1,7 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Shell"
-             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              x:Class="EcoBank.App.Views.Shell.MainShellView"
              x:DataType="vm:MainShellViewModel">
 
@@ -10,30 +9,51 @@
     <!-- ══════════════════════════════════
          WIDE layout : sidebar latérale
          ══════════════════════════════════ -->
-    <Grid ColumnDefinitions="Auto,*"
+    <Grid ColumnDefinitions="220,*"
           IsVisible="{Binding $parent[UserControl].Bounds.Width, Converter={x:Static vm:WidthToBoolConverter.IsWide}}">
 
-      <shad:Sidebar Grid.Column="0">
-        <shad:Sidebar.Header>
-          <StackPanel Orientation="Horizontal" Spacing="10" Margin="12,0,0,24">
+      <Border Grid.Column="0" Background="#F7F8F5" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
+        <DockPanel>
+          <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="16,20,16,24">
             <TextBlock Text="🏦" FontSize="24"/>
             <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
           </StackPanel>
-        </shad:Sidebar.Header>
-        <ItemsControl ItemsSource="{Binding Tabs}">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate x:DataType="vm:NavTab">
-              <shad:SidebarItem Content="{Binding Label}"
-                                Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
-                                CommandParameter="{Binding}">
-                <shad:SidebarItem.Icon>
-                  <TextBlock Text="{Binding Icon}" FontSize="18"/>
-                </shad:SidebarItem.Icon>
-              </shad:SidebarItem>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </shad:Sidebar>
+          <ItemsControl ItemsSource="{Binding Tabs}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:NavTab">
+                <Button Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Padding="16,12"
+                        Margin="8,2"
+                        CornerRadius="8"
+                        Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
+                        CommandParameter="{Binding}">
+                  <StackPanel Orientation="Horizontal" Spacing="12">
+                    <TextBlock Text="{Binding Icon}" FontSize="18" VerticalAlignment="Center">
+                      <TextBlock.Foreground>
+                        <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
+                          <Binding Path="Key"/>
+                          <Binding Path="$parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectedTab.Key"/>
+                        </MultiBinding>
+                      </TextBlock.Foreground>
+                    </TextBlock>
+                    <TextBlock Text="{Binding Label}" FontSize="14" FontWeight="Medium" VerticalAlignment="Center">
+                      <TextBlock.Foreground>
+                        <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
+                          <Binding Path="Key"/>
+                          <Binding Path="$parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectedTab.Key"/>
+                        </MultiBinding>
+                      </TextBlock.Foreground>
+                    </TextBlock>
+                  </StackPanel>
+                </Button>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </DockPanel>
+      </Border>
 
       <ContentControl Grid.Column="1" Content="{Binding CurrentContent}"/>
     </Grid>

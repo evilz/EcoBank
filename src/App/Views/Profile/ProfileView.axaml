@@ -1,7 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Profile"
-             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              x:Class="EcoBank.App.Views.Profile.ProfileView"
              x:DataType="vm:ProfileViewModel">
 
@@ -10,24 +9,29 @@
       <TextBlock Text="Profil" FontSize="22" FontWeight="SemiBold"/>
 
       <!-- User info card -->
-      <shad:Card>
+      <Border Padding="16" CornerRadius="12" Background="White" BoxShadow="0 2 8 0 #20000000">
         <StackPanel Spacing="8">
-          <shad:Avatar Fallback="👤" HorizontalAlignment="Center"/>
+          <!-- Avatar replacement -->
+          <Border Width="64" Height="64" CornerRadius="32" Background="#E8F5DB" HorizontalAlignment="Center">
+            <TextBlock Text="👤" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
           <TextBlock Text="{Binding UserDisplayName}"
                      FontSize="18"
                      FontWeight="SemiBold"
                      HorizontalAlignment="Center"/>
           <TextBlock Text="{Binding CurrentUser.Email}"
-                     Foreground="{DynamicResource MutedColor}"
+                     Foreground="#808080"
                      HorizontalAlignment="Center"
                      IsVisible="{Binding CurrentUser.Email, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-          <shad:Badge Content="{Binding CurrentUser.KycStatus}"
-                      HorizontalAlignment="Center"/>
+          <!-- Badge replacement -->
+          <Border CornerRadius="9999" Background="#E8F5DB" Padding="12,4" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding CurrentUser.KycStatus}" FontSize="12" FontWeight="Medium" Foreground="#1E7F4F"/>
+          </Border>
         </StackPanel>
-      </shad:Card>
+      </Border>
 
       <!-- Preferences -->
-      <shad:Card>
+      <Border Padding="16" CornerRadius="12" Background="White" BoxShadow="0 2 8 0 #20000000">
         <StackPanel Spacing="12">
           <TextBlock Text="Préférences" FontSize="16" FontWeight="SemiBold"/>
           <StackPanel Orientation="Horizontal" Spacing="12">
@@ -42,7 +46,7 @@
             </ComboBox>
           </StackPanel>
         </StackPanel>
-      </shad:Card>
+      </Border>
 
       <!-- Actions -->
       <Button Classes="Danger"

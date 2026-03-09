@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Operations"
              xmlns:domain="using:EcoBank.Core.Domain.Operations"
-             xmlns:shad="clr-namespace:ShadUI;assembly=ShadUI"
              x:Class="EcoBank.App.Views.Operations.OperationsView"
              x:DataType="vm:OperationsViewModel">
 
@@ -17,25 +16,27 @@
                AutomationProperties.Name="Recherche opérations"/>
     </Border>
 
-    <shad:Loading DockPanel.Dock="Top" IsVisible="{Binding IsBusy}"/>
+    <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
 
     <ScrollViewer>
       <StackPanel Margin="16" Spacing="8">
         <ItemsControl ItemsSource="{Binding Operations}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="domain:Operation">
-              <shad:Card Margin="0,0,0,4">
+              <Border Margin="0,0,0,4" Classes="Card">
                 <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
-                  <shad:CardTitle Grid.Row="0" Grid.Column="0"
-                                  Content="{Binding Label}"/>
-                  <shad:CardDescription Grid.Row="1" Grid.Column="0">
-                    <shad:CardDescription.Content>
+                  <TextBlock Grid.Row="0" Grid.Column="0"
+                             Text="{Binding Label}"
+                             FontSize="16" FontWeight="SemiBold"/>
+                  <TextBlock Grid.Row="1" Grid.Column="0"
+                             FontSize="13" Foreground="#6C7A89">
+                    <TextBlock.Text>
                       <MultiBinding StringFormat="{}{0:dd/MM/yyyy} · {1}">
                         <Binding Path="Date"/>
                         <Binding Path="Status"/>
                       </MultiBinding>
-                    </shad:CardDescription.Content>
-                  </shad:CardDescription>
+                    </TextBlock.Text>
+                  </TextBlock>
                   <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                              FontSize="15"
                              FontWeight="SemiBold"
@@ -49,7 +50,7 @@
                     </TextBlock.Text>
                   </TextBlock>
                 </Grid>
-              </shad:Card>
+              </Border>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>

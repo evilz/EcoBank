@@ -35,7 +35,7 @@
       </Border>
     </Grid>
 
-    <shad:Loading DockPanel.Dock="Top" IsVisible="{Binding IsBusy}"/>
+    <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
 
     <!-- Error message -->
     <TextBlock DockPanel.Dock="Top"
