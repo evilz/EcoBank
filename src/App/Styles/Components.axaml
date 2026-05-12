@@ -24,9 +24,25 @@
   <!-- ===== CARD - OFFICIAL ECOBANK TOKENS ===== -->
   <Style Selector="Border.Card">
     <Setter Property="Background" Value="#FFFFFF" />
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusCard}" />
+    <Setter Property="CornerRadius" Value="16" />
     <Setter Property="Padding" Value="{StaticResource CardPadding}" />
-    <Setter Property="BoxShadow" Value="0 10 30 0 #26000000" />
+    <Setter Property="BoxShadow" Value="0 10 28 0 #14000000" />
+  </Style>
+
+  <Style Selector="Border.FinPanel">
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="CornerRadius" Value="18" />
+    <Setter Property="Padding" Value="18" />
+    <Setter Property="BoxShadow" Value="0 12 30 0 #12000000" />
+  </Style>
+
+  <Style Selector="Border.DarkPanel">
+    <Setter Property="Background" Value="#242424" />
+    <Setter Property="CornerRadius" Value="18" />
+    <Setter Property="Padding" Value="18" />
+    <Setter Property="BorderBrush" Value="#16FFFFFF" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BoxShadow" Value="0 16 32 0 #33000000" />
   </Style>
 
   <Style Selector="Border.CardInteractive">
@@ -42,9 +58,9 @@
 
   <!-- ===== PRIMARY BUTTON - OFFICIAL ECOBANK COLORS ===== -->
   <Style Selector="Button.Primary">
-    <Setter Property="Background" Value="#7ED957" />
-    <Setter Property="Foreground" Value="White" />
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusButton}" />
+    <Setter Property="Background" Value="#31D6B2" />
+    <Setter Property="Foreground" Value="#0F1413" />
+    <Setter Property="CornerRadius" Value="16" />
     <Setter Property="Padding" Value="16,14" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
@@ -52,7 +68,7 @@
     <Setter Property="Cursor" Value="Hand" />
   </Style>
   <Style Selector="Button.Primary:pointerover /template/ ContentPresenter">
-    <Setter Property="Background" Value="#6BC843" />
+    <Setter Property="Background" Value="#27C4A2" />
   </Style>
   <Style Selector="Button.Primary:pressed /template/ ContentPresenter">
     <Setter Property="Background" Value="#5AB132" />
@@ -64,11 +80,11 @@
 
   <!-- ===== SECONDARY BUTTON ===== -->
   <Style Selector="Button.Secondary">
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="#7ED957" />
-    <Setter Property="BorderBrush" Value="#7ED957" />
-    <Setter Property="BorderThickness" Value="1.5" />
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Background" Value="#0631D6B2" />
+    <Setter Property="Foreground" Value="#168F78" />
+    <Setter Property="BorderBrush" Value="#6631D6B2" />
+    <Setter Property="BorderThickness" Value="1.2" />
+    <Setter Property="CornerRadius" Value="14" />
     <Setter Property="Padding" Value="16,12" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
@@ -143,14 +159,14 @@
   <!-- ===== NAVIGATION BAR BUTTON ===== -->
   <Style Selector="Button.NavItem">
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Padding" Value="8" />
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
+    <Setter Property="Padding" Value="6,7" />
+    <Setter Property="CornerRadius" Value="14" />
     <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
     <Setter Property="MinWidth" Value="{StaticResource MinTouchTarget}" />
     <Setter Property="BorderThickness" Value="0" />
   </Style>
   <Style Selector="Button.NavItem:pointerover /template/ ContentPresenter">
-    <Setter Property="Background" Value="#1A7ED957" />
+    <Setter Property="Background" Value="#1231D6B2" />
   </Style>
 
   <!-- ===== TAB ACTIF (ex: Comptes) ===== -->
@@ -228,8 +244,8 @@
 
   <!-- ===== QUICK ACTION ICON CONTAINER ===== -->
   <Style Selector="Border.QuickActionIcon">
-    <Setter Property="Background" Value="#F0F5EE" />
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Background" Value="#1131D6B2" />
+    <Setter Property="CornerRadius" Value="14" />
     <Setter Property="Padding" Value="14" />
     <Setter Property="HorizontalAlignment" Value="Center" />
   </Style>

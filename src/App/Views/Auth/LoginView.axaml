@@ -188,10 +188,35 @@
                      MaxLength="8"
                      IsEnabled="{Binding !IsBusy}"/>
             
-            <CheckBox AutomationProperties.Name="Enregistrer le profil"
-                      IsChecked="{Binding RememberCredentials}"
-                      Content="Enregistrer le profil"
-                      IsEnabled="{Binding !IsBusy}"/>
+            <Button Command="{Binding ToggleRememberCredentialsCommand}"
+                    IsEnabled="{Binding !IsBusy}"
+                    Background="#F6F8F7"
+                    BorderBrush="#E2E8E4"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    Padding="14,12"
+                    HorizontalContentAlignment="Stretch">
+              <Grid ColumnDefinitions="28,*">
+                <Border Grid.Column="0"
+                        Width="22"
+                        Height="22"
+                        CornerRadius="11"
+                        Background="#12C9A3"
+                        VerticalAlignment="Center">
+                  <TextBlock Text="{Binding RememberCredentialsMark}"
+                             Foreground="White"
+                             FontSize="14"
+                             FontWeight="Bold"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding RememberCredentialsLabel}"
+                           Foreground="#102636"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+              </Grid>
+            </Button>
 
             <!-- Error message -->
             <Border Background="#FFF1F0" CornerRadius="8" Padding="12,10" IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" BorderBrush="#FF4D4F" BorderThickness="1">

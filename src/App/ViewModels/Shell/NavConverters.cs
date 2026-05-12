@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
+using IconPacks.Avalonia.Material;
 
 namespace EcoBank.App.ViewModels.Shell;
 
@@ -74,3 +75,26 @@ public sealed class NavTabActiveColorConverter : IMultiValueConverter
         => throw new NotSupportedException();
 }
 
+/// <summary>
+/// Convertit la clé de navigation en icône Material pour éviter les glyphes emoji.
+/// </summary>
+public sealed class NavTabIconConverter : IValueConverter
+{
+    public static readonly NavTabIconConverter Instance = new();
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        return (value as string) switch
+        {
+            "home" => PackIconMaterialKind.Home,
+            "cards" => PackIconMaterialKind.CreditCardOutline,
+            "contact" => PackIconMaterialKind.EmailOutline,
+            "operations" => PackIconMaterialKind.ChartLine,
+            "menu" => PackIconMaterialKind.AccountOutline,
+            _ => PackIconMaterialKind.CircleOutline
+        };
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}

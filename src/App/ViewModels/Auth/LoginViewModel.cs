@@ -55,7 +55,13 @@ public partial class LoginViewModel : ViewModelBase
     private string _appUserId = string.Empty;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RememberCredentialsLabel))]
+    [NotifyPropertyChangedFor(nameof(RememberCredentialsMark))]
     private bool _rememberCredentials = true;
+
+    public string RememberCredentialsLabel => RememberCredentials ? "Profil enregistré" : "Ne pas enregistrer";
+
+    public string RememberCredentialsMark => RememberCredentials ? "✓" : "";
 
     [ObservableProperty]
     private bool _isLoadingProfiles;
@@ -127,6 +133,15 @@ public partial class LoginViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void ToggleRememberCredentials()
+    {
+        if (!IsBusy)
+        {
+            RememberCredentials = !RememberCredentials;
+        }
+    }
+
+    [RelayCommand]
     private void CancelAddProfile()
     {
         ClearError();
@@ -194,9 +209,7 @@ public partial class LoginViewModel : ViewModelBase
             var appUserId = AppUserId.Trim();
             var clientId = ClientId.Trim();
 
-            // Try fetch user to get their actual name to save
-            var user = await _getUserUseCase.ExecuteAsync(appUserId, ct)
-                ?? new User(appUserId, null, null, null, KycStatus.Unknown, null);
+            var user = await FetchUserOrFallbackAsync(appUserId, ct);
 
             var profileId = Guid.NewGuid().ToString();
 
@@ -236,16 +249,32 @@ public partial class LoginViewModel : ViewModelBase
 
     private async Task NavigateToMainShellAsync(string appUserId, CancellationToken ct)
     {
-        var user = await _getUserUseCase.ExecuteAsync(appUserId, ct)
-            ?? new User(appUserId, null, null, null, KycStatus.Unknown, null);
+        var user = await FetchUserOrFallbackAsync(appUserId, ct);
         _selectUserUseCase.Execute(user);
         _navigation.NavigateTo<MainShellViewModel>();
+    }
+
+    private async Task<User> FetchUserOrFallbackAsync(string appUserId, CancellationToken ct)
+    {
+        try
+        {
+            return await _getUserUseCase.ExecuteAsync(appUserId, ct)
+                ?? new User(appUserId, null, null, null, KycStatus.Unknown, null);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to fetch user {AppUserId}; continuing with a local profile.", appUserId);
+            return new User(appUserId, null, null, null, KycStatus.Unknown, null);
+        }
     }
 
     private void HandleLoginError(Exception ex)
     {
         switch (ex)
         {
+            case HttpRequestException httpEx when ((int?)httpEx.StatusCode is 400):
+                ErrorMessage = "Identifiants invalides. Vérifiez votre Client ID et Client Secret.";
+                break;
             case HttpRequestException httpEx when ((int?)httpEx.StatusCode is 401 or 403):
                 ErrorMessage = "Identifiants invalides. Vérifiez votre Client ID et Client Secret.";
                 break;

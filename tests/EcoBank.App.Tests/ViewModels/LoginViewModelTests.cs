@@ -49,13 +49,32 @@ public class LoginViewModelTests
         Assert.Equal(typeof(MainShellViewModel), navigation.LastNavigatedType);
     }
 
+    [Fact]
+    public async Task LoginCommand_NavigatesToMainShell_WhenUserFetchFails()
+    {
+        var navigation = new FakeNavigationService();
+        var vm = CreateViewModel(
+            navigationService: navigation,
+            userRepository: new FailingUserRepository());
+        vm.ClientId = "client";
+        vm.ClientSecret = "secret";
+        vm.AppUserId = "user-1";
+        vm.NewPin = "1234";
+
+        await vm.LoginCommand.ExecuteAsync(null);
+
+        Assert.Equal(typeof(MainShellViewModel), navigation.LastNavigatedType);
+        Assert.Null(vm.ErrorMessage);
+    }
+
     private static LoginViewModel CreateViewModel(
         INavigationService? navigationService = null,
-        ProfileService? profileService = null)
+        ProfileService? profileService = null,
+        IUserRepository? userRepository = null)
     {
         var context = new UserContext();
         var authUseCase = new AuthenticateUseCase(new FakeAuthService(), context);
-        var getUserUseCase = new GetUserUseCase(new FakeUserRepository());
+        var getUserUseCase = new GetUserUseCase(userRepository ?? new FakeUserRepository());
         var selectUserUseCase = new SelectUserUseCase(context);
 
         return new LoginViewModel(
@@ -80,6 +99,15 @@ public class LoginViewModelTests
 
         public Task<User?> GetUserAsync(string appUserId, CancellationToken ct = default)
             => Task.FromResult<User?>(new User(appUserId, "Test", "User", null, KycStatus.Validated, DateTimeOffset.UtcNow));
+    }
+
+    private sealed class FailingUserRepository : IUserRepository
+    {
+        public Task<IReadOnlyList<User>> GetUsersAsync(int page = 1, int pageSize = 20, string? search = null, CancellationToken ct = default)
+            => Task.FromResult<IReadOnlyList<User>>(Array.Empty<User>());
+
+        public Task<User?> GetUserAsync(string appUserId, CancellationToken ct = default)
+            => throw new HttpRequestException("User endpoint failed");
     }
 
     private sealed class FakeSecureStorage : ISecureStorage
