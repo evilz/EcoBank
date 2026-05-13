@@ -42,9 +42,9 @@ public partial class MainShellViewModel : ViewModelBase
         Tabs =
         [
             new("home",       "Accueil",    "home",        homeVm),
-            new("cards",      "Cartes",     "cards",       cardsVm),
-            new("contact",    "Contact",    "contact",     contactVm),
-            new("operations", "Stats",      "operations",  operationsVm),
+            new("cards",      "Comptes",    "cards",       cardsVm),
+            new("contact",    "Paiements",  "contact",     contactVm),
+            new("operations", "Investir",   "operations",  operationsVm),
             new("menu",       "Profil",     "menu",        profileVm),
         ];
 

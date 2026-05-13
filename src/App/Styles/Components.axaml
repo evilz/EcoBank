@@ -9,58 +9,103 @@
     Application.Resources has been fully populated.
   -->
   <Styles.Resources>
-    <CornerRadius x:Key="RadiusXs">4</CornerRadius>
+    <CornerRadius x:Key="RadiusXs">6</CornerRadius>
     <CornerRadius x:Key="RadiusSm">8</CornerRadius>
     <CornerRadius x:Key="RadiusMd">12</CornerRadius>
     <CornerRadius x:Key="RadiusLg">16</CornerRadius>
-    <CornerRadius x:Key="RadiusXl">24</CornerRadius>
-    <CornerRadius x:Key="RadiusCard">24</CornerRadius>
-    <CornerRadius x:Key="RadiusButton">28</CornerRadius>
+    <CornerRadius x:Key="RadiusXl">28</CornerRadius>
+    <CornerRadius x:Key="RadiusCard">16</CornerRadius>
+    <CornerRadius x:Key="RadiusButton">14</CornerRadius>
     <CornerRadius x:Key="RadiusFull">9999</CornerRadius>
     <Thickness x:Key="CardPadding">16</Thickness>
     <x:Double x:Key="MinTouchTarget">48</x:Double>
   </Styles.Resources>
 
-  <!-- ===== CARD - OFFICIAL ECOBANK TOKENS ===== -->
+  <!-- ===== ECOBANK LIGHT DESIGN SYSTEM ===== -->
+  <Style Selector="TextBlock">
+    <Setter Property="FontFamily" Value="Inter, Segoe UI, sans-serif" />
+  </Style>
+
+  <Style Selector="Button">
+    <Setter Property="FontFamily" Value="Inter, Segoe UI, sans-serif" />
+  </Style>
+
   <Style Selector="Border.Card">
     <Setter Property="Background" Value="#FFFFFF" />
     <Setter Property="CornerRadius" Value="16" />
     <Setter Property="Padding" Value="{StaticResource CardPadding}" />
-    <Setter Property="BoxShadow" Value="0 10 28 0 #14000000" />
+    <Setter Property="BorderBrush" Value="#EEF2F4" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BoxShadow" Value="0 8 24 0 #1A101820" />
   </Style>
 
   <Style Selector="Border.FinPanel">
     <Setter Property="Background" Value="#FFFFFF" />
-    <Setter Property="CornerRadius" Value="18" />
-    <Setter Property="Padding" Value="18" />
-    <Setter Property="BoxShadow" Value="0 12 30 0 #12000000" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Padding" Value="16" />
+    <Setter Property="BorderBrush" Value="#EEF2F4" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BoxShadow" Value="0 8 24 0 #14101820" />
+  </Style>
+
+  <Style Selector="Border.EcoPanel">
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Padding" Value="16" />
+    <Setter Property="BorderBrush" Value="#EEF2F4" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BoxShadow" Value="0 8 24 0 #14101820" />
+  </Style>
+
+  <Style Selector="Border.EcoSoftPanel">
+    <Setter Property="Background" Value="#F1FBF5" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Padding" Value="16" />
+    <Setter Property="BorderBrush" Value="#EEF2F4" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+
+  <Style Selector="Border.EcoIconTile">
+    <Setter Property="Width" Value="36" />
+    <Setter Property="Height" Value="36" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Background" Value="#E7F7EE" />
+  </Style>
+
+  <Style Selector="TextBlock.EcoTitle">
+    <Setter Property="Foreground" Value="#101820" />
+    <Setter Property="FontWeight" Value="Bold" />
+  </Style>
+
+  <Style Selector="TextBlock.EcoMuted">
+    <Setter Property="Foreground" Value="#45545F" />
   </Style>
 
   <Style Selector="Border.DarkPanel">
-    <Setter Property="Background" Value="#242424" />
-    <Setter Property="CornerRadius" Value="18" />
-    <Setter Property="Padding" Value="18" />
-    <Setter Property="BorderBrush" Value="#16FFFFFF" />
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Padding" Value="16" />
+    <Setter Property="BorderBrush" Value="#EEF2F4" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="BoxShadow" Value="0 16 32 0 #33000000" />
+    <Setter Property="BoxShadow" Value="0 8 24 0 #14101820" />
   </Style>
 
   <Style Selector="Border.CardInteractive">
     <Setter Property="Background" Value="#FFFFFF" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusCard}" />
     <Setter Property="Padding" Value="{StaticResource CardPadding}" />
-    <Setter Property="BoxShadow" Value="0 10 30 0 #26000000" />
+    <Setter Property="BoxShadow" Value="0 8 24 0 #1A101820" />
     <Setter Property="Cursor" Value="Hand" />
   </Style>
   <Style Selector="Border.CardInteractive:pointerover">
-    <Setter Property="BoxShadow" Value="0 12 40 0 #30000000" />
+    <Setter Property="BoxShadow" Value="0 10 30 0 #22101820" />
   </Style>
 
   <!-- ===== PRIMARY BUTTON - OFFICIAL ECOBANK COLORS ===== -->
   <Style Selector="Button.Primary">
-    <Setter Property="Background" Value="#31D6B2" />
-    <Setter Property="Foreground" Value="#0F1413" />
-    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Background" Value="#168246" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="CornerRadius" Value="14" />
     <Setter Property="Padding" Value="16,14" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
@@ -68,10 +113,10 @@
     <Setter Property="Cursor" Value="Hand" />
   </Style>
   <Style Selector="Button.Primary:pointerover /template/ ContentPresenter">
-    <Setter Property="Background" Value="#27C4A2" />
+    <Setter Property="Background" Value="#0F6738" />
   </Style>
   <Style Selector="Button.Primary:pressed /template/ ContentPresenter">
-    <Setter Property="Background" Value="#5AB132" />
+    <Setter Property="Background" Value="#0B4D2D" />
   </Style>
   <Style Selector="Button.Primary:disabled /template/ ContentPresenter">
     <Setter Property="Background" Value="#E0E0E0" />
@@ -80,9 +125,9 @@
 
   <!-- ===== SECONDARY BUTTON ===== -->
   <Style Selector="Button.Secondary">
-    <Setter Property="Background" Value="#0631D6B2" />
-    <Setter Property="Foreground" Value="#168F78" />
-    <Setter Property="BorderBrush" Value="#6631D6B2" />
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="Foreground" Value="#168246" />
+    <Setter Property="BorderBrush" Value="#EEF2F4" />
     <Setter Property="BorderThickness" Value="1.2" />
     <Setter Property="CornerRadius" Value="14" />
     <Setter Property="Padding" Value="16,12" />
@@ -94,7 +139,7 @@
 
   <!-- ===== DANGER BUTTON ===== -->
   <Style Selector="Button.Danger">
-    <Setter Property="Background" Value="#FF4D4F" />
+    <Setter Property="Background" Value="#D84C4C" />
     <Setter Property="Foreground" Value="White" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="16,12" />
@@ -106,8 +151,8 @@
 
   <!-- ===== TEXT FIELD - OFFICIAL ECOBANK COLORS ===== -->
   <Style Selector="TextBox.EcoField">
-    <Setter Property="Background" Value="#F7F8F5" />
-    <Setter Property="BorderBrush" Value="#E0E0E0" />
+    <Setter Property="Background" Value="#F7FCF8" />
+    <Setter Property="BorderBrush" Value="#E6E8E8" />
     <Setter Property="BorderThickness" Value="1.5" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="12,10" />
@@ -115,26 +160,26 @@
     <Setter Property="FontSize" Value="15" />
   </Style>
   <Style Selector="TextBox.EcoField:focus">
-    <Setter Property="BorderBrush" Value="#7ED957" />
+    <Setter Property="BorderBrush" Value="#168246" />
     <Setter Property="BorderThickness" Value="2" />
   </Style>
 
   <!-- ===== AMOUNT COLORS ===== -->
   <Style Selector="TextBlock.AmountCredit">
-    <Setter Property="Foreground" Value="#1E7F4F" />
+    <Setter Property="Foreground" Value="#168246" />
     <Setter Property="FontWeight" Value="SemiBold" />
   </Style>
   <Style Selector="TextBlock.AmountDebit">
-    <Setter Property="Foreground" Value="#FF4D4F" />
+    <Setter Property="Foreground" Value="#D84C4C" />
     <Setter Property="FontWeight" Value="SemiBold" />
   </Style>
   <Style Selector="TextBlock.AmountPending">
-    <Setter Property="Foreground" Value="#7A7F85" />
+    <Setter Property="Foreground" Value="#8A9AA5" />
   </Style>
 
   <!-- ===== BADGE ===== -->
   <Style Selector="Border.BadgeSuccess">
-    <Setter Property="Background" Value="#E8F5DB" />
+    <Setter Property="Background" Value="#E7F7EE" />
     <Setter Property="CornerRadius" Value="{StaticResource RadiusFull}" />
     <Setter Property="Padding" Value="8,3" />
   </Style>
@@ -151,30 +196,30 @@
 
   <!-- ===== SECTION TITLE ===== -->
   <Style Selector="TextBlock.SectionTitle">
-    <Setter Property="FontSize" Value="18" />
-    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="FontWeight" Value="Bold" />
     <Setter Property="Margin" Value="0,0,0,8" />
   </Style>
 
   <!-- ===== NAVIGATION BAR BUTTON ===== -->
   <Style Selector="Button.NavItem">
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Padding" Value="6,7" />
-    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Padding" Value="6,6" />
+    <Setter Property="CornerRadius" Value="12" />
     <Setter Property="MinHeight" Value="{StaticResource MinTouchTarget}" />
     <Setter Property="MinWidth" Value="{StaticResource MinTouchTarget}" />
     <Setter Property="BorderThickness" Value="0" />
   </Style>
   <Style Selector="Button.NavItem:pointerover /template/ ContentPresenter">
-    <Setter Property="Background" Value="#1231D6B2" />
+    <Setter Property="Background" Value="#12E7F7EE" />
   </Style>
 
   <!-- ===== TAB ACTIF (ex: Comptes) ===== -->
   <Style Selector="Button.TabActive">
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="#1A7F4F" />
+    <Setter Property="Foreground" Value="#168246" />
     <Setter Property="BorderThickness" Value="0,0,0,2" />
-    <Setter Property="BorderBrush" Value="#1A7F4F" />
+    <Setter Property="BorderBrush" Value="#168246" />
     <Setter Property="CornerRadius" Value="0" />
     <Setter Property="Padding" Value="12,10" />
     <Setter Property="FontWeight" Value="SemiBold" />
@@ -184,13 +229,13 @@
     <Setter Property="Background" Value="Transparent" />
   </Style>
   <Style Selector="Button.TabActive TextBlock">
-    <Setter Property="Foreground" Value="#1A7F4F" />
+    <Setter Property="Foreground" Value="#168246" />
   </Style>
 
   <!-- ===== TAB INACTIF (placeholder) ===== -->
   <Style Selector="Button.TabInactive">
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="#7A7F85" />
+    <Setter Property="Foreground" Value="#8A9AA5" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="0" />
     <Setter Property="Padding" Value="12,10" />
@@ -201,7 +246,7 @@
     <Setter Property="Background" Value="Transparent" />
   </Style>
   <Style Selector="Button.TabInactive TextBlock">
-    <Setter Property="Foreground" Value="#7A7F85" />
+    <Setter Property="Foreground" Value="#8A9AA5" />
   </Style>
 
   <!-- ===== BOUTON ICÔNE (œil, …) ===== -->
@@ -239,14 +284,17 @@
     <Setter Property="Background" Value="Transparent" />
   </Style>
   <Style Selector="Button.QuickAction:pointerover /template/ ContentPresenter">
-    <Setter Property="Background" Value="#F0F0EC" />
+    <Setter Property="Background" Value="#F1FBF5" />
   </Style>
 
   <!-- ===== QUICK ACTION ICON CONTAINER ===== -->
   <Style Selector="Border.QuickActionIcon">
-    <Setter Property="Background" Value="#1131D6B2" />
+    <Setter Property="Background" Value="#FFFFFF" />
     <Setter Property="CornerRadius" Value="14" />
-    <Setter Property="Padding" Value="14" />
+    <Setter Property="Padding" Value="13" />
+    <Setter Property="BorderBrush" Value="#EEF2F4" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BoxShadow" Value="0 2 8 0 #10101820" />
     <Setter Property="HorizontalAlignment" Value="Center" />
   </Style>
 
@@ -257,7 +305,8 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Viewbox Stretch="Uniform">
-          <Image Source="{Binding Kind, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static conv:MaterialKindToImageConverter.Instance}, ConverterParameter={TemplateBinding Foreground}}" />
+          <Path Data="{Binding Kind, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static conv:MaterialKindToGeometryConverter.Instance}}"
+                Fill="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
         </Viewbox>
       </ControlTemplate>
     </Setter>

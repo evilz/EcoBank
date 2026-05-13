@@ -11,7 +11,10 @@ public partial class CardsViewModel : ViewModelBase
     private readonly GetCardsUseCase _getCards;
 
     [ObservableProperty] private Card? _selectedCard;
+    [ObservableProperty] private bool _isDetailVisible;
     public ObservableCollection<Card> Cards { get; } = [];
+    public bool HasCards => Cards.Any();
+    public bool HasNoCards => !HasCards;
 
     public CardsViewModel(GetCardsUseCase getCards) => _getCards = getCards;
 
@@ -26,6 +29,8 @@ public partial class CardsViewModel : ViewModelBase
             Cards.Clear();
             foreach (var c in cards) Cards.Add(c);
             SelectedCard ??= Cards.FirstOrDefault();
+            OnPropertyChanged(nameof(HasCards));
+            OnPropertyChanged(nameof(HasNoCards));
         }
         catch (Exception) { ErrorMessage = "Impossible de charger les cartes."; }
         finally { IsBusy = false; }
@@ -38,5 +43,8 @@ public partial class CardsViewModel : ViewModelBase
     private void ManageAlerts() { /* TODO: navigate to card alerts */ }
 
     [RelayCommand]
-    private void ViewCardDetails() { /* TODO: navigate to card details */ }
+    private void ViewCardDetails() => IsDetailVisible = true;
+
+    [RelayCommand]
+    private void ShowCardList() => IsDetailVisible = false;
 }

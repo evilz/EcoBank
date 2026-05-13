@@ -1,58 +1,138 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Profile"
+             xmlns:ic="using:IconPacks.Avalonia.Material"
              x:Class="EcoBank.App.Views.Profile.ProfileView"
-             x:DataType="vm:ProfileViewModel">
+             x:DataType="vm:ProfileViewModel"
+             Background="#FFFFFF">
 
-  <ScrollViewer>
-    <StackPanel Margin="16" Spacing="16">
-      <TextBlock Text="Profil" FontSize="22" FontWeight="SemiBold"/>
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="16,14,16,24" Spacing="18">
+      <Grid ColumnDefinitions="*,Auto" Height="56">
+        <TextBlock Text="Profil"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#101820"
+                   VerticalAlignment="Center"/>
+        <Button Grid.Column="1" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
+          <ic:PackIconMaterial Kind="CogOutline" Width="22" Height="22" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+      </Grid>
 
-      <!-- User info card -->
-      <Border Padding="16" CornerRadius="12" Background="White" BoxShadow="0 2 8 0 #20000000">
-        <StackPanel Spacing="8">
-          <!-- Avatar replacement -->
-          <Border Width="64" Height="64" CornerRadius="32" Background="#E8F5DB" HorizontalAlignment="Center">
-            <TextBlock Text="👤" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-          </Border>
-          <TextBlock Text="{Binding UserDisplayName}"
-                     FontSize="18"
-                     FontWeight="SemiBold"
-                     HorizontalAlignment="Center"/>
-          <TextBlock Text="{Binding CurrentUser.Email}"
-                     Foreground="#808080"
-                     HorizontalAlignment="Center"
-                     IsVisible="{Binding CurrentUser.Email, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-          <!-- Badge replacement -->
-          <Border CornerRadius="9999" Background="#E8F5DB" Padding="12,4" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding CurrentUser.KycStatus}" FontSize="12" FontWeight="Medium" Foreground="#1E7F4F"/>
-          </Border>
-        </StackPanel>
-      </Border>
+      <StackPanel HorizontalAlignment="Center" Spacing="8" Margin="0,2,0,12">
+        <Border Width="76"
+                Height="76"
+                CornerRadius="38"
+                Background="#DCE3E7"
+                ClipToBounds="True">
+          <Grid>
+            <ic:PackIconMaterial Kind="Account"
+                                 Width="52"
+                                 Height="52"
+                                 Foreground="#60717D"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"/>
+          </Grid>
+        </Border>
 
-      <!-- Preferences -->
-      <Border Padding="16" CornerRadius="12" Background="White" BoxShadow="0 2 8 0 #20000000">
-        <StackPanel Spacing="12">
-          <TextBlock Text="Préférences" FontSize="16" FontWeight="SemiBold"/>
-          <StackPanel Orientation="Horizontal" Spacing="12">
-            <TextBlock Text="Mode sombre" VerticalAlignment="Center" FontSize="14"/>
-            <ToggleSwitch IsChecked="{Binding DarkModeEnabled}" Margin="0"/>
+        <TextBlock Text="{Binding UserDisplayName}"
+                   FontSize="16"
+                   FontWeight="Bold"
+                   Foreground="#101820"
+                   HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding ProfileEmail}"
+                   FontSize="12"
+                   Foreground="#8A9AA5"
+                   HorizontalAlignment="Center"/>
+        <Border Background="#E7F7EE" CornerRadius="999" Padding="11,5" HorizontalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="5">
+            <ic:PackIconMaterial Kind="Leaf" Width="13" Height="13" Foreground="#168246"/>
+            <TextBlock Text="Client EcoBank" FontSize="11" FontWeight="Bold" Foreground="#168246"/>
           </StackPanel>
-          <StackPanel Orientation="Horizontal" Spacing="12">
-            <TextBlock Text="Langue" VerticalAlignment="Center" FontSize="14"/>
-            <ComboBox SelectedItem="{Binding SelectedLanguage}">
-              <ComboBoxItem>fr</ComboBoxItem>
-              <ComboBoxItem>en</ComboBoxItem>
-            </ComboBox>
-          </StackPanel>
+        </Border>
+        <StackPanel Orientation="Horizontal" Spacing="4" HorizontalAlignment="Center">
+          <ic:PackIconMaterial Kind="Leaf" Width="10" Height="10" Foreground="#168246"/>
+          <TextBlock Text="Niveau Éco" FontSize="11" FontWeight="Medium" Foreground="#45545F"/>
         </StackPanel>
-      </Border>
+      </StackPanel>
 
-      <!-- Actions -->
-      <Button Classes="Danger"
-              Content="Se déconnecter"
-              Command="{Binding ResetSessionCommand}"
-              HorizontalAlignment="Stretch"/>
+      <StackPanel Spacing="0">
+        <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
+            <ic:PackIconMaterial Kind="AccountOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="Informations personnelles" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </Button>
+        <Border Height="1" Background="#EEF2F4"/>
+
+        <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
+            <ic:PackIconMaterial Kind="ShieldCheckOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="Sécurité" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </Button>
+        <Border Height="1" Background="#EEF2F4"/>
+
+        <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
+            <ic:PackIconMaterial Kind="CreditCardOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="Moyens de paiement" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </Button>
+        <Border Height="1" Background="#EEF2F4"/>
+
+        <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
+            <ic:PackIconMaterial Kind="BellOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="Notifications" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </Button>
+        <Border Height="1" Background="#EEF2F4"/>
+
+        <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
+            <ic:PackIconMaterial Kind="FileDocumentOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="Documents" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </Button>
+        <Border Height="1" Background="#EEF2F4"/>
+
+        <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
+            <ic:PackIconMaterial Kind="CogOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="Paramètres" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </Button>
+        <Border Height="1" Background="#EEF2F4"/>
+
+        <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
+            <ic:PackIconMaterial Kind="HelpCircleOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="Aide &amp; support" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </Button>
+      </StackPanel>
+
+      <Button Command="{Binding ResetSessionCommand}"
+              Background="#FFFFFF"
+              BorderBrush="#EEF2F4"
+              BorderThickness="1"
+              CornerRadius="12"
+              Padding="16,14"
+              HorizontalContentAlignment="Center"
+              Margin="8,8,8,0">
+        <TextBlock Text="Se déconnecter"
+                   FontSize="13"
+                   FontWeight="Bold"
+                   Foreground="#D84C4C"/>
+      </Button>
     </StackPanel>
   </ScrollViewer>
 </UserControl>

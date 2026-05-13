@@ -5,236 +5,330 @@
              xmlns:ic="using:IconPacks.Avalonia.Material"
              x:Class="EcoBank.App.Views.Cards.CardsView"
              x:DataType="vm:CardsViewModel"
-             Background="#171717">
+             Background="#FFFFFF">
 
-  <DockPanel Background="#171717">
+  <Grid Background="#FFFFFF">
+    <DockPanel IsVisible="{Binding !IsDetailVisible}">
+      <Grid DockPanel.Dock="Top"
+            ColumnDefinitions="Auto,*,Auto"
+            Margin="16,14,16,4"
+            Height="56">
+        <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
+          <ic:PackIconMaterial Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+        <TextBlock Grid.Column="1"
+                   Text="Mes cartes"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#101820"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <Button Grid.Column="2" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
+          <ic:PackIconMaterial Kind="Plus" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+      </Grid>
 
-    <Grid DockPanel.Dock="Top"
-          ColumnDefinitions="Auto,*,Auto"
-          Margin="18,18,18,8">
-      <Button Grid.Column="0"
-              Classes="IconBtn"
-              Width="48"
-              Height="48">
-        <Border Width="42" Height="42" CornerRadius="13" Background="#242424" BorderBrush="#18FFFFFF" BorderThickness="1">
-          <ic:PackIconMaterial Kind="ArrowLeft"
-                               Width="20" Height="20"
-                               Foreground="White"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-        </Border>
-      </Button>
-      <TextBlock Grid.Column="1"
-                 Text="Mes cartes"
-                 FontSize="18"
-                 FontWeight="Bold"
-                 Foreground="White"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center"/>
-      <Button Grid.Column="2"
-              Classes="IconBtn"
-              Width="48"
-              Height="48">
-        <Border Width="42" Height="42" CornerRadius="13" Background="#242424" BorderBrush="#18FFFFFF" BorderThickness="1">
-          <ic:PackIconMaterial Kind="EyeOutline"
-                               Width="20" Height="20"
-                               Foreground="White"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-        </Border>
-      </Button>
-    </Grid>
+      <ProgressBar DockPanel.Dock="Top"
+                   IsIndeterminate="True"
+                   Height="3"
+                   IsVisible="{Binding IsBusy}"/>
 
-    <ProgressBar DockPanel.Dock="Top"
-                 IsIndeterminate="True"
-                 Height="3"
-                 IsVisible="{Binding IsBusy}"/>
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16" Margin="16,8,16,24">
 
-    <TextBlock DockPanel.Dock="Top"
-               Text="{Binding ErrorMessage}"
-               Foreground="#FF6969"
-               TextWrapping="Wrap"
-               Margin="20,0"
-               IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+          <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Disabled"
+                        IsVisible="{Binding HasCards}">
+            <ItemsControl ItemsSource="{Binding Cards}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Horizontal" Spacing="14"/>
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="domain:Card">
+                  <Border Width="320"
+                          Height="190"
+                          CornerRadius="18"
+                          Padding="20"
+                          ClipToBounds="True"
+                          BoxShadow="0 10 30 0 #2E101820"
+                          Margin="0,0,14,0">
+                    <Border.Background>
+                      <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#07351F" Offset="0"/>
+                        <GradientStop Color="#0F6738" Offset="0.58"/>
+                        <GradientStop Color="#239A5B" Offset="1"/>
+                      </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid RowDefinitions="Auto,*,Auto">
+                      <ic:PackIconMaterial Grid.RowSpan="3"
+                                           Kind="Leaf"
+                                           Width="210"
+                                           Height="210"
+                                           Foreground="#18FFFFFF"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Top"
+                                           Margin="0,-70,-46,0"/>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-      <StackPanel Spacing="22" Margin="18,8,18,28">
+                      <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <ic:PackIconMaterial Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
+                          <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                        </StackPanel>
+                        <ic:PackIconMaterial Grid.Column="1" Kind="ContactlessPayment" Width="24" Height="24" Foreground="White" Opacity="0.9"/>
+                      </Grid>
 
-        <Border CornerRadius="0,0,28,28"
-                Background="#202020"
-                Padding="0,22,0,22"
-                Margin="-18,-8,-18,0">
-          <StackPanel Spacing="14">
-            <ScrollViewer HorizontalScrollBarVisibility="Hidden"
-                          VerticalScrollBarVisibility="Disabled">
-              <Grid ColumnDefinitions="72,*">
-                <Border Grid.Column="0"
-                        Width="44"
-                        Height="88"
-                        CornerRadius="10"
-                        BorderBrush="#44FFFFFF"
-                        BorderThickness="1.5"
-                        Opacity="0.72"
-                        Margin="20,0,8,0"
-                        VerticalAlignment="Center">
-                  <ic:PackIconMaterial Kind="Plus"
-                                       Width="18" Height="18"
-                                       Foreground="#8E8E8E"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                </Border>
+                      <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                        <TextBlock Grid.Column="0" Text="•••• 1234" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Spacing="-2">
+                          <TextBlock Text="VISA" FontSize="29" FontWeight="Bold" FontStyle="Italic" Foreground="White" HorizontalAlignment="Right"/>
+                          <TextBlock Text="Débit" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                      </Grid>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
 
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding Cards}">
-                  <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel Orientation="Horizontal" Spacing="12"/>
-                    </ItemsPanelTemplate>
-                  </ItemsControl.ItemsPanel>
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="domain:Card">
-                      <Border Width="244"
-                              Height="146"
-                              CornerRadius="18"
-                              Background="#176C58"
-                              Padding="18"
-                              Margin="0,0,12,0">
-                        <Grid RowDefinitions="Auto,*,Auto">
-                          <StackPanel Grid.Row="0" Spacing="3">
-                            <TextBlock Text="Numéro de carte"
-                                       FontSize="11"
-                                       Foreground="#AAFFFFFF"/>
-                            <StackPanel Orientation="Horizontal" Spacing="6">
-                              <TextBlock Text="{Binding MaskedPan}"
-                                         FontSize="17"
-                                         FontWeight="Bold"
-                                         Foreground="White"
-                                         TextTrimming="CharacterEllipsis"/>
-                              <ic:PackIconMaterial Kind="ContentCopy"
-                                                   Width="14"
-                                                   Height="14"
-                                                   Foreground="#BBFFFFFF"
-                                                   VerticalAlignment="Center"/>
-                            </StackPanel>
-                          </StackPanel>
-
-                          <Grid Grid.Row="2" ColumnDefinitions="*,*,Auto">
-                            <StackPanel Grid.Column="0" Spacing="2">
-                              <TextBlock Text="Expiration" FontSize="10" Foreground="#99FFFFFF"/>
-                              <TextBlock Text="12/28" FontSize="14" FontWeight="Bold" Foreground="White"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Spacing="2">
-                              <TextBlock Text="CVV" FontSize="10" Foreground="#99FFFFFF"/>
-                              <TextBlock Text="234" FontSize="14" FontWeight="Bold" Foreground="White"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="2"
-                                       Text="VISA"
-                                       FontSize="18"
-                                       FontWeight="Bold"
-                                       FontStyle="Italic"
-                                       Foreground="White"
-                                       VerticalAlignment="Bottom"/>
-                          </Grid>
-                        </Grid>
-                      </Border>
-                    </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                </ItemsControl>
+          <Border Width="320"
+                  Height="190"
+                  CornerRadius="18"
+                  Padding="20"
+                  ClipToBounds="True"
+                  BoxShadow="0 10 30 0 #2E101820"
+                  HorizontalAlignment="Center"
+                  IsVisible="{Binding HasNoCards}">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#07351F" Offset="0"/>
+                <GradientStop Color="#0F6738" Offset="0.58"/>
+                <GradientStop Color="#239A5B" Offset="1"/>
+              </LinearGradientBrush>
+            </Border.Background>
+            <Grid RowDefinitions="Auto,*,Auto">
+              <ic:PackIconMaterial Grid.RowSpan="3" Kind="Leaf" Width="210" Height="210" Foreground="#18FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-70,-46,0"/>
+              <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <ic:PackIconMaterial Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
+                  <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                </StackPanel>
+                <ic:PackIconMaterial Grid.Column="1" Kind="ContactlessPayment" Width="24" Height="24" Foreground="White" Opacity="0.9"/>
               </Grid>
-            </ScrollViewer>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-              <Ellipse Width="7" Height="7" Fill="White"/>
-              <Ellipse Width="7" Height="7" Fill="#44FFFFFF"/>
-              <Ellipse Width="7" Height="7" Fill="#44FFFFFF"/>
-            </StackPanel>
-          </StackPanel>
-        </Border>
-
-        <Border Classes="DarkPanel">
-          <StackPanel Spacing="18">
-            <Grid ColumnDefinitions="*,Auto">
-              <TextBlock Text="Opérations"
-                         FontSize="20"
-                         FontWeight="Bold"
-                         Foreground="White"/>
-              <TextBlock Grid.Column="1"
-                         Text="Voir tout"
-                         FontSize="12"
-                         FontWeight="Bold"
-                         Foreground="#31D6B2"
-                         VerticalAlignment="Center"/>
+              <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                <TextBlock Grid.Column="0" Text="•••• 1234" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
+                <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Spacing="-2">
+                  <TextBlock Text="VISA" FontSize="29" FontWeight="Bold" FontStyle="Italic" Foreground="White" HorizontalAlignment="Right"/>
+                  <TextBlock Text="Débit" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                </StackPanel>
+              </Grid>
             </Grid>
+          </Border>
 
-            <TextBlock Text="Sécurité"
-                       FontSize="13"
-                       FontWeight="SemiBold"
-                       Foreground="#8B8B8B"/>
-
-            <Button Background="Transparent" BorderThickness="0" Padding="0" Command="{Binding ManageCardCommand}">
-              <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
-                <Border Width="42" Height="42" CornerRadius="12" Background="#343434">
-                  <ic:PackIconMaterial Kind="LockOutline" Width="20" Height="20" Foreground="#DADADA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <TextBlock Grid.Column="1" Text="Bloquer la carte" FontSize="15" FontWeight="Bold" Foreground="#EDEDED" VerticalAlignment="Center"/>
-                <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="19" Height="19" Foreground="#777777" VerticalAlignment="Center"/>
-              </Grid>
-            </Button>
-
-            <Button Background="Transparent" BorderThickness="0" Padding="0" Command="{Binding ManageCardCommand}">
-              <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
-                <Border Width="42" Height="42" CornerRadius="12" Background="#343434">
-                  <ic:PackIconMaterial Kind="CreditCardLockOutline" Width="20" Height="20" Foreground="#DADADA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <TextBlock Grid.Column="1" Text="Geler la carte" FontSize="15" FontWeight="Bold" Foreground="#EDEDED" VerticalAlignment="Center"/>
-                <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="19" Height="19" Foreground="#777777" VerticalAlignment="Center"/>
-              </Grid>
-            </Button>
-
-            <Button Background="Transparent" BorderThickness="0" Padding="0" Command="{Binding ViewCardDetailsCommand}">
-              <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
-                <Border Width="42" Height="42" CornerRadius="12" Background="#343434">
-                  <ic:PackIconMaterial Kind="ShieldCheckOutline" Width="20" Height="20" Foreground="#DADADA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <TextBlock Grid.Column="1" Text="3D Secure" FontSize="15" FontWeight="Bold" Foreground="#EDEDED" VerticalAlignment="Center"/>
-                <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="19" Height="19" Foreground="#777777" VerticalAlignment="Center"/>
-              </Grid>
-            </Button>
-
-            <Button Background="Transparent" BorderThickness="0" Padding="0" Command="{Binding ManageAlertsCommand}">
-              <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
-                <Border Width="42" Height="42" CornerRadius="12" Background="#343434">
-                  <ic:PackIconMaterial Kind="KeyVariant" Width="20" Height="20" Foreground="#DADADA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <TextBlock Grid.Column="1" Text="Changer le PIN" FontSize="15" FontWeight="Bold" Foreground="#EDEDED" VerticalAlignment="Center"/>
-                <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="19" Height="19" Foreground="#777777" VerticalAlignment="Center"/>
-              </Grid>
-            </Button>
-          </StackPanel>
-        </Border>
-
-        <TextBlock Text="Autres paramètres"
-                   FontSize="13"
-                   FontWeight="SemiBold"
-                   Foreground="#777777"
-                   Margin="2,-4,0,0"/>
-
-        <Border Classes="DarkPanel" Padding="16">
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-            <Border Width="38" Height="38" CornerRadius="11" Background="#243D38">
-              <ic:PackIconMaterial Kind="BellOutline" Width="19" Height="19" Foreground="#31D6B2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Alertes de paiement" FontSize="15" FontWeight="Bold" Foreground="#EDEDED"/>
-              <TextBlock Text="Temps réel" FontSize="12" Foreground="#8B8B8B"/>
+          <Grid ColumnDefinitions="*,Auto" Margin="0,2,0,0">
+            <StackPanel Grid.Column="0" Spacing="3">
+              <TextBlock Text="Carte principale" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+              <TextBlock Text="Expire le 06/27" FontSize="12" Foreground="#8A9AA5"/>
             </StackPanel>
-            <Border Grid.Column="2" Background="#1231D6B2" CornerRadius="12" Padding="10,5" VerticalAlignment="Center">
-              <TextBlock Text="Actives" FontSize="12" FontWeight="Bold" Foreground="#31D6B2"/>
-            </Border>
+            <ic:PackIconMaterial Grid.Column="1" Kind="Refresh" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
           </Grid>
-        </Border>
 
-      </StackPanel>
-    </ScrollViewer>
+          <UniformGrid Rows="1" Columns="4">
+            <Button Classes="QuickAction" Command="{Binding ManageCardCommand}">
+              <StackPanel Spacing="8" HorizontalAlignment="Center">
+                <Border Classes="QuickActionIcon">
+                  <ic:PackIconMaterial Kind="LockOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Verrouiller" FontSize="10" FontWeight="Medium" Foreground="#45545F" HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button Classes="QuickAction" Command="{Binding ViewCardDetailsCommand}">
+              <StackPanel Spacing="8" HorizontalAlignment="Center">
+                <Border Classes="QuickActionIcon">
+                  <ic:PackIconMaterial Kind="InformationOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Détails" FontSize="10" FontWeight="Medium" Foreground="#45545F" HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button Classes="QuickAction" Command="{Binding ManageAlertsCommand}">
+              <StackPanel Spacing="8" HorizontalAlignment="Center">
+                <Border Classes="QuickActionIcon">
+                  <ic:PackIconMaterial Kind="Gauge" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Plafonds" FontSize="10" FontWeight="Medium" Foreground="#45545F" HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button Classes="QuickAction">
+              <StackPanel Spacing="8" HorizontalAlignment="Center">
+                <Border Classes="QuickActionIcon">
+                  <ic:PackIconMaterial Kind="DotsHorizontal" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Plus" FontSize="10" FontWeight="Medium" Foreground="#45545F" HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+          </UniformGrid>
 
-  </DockPanel>
+          <Border Classes="EcoPanel">
+            <StackPanel Spacing="18">
+              <StackPanel Spacing="8">
+                <TextBlock Text="Plafond de paiement" FontSize="12" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="3 000 € / mois" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                <Grid Height="6">
+                  <Border Background="#EEF2F4" CornerRadius="3"/>
+                  <Border Width="210" Background="#168246" CornerRadius="3" HorizontalAlignment="Left"/>
+                </Grid>
+              </StackPanel>
+
+              <StackPanel Spacing="8">
+                <TextBlock Text="Plafond de retrait" FontSize="12" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="1 000 € / semaine" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                <Grid Height="6">
+                  <Border Background="#EEF2F4" CornerRadius="3"/>
+                  <Border Width="154" Background="#168246" CornerRadius="3" HorizontalAlignment="Left"/>
+                </Grid>
+              </StackPanel>
+            </StackPanel>
+          </Border>
+
+          <Border Classes="EcoPanel">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+              <ic:PackIconMaterial Grid.Column="0" Kind="ContactlessPayment" Width="24" Height="24" Foreground="#168246" VerticalAlignment="Center"/>
+              <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                <TextBlock Text="Paiement sans contact" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="Activé" FontSize="12" Foreground="#45545F"/>
+              </StackPanel>
+              <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="20" Height="20" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+            </Grid>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </DockPanel>
+
+    <DockPanel IsVisible="{Binding IsDetailVisible}">
+      <Grid DockPanel.Dock="Top"
+            ColumnDefinitions="Auto,*,Auto"
+            Margin="16,14,16,4"
+            Height="56">
+        <Button Grid.Column="0"
+                Classes="IconBtn"
+                Width="44"
+                Height="44"
+                VerticalAlignment="Center"
+                Command="{Binding ShowCardListCommand}">
+          <ic:PackIconMaterial Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+        <TextBlock Grid.Column="1"
+                   Text="Détails de la carte"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#101820"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+      </Grid>
+
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16" Margin="16,8,16,24">
+          <Border Height="190"
+                  CornerRadius="18"
+                  Padding="20"
+                  ClipToBounds="True"
+                  BoxShadow="0 10 30 0 #2E101820">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#07351F" Offset="0"/>
+                <GradientStop Color="#0F6738" Offset="0.58"/>
+                <GradientStop Color="#239A5B" Offset="1"/>
+              </LinearGradientBrush>
+            </Border.Background>
+            <Grid RowDefinitions="Auto,*,Auto">
+              <ic:PackIconMaterial Grid.RowSpan="3" Kind="Leaf" Width="260" Height="260" Foreground="#22FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-76,-34,0"/>
+              <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
+                <ic:PackIconMaterial Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
+                <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" Foreground="White"/>
+              </StackPanel>
+              <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                <TextBlock Grid.Column="0" Text="•••• 1234" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
+                <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Spacing="-2">
+                  <TextBlock Text="VISA" FontSize="30" FontWeight="Bold" FontStyle="Italic" Foreground="White" HorizontalAlignment="Right"/>
+                  <TextBlock Text="Débit" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                </StackPanel>
+              </Grid>
+            </Grid>
+          </Border>
+
+          <Border Classes="EcoPanel">
+            <StackPanel Spacing="14">
+              <StackPanel Spacing="4">
+                <TextBlock Text="Titulaire de la carte" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
+                <TextBlock Text="Alexandre Martin" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+              </StackPanel>
+              <StackPanel Spacing="4">
+                <TextBlock Text="Numéro de carte" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
+                <Grid ColumnDefinitions="*,Auto">
+                  <TextBlock Text="**** **** **** 1234" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                  <ic:PackIconMaterial Grid.Column="1" Kind="ContentCopy" Width="18" Height="18" Foreground="#45545F"/>
+                </Grid>
+              </StackPanel>
+              <Grid ColumnDefinitions="*,*">
+                <StackPanel Grid.Column="0" Spacing="4">
+                  <TextBlock Text="Expire fin" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
+                  <TextBlock Text="06 / 27" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Spacing="4">
+                  <TextBlock Text="CVV" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
+                  <StackPanel Orientation="Horizontal" Spacing="5">
+                    <TextBlock Text="•••" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                    <ic:PackIconMaterial Kind="EyeOutline" Width="16" Height="16" Foreground="#45545F"/>
+                  </StackPanel>
+                </StackPanel>
+              </Grid>
+              <Border Height="1" Background="#EEF2F4" Margin="-16,0"/>
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="Voir le code PIN" FontSize="13" FontWeight="Bold" Foreground="#168246"/>
+                <ic:PackIconMaterial Grid.Column="1" Kind="ChevronRight" Width="18" Height="18" Foreground="#168246"/>
+              </Grid>
+            </StackPanel>
+          </Border>
+
+          <TextBlock Text="Paramètres de sécurité" FontSize="14" FontWeight="Bold" Foreground="#101820" Margin="0,8,0,-6"/>
+
+          <Border Classes="EcoPanel">
+            <StackPanel Spacing="0">
+              <Grid ColumnDefinitions="*,Auto" MinHeight="52">
+                <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                  <TextBlock Text="Paiements en ligne" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                  <TextBlock Text="Activés" FontSize="11" Foreground="#168246"/>
+                </StackPanel>
+                <Border Grid.Column="1" Width="44" Height="26" CornerRadius="999" Background="#168246" VerticalAlignment="Center">
+                  <Ellipse Width="22" Height="22" Fill="#FFFFFF" HorizontalAlignment="Right" Margin="0,2,2,2"/>
+                </Border>
+              </Grid>
+              <Border Height="1" Background="#EEF2F4"/>
+              <Grid ColumnDefinitions="*,Auto" MinHeight="52">
+                <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                  <TextBlock Text="Retraits DAB" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                  <TextBlock Text="Activés" FontSize="11" Foreground="#168246"/>
+                </StackPanel>
+                <Border Grid.Column="1" Width="44" Height="26" CornerRadius="999" Background="#168246" VerticalAlignment="Center">
+                  <Ellipse Width="22" Height="22" Fill="#FFFFFF" HorizontalAlignment="Right" Margin="0,2,2,2"/>
+                </Border>
+              </Grid>
+              <Border Height="1" Background="#EEF2F4"/>
+              <Grid ColumnDefinitions="*,Auto" MinHeight="52">
+                <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                  <TextBlock Text="Paiements à l’étranger" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                  <TextBlock Text="Activés" FontSize="11" Foreground="#168246"/>
+                </StackPanel>
+                <Border Grid.Column="1" Width="44" Height="26" CornerRadius="999" Background="#168246" VerticalAlignment="Center">
+                  <Ellipse Width="22" Height="22" Fill="#FFFFFF" HorizontalAlignment="Right" Margin="0,2,2,2"/>
+                </Border>
+              </Grid>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </DockPanel>
+  </Grid>
 </UserControl>

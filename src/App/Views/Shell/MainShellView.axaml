@@ -4,32 +4,32 @@
              xmlns:ic="using:IconPacks.Avalonia.Material"
              x:Class="EcoBank.App.Views.Shell.MainShellView"
              x:DataType="vm:MainShellViewModel"
-             Background="#F4F4F4">
+             Background="#F7FCF8">
 
   <Panel>
 
     <Grid ColumnDefinitions="248,*"
-          Background="#F4F4F4"
+          Background="#F7FCF8"
           IsVisible="{Binding $parent[UserControl].Bounds.Width, Converter={x:Static vm:WidthToBoolConverter.IsWide}}">
 
       <Border Grid.Column="0"
-              Background="#171717"
+              Background="#FFFFFF"
               Padding="18"
-              BorderBrush="#101010"
+              BorderBrush="#EEF2F4"
               BorderThickness="0,0,1,0">
         <DockPanel>
           <StackPanel DockPanel.Dock="Top" Margin="0,8,0,28" Spacing="18">
             <StackPanel Orientation="Horizontal" Spacing="12">
-              <Border Width="42" Height="42" CornerRadius="13" Background="#31D6B2">
+              <Border Width="42" Height="42" CornerRadius="13" Background="#E7F7EE">
                 <ic:PackIconMaterial Kind="Leaf"
                                      Width="22" Height="22"
-                                     Foreground="#101414"
+                                     Foreground="#168246"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Center"/>
               </Border>
               <StackPanel VerticalAlignment="Center" Spacing="1">
-                <TextBlock Text="EcoBank" FontSize="20" FontWeight="Bold" Foreground="White"/>
-                <TextBlock Text="Banque mobile" FontSize="12" Foreground="#8C8C8C"/>
+                <TextBlock Text="EcoBank" FontSize="20" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="Banque durable" FontSize="12" Foreground="#45545F"/>
               </StackPanel>
             </StackPanel>
           </StackPanel>
@@ -77,16 +77,18 @@
     </Grid>
 
     <Grid RowDefinitions="*,Auto"
-          Background="#F4F4F4"
+          Background="#F7FCF8"
           IsVisible="{Binding $parent[UserControl].Bounds.Width, Converter={x:Static vm:WidthToBoolConverter.IsNarrow}}">
 
       <ContentControl Grid.Row="0" Content="{Binding CurrentContent}"/>
 
       <Border Grid.Row="1"
-              Background="#F7FFFFFF"
-              BoxShadow="0 -12 28 0 #22000000"
-              Padding="8,8,8,7"
-              CornerRadius="22,22,0,0">
+              Background="#FFFFFF"
+              BorderBrush="#EEF2F4"
+              BorderThickness="0,1,0,0"
+              BoxShadow="0 -8 24 0 #10101820"
+              Padding="8,6,8,6"
+              CornerRadius="0">
         <ItemsControl ItemsSource="{Binding Tabs}">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>

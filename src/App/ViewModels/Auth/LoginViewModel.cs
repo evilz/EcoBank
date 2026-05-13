@@ -61,7 +61,7 @@ public partial class LoginViewModel : ViewModelBase
 
     public string RememberCredentialsLabel => RememberCredentials ? "Profil enregistré" : "Ne pas enregistrer";
 
-    public string RememberCredentialsMark => RememberCredentials ? "✓" : "";
+    public string RememberCredentialsMark => "";
 
     [ObservableProperty]
     private bool _isLoadingProfiles;
@@ -319,5 +319,6 @@ public partial class LoginViewModel : ViewModelBase
     partial void OnClientSecretChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
     partial void OnAppUserIdChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
     partial void OnNewPinChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
+    partial void OnRememberCredentialsChanged(bool value) => LoginCommand.NotifyCanExecuteChanged();
     partial void OnPinChanged(string value) => SubmitPinCommand.NotifyCanExecuteChanged();
 }

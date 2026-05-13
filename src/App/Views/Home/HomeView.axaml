@@ -1,317 +1,283 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Home"
-             xmlns:ops="using:EcoBank.Core.Domain.Operations"
+             xmlns:domain="using:EcoBank.Core.Domain.Accounts"
              xmlns:ic="using:IconPacks.Avalonia.Material"
              x:Class="EcoBank.App.Views.Home.HomeView"
              x:DataType="vm:HomeViewModel"
-             Background="#F4F4F4">
+             Background="#F7FCF8">
 
   <ScrollViewer VerticalScrollBarVisibility="Auto">
-    <StackPanel Margin="16,18,16,28" Spacing="18">
+    <StackPanel Spacing="16" Margin="0,0,0,24">
 
       <Border CornerRadius="0,0,30,30"
-              Background="White"
-              Padding="18,16,18,20"
-              Margin="-16,-18,-16,0"
-              BoxShadow="0 16 36 0 #12000000">
-        <StackPanel Spacing="26">
+              Padding="16,16,16,64"
+              ClipToBounds="True"
+              BoxShadow="0 22 46 0 #300B3B28">
+        <Border.Background>
+          <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Color="#07351F" Offset="0"/>
+            <GradientStop Color="#0B4D2D" Offset="0.55"/>
+            <GradientStop Color="#168246" Offset="1"/>
+          </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+          <StackPanel Spacing="18">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Grid.Column="0" Spacing="1">
+                <TextBlock Text="Bonjour"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Foreground="White"/>
+                <TextBlock FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           TextTrimming="CharacterEllipsis">
+                  <TextBlock.Text>
+                    <Binding Path="GreetingName"/>
+                  </TextBlock.Text>
+                </TextBlock>
+              </StackPanel>
 
-          <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
-            <StackPanel Grid.Column="0" Spacing="2">
-              <TextBlock Text="{Binding WelcomeMessage}"
-                         FontSize="28"
-                         FontWeight="Bold"
-                         Foreground="#171717"/>
-              <TextBlock Text="Bienvenue sur EcoBank"
-                         FontSize="15"
-                         Foreground="#777777"/>
-            </StackPanel>
-
-            <Button Grid.Column="1"
-                    Classes="IconBtn"
-                    Command="{Binding ToggleBalanceCommand}"
-                    ToolTip.Tip="Afficher / masquer le solde">
-              <Border Width="48" Height="48" CornerRadius="14" Background="#F4F4F4">
-                <ic:PackIconMaterial Kind="{Binding IsBalanceVisible, Converter={x:Static vm:BoolToEyeIconConverter.Instance}}"
-                                     Width="21" Height="21"
-                                     Foreground="#171717"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"/>
-              </Border>
-            </Button>
-
-            <Button Grid.Column="2" Classes="BellButton">
-              <Panel>
-                <Border Width="48" Height="48" CornerRadius="14" Background="#F4F4F4">
+              <Button Grid.Column="1"
+                      Classes="IconBtn"
+                      Width="36"
+                      Height="36"
+                      ToolTip.Tip="Notifications">
+                <Border Width="36" Height="36" CornerRadius="12" Background="#18FFFFFF">
                   <ic:PackIconMaterial Kind="BellOutline"
-                                       Width="21" Height="21"
-                                       Foreground="#171717"
+                                       Width="20"
+                                       Height="20"
+                                       Foreground="White"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"/>
                 </Border>
-                <Ellipse Width="8" Height="8"
-                         Fill="#31D6B2"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Top"
-                         Margin="0,9,9,0"/>
-              </Panel>
-            </Button>
+              </Button>
+            </Grid>
+
+            <StackPanel Spacing="7">
+              <TextBlock Text="Solde total"
+                         FontSize="12"
+                         Foreground="#B9D5C6"/>
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           IsVisible="{Binding IsBalanceVisible}">
+                  <TextBlock.Text>
+                    <MultiBinding Converter="{x:Static vm:MoneyTextConverter.Instance}">
+                      <Binding Path="DisplayTotalBalance"/>
+                      <Binding Path="DisplayCurrency"/>
+                    </MultiBinding>
+                  </TextBlock.Text>
+                </TextBlock>
+                <TextBlock Text="•••••• €"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           IsVisible="{Binding !IsBalanceVisible}"/>
+                <Button Classes="IconBtn"
+                        Width="34"
+                        Height="34"
+                        Command="{Binding ToggleBalanceCommand}"
+                        VerticalAlignment="Center">
+                  <ic:PackIconMaterial Kind="{Binding IsBalanceVisible, Converter={x:Static vm:BoolToEyeIconConverter.Instance}}"
+                                       Width="18"
+                                       Height="18"
+                                       Foreground="#DDEEE4"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                </Button>
+              </StackPanel>
+              <TextBlock Text="+ 1 243,50 € ce mois-ci"
+                         FontSize="13"
+                         FontWeight="SemiBold"
+                         Foreground="#8FD8AF"/>
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <Border Classes="EcoPanel"
+              Margin="14,-48,14,0">
+        <StackPanel Spacing="16">
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Comptes"
+                       FontSize="14"
+                       FontWeight="Bold"
+                       Foreground="#101820"/>
+            <TextBlock Grid.Column="1"
+                       Text="Voir tout"
+                       FontSize="12"
+                       FontWeight="Bold"
+                       Foreground="#168246"
+                       VerticalAlignment="Center"/>
           </Grid>
 
-          <StackPanel HorizontalAlignment="Center" Spacing="4">
-            <TextBlock Text="Solde total"
-                       FontSize="13"
-                       Foreground="#9A9A9A"
-                       HorizontalAlignment="Center"/>
-            <TextBlock FontSize="39"
-                       FontWeight="Bold"
-                       Foreground="#171717"
-                       HorizontalAlignment="Center"
-                       IsVisible="{Binding IsBalanceVisible}">
-              <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0:N2} {1}">
-                  <Binding Path="TotalBalance"/>
-                  <Binding Path="Currency"/>
-                </MultiBinding>
-              </TextBlock.Text>
-            </TextBlock>
-            <TextBlock FontSize="39"
-                       FontWeight="Bold"
-                       Foreground="#171717"
-                       HorizontalAlignment="Center"
-                       Text="•••••• €"
-                       IsVisible="{Binding !IsBalanceVisible}"/>
-          </StackPanel>
+          <ItemsControl ItemsSource="{Binding Accounts}"
+                        IsVisible="{Binding HasAccounts}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="domain:Account">
+                <Grid ColumnDefinitions="Auto,*,Auto"
+                      ColumnSpacing="12"
+                      Margin="0,0,0,14">
+                  <Border Grid.Column="0" Classes="EcoIconTile">
+                    <ic:PackIconMaterial Kind="BankOutline"
+                                         Width="20"
+                                         Height="20"
+                                         Foreground="#168246"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                  </Border>
+                  <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Label}"
+                               FontSize="14"
+                               FontWeight="Bold"
+                               Foreground="#101820"
+                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Iban}"
+                               FontSize="11"
+                               Foreground="#8A9AA5"
+                               TextTrimming="CharacterEllipsis"/>
+                  </StackPanel>
+                  <TextBlock Grid.Column="2"
+                             FontSize="14"
+                             FontWeight="Bold"
+                             Foreground="#101820"
+                             VerticalAlignment="Center">
+                    <TextBlock.Text>
+                      <MultiBinding Converter="{x:Static vm:MoneyTextConverter.Instance}">
+                        <Binding Path="Balance"/>
+                        <Binding Path="Currency"/>
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
 
-          <UniformGrid Columns="3" ColumnSpacing="12">
-            <Button Classes="Secondary" MinHeight="82">
+          <StackPanel Spacing="14" IsVisible="{Binding HasNoAccounts}">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+              <Border Grid.Column="0" Classes="EcoIconTile">
+                <ic:PackIconMaterial Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Border>
+              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                <TextBlock Text="Compte principal" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="•••• 1234" FontSize="11" Foreground="#8A9AA5"/>
+              </StackPanel>
+              <TextBlock Grid.Column="2" Text="8 952,40 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+              <Border Grid.Column="0" Classes="EcoIconTile">
+                <ic:PackIconMaterial Kind="Leaf" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Border>
+              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                <TextBlock Text="Livret Éco" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="•••• 5678" FontSize="11" Foreground="#8A9AA5"/>
+              </StackPanel>
+              <TextBlock Grid.Column="2" Text="2 750,35 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+              <Border Grid.Column="0" Background="#FFF4DF" Width="40" Height="40" CornerRadius="12">
+                <ic:PackIconMaterial Kind="BankOutline" Width="20" Height="20" Foreground="#B77A22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Border>
+              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                <TextBlock Text="Compte joint" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="•••• 8765" FontSize="11" Foreground="#8A9AA5"/>
+              </StackPanel>
+              <TextBlock Grid.Column="2" Text="755,00 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
+            </Grid>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <Border Classes="EcoPanel" Margin="16,0">
+        <StackPanel Spacing="14">
+          <TextBlock Text="Actions rapides"
+                     FontSize="15"
+                     FontWeight="Bold"
+                     Foreground="#101820"/>
+          <UniformGrid Rows="1" Columns="4">
+            <Button Classes="QuickAction">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
-                <ic:PackIconMaterial Kind="SwapHorizontal"
-                                     Width="24" Height="24"
-                                     Foreground="#31D6B2"
-                                     HorizontalAlignment="Center"/>
-                <TextBlock Text="Virement"
-                           FontSize="13"
-                           FontWeight="Bold"
-                           Foreground="#171717"
-                           HorizontalAlignment="Center"/>
+                <Border Classes="EcoIconTile">
+                  <ic:PackIconMaterial Kind="BankTransfer" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Virement" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
             </Button>
-            <Button Classes="Secondary" MinHeight="82">
+            <Button Classes="QuickAction">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
-                <ic:PackIconMaterial Kind="CreditCardOutline"
-                                     Width="24" Height="24"
-                                     Foreground="#31D6B2"
-                                     HorizontalAlignment="Center"/>
-                <TextBlock Text="Paiement"
-                           FontSize="13"
-                           FontWeight="Bold"
-                           Foreground="#171717"
-                           HorizontalAlignment="Center"/>
+                <Border Classes="EcoIconTile">
+                  <ic:PackIconMaterial Kind="CreditCardOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Paiement" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
             </Button>
-            <Button Classes="Secondary" MinHeight="82">
+            <Button Classes="QuickAction">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
-                <ic:PackIconMaterial Kind="Plus"
-                                     Width="24" Height="24"
-                                     Foreground="#31D6B2"
-                                     HorizontalAlignment="Center"/>
-                <TextBlock Text="Ajouter"
-                           FontSize="13"
-                           FontWeight="Bold"
-                           Foreground="#171717"
-                           HorizontalAlignment="Center"/>
+                <Border Classes="EcoIconTile">
+                  <ic:PackIconMaterial Kind="RepeatVariant" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Recharger" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button Classes="QuickAction">
+              <StackPanel Spacing="7" HorizontalAlignment="Center">
+                <Border Classes="EcoIconTile">
+                  <ic:PackIconMaterial Kind="DotsHorizontal" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Plus" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
             </Button>
           </UniformGrid>
         </StackPanel>
       </Border>
 
-      <Border Classes="FinPanel">
-        <StackPanel Spacing="16">
-          <Grid ColumnDefinitions="*,Auto">
-            <TextBlock Text="Mes cartes"
-                       FontSize="20"
+      <Border Classes="EcoPanel" Margin="16,0">
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+          <StackPanel Grid.Column="0" Spacing="8">
+            <TextBlock Text="Impact environnemental"
+                       FontSize="15"
                        FontWeight="Bold"
-                       Foreground="#171717"/>
-            <TextBlock Grid.Column="1"
-                       Text="Voir tout"
+                       Foreground="#101820"/>
+            <TextBlock Text="Ce mois-ci"
                        FontSize="12"
-                       FontWeight="Bold"
-                       Foreground="#2C5BAA"
-                       VerticalAlignment="Center"/>
-          </Grid>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-            <Border Grid.Column="0" Width="58" Height="40" CornerRadius="10" Background="#31D6B2">
-              <Grid>
-                <TextBlock Text="Eco"
-                           FontSize="10"
-                           FontWeight="Bold"
-                           Foreground="#073B34"
-                           Margin="8,6,0,0"/>
-                <TextBlock Text="VISA"
-                           FontSize="10"
-                           FontWeight="Bold"
-                           FontStyle="Italic"
-                           Foreground="White"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Bottom"
-                           Margin="0,0,7,6"/>
-              </Grid>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="{Binding FirstAccountLabel}"
-                         FontSize="13"
-                         Foreground="#666666"
-                         TextTrimming="CharacterEllipsis"/>
-              <TextBlock FontSize="18"
-                         FontWeight="Bold"
-                         Foreground="#171717"
-                         IsVisible="{Binding IsBalanceVisible}">
-                <TextBlock.Text>
-                  <MultiBinding StringFormat="{}{0:N2} {1}">
-                    <Binding Path="FirstAccountBalance"/>
-                    <Binding Path="FirstAccountCurrency"/>
-                  </MultiBinding>
-                </TextBlock.Text>
-              </TextBlock>
-              <TextBlock Text="•••• €"
-                         FontSize="18"
-                         FontWeight="Bold"
-                         Foreground="#171717"
-                         IsVisible="{Binding !IsBalanceVisible}"/>
-            </StackPanel>
-            <Border Grid.Column="2"
-                    Background="#EFFFFA"
-                    CornerRadius="12"
-                    Padding="12,6"
-                    VerticalAlignment="Center">
-              <TextBlock Text="Active"
-                         FontSize="13"
-                         FontWeight="Bold"
-                         Foreground="#22A887"/>
-            </Border>
-          </Grid>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-            <Border Grid.Column="0" Width="58" Height="40" CornerRadius="10" Background="#145A4D">
-              <TextBlock Text="VISA"
-                         FontSize="11"
-                         FontWeight="Bold"
-                         FontStyle="Italic"
-                         Foreground="White"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Bottom"
-                         Margin="0,0,7,7"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Solde à venir" FontSize="13" Foreground="#666666"/>
-              <TextBlock FontSize="18" FontWeight="Bold" Foreground="#171717" IsVisible="{Binding IsBalanceVisible}">
-                <TextBlock.Text>
-                  <MultiBinding StringFormat="{}{0:N2} {1}">
-                    <Binding Path="UpcomingBalance"/>
-                    <Binding Path="FirstAccountCurrency"/>
-                  </MultiBinding>
-                </TextBlock.Text>
-              </TextBlock>
-              <TextBlock Text="•••• €"
-                         FontSize="18"
-                         FontWeight="Bold"
-                         Foreground="#171717"
-                         IsVisible="{Binding !IsBalanceVisible}"/>
-            </StackPanel>
-          </Grid>
-
-          <Button Background="#FAFAFA"
-                  BorderBrush="#E8E8E8"
-                  BorderThickness="1"
-                  CornerRadius="14"
-                  Padding="12"
-                  HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Center">
-            <StackPanel Orientation="Horizontal" Spacing="10">
-              <ic:PackIconMaterial Kind="Plus" Width="20" Height="20" Foreground="#171717"/>
-              <TextBlock Text="Ajouter une carte"
-                         FontSize="15"
-                         FontWeight="Bold"
-                         Foreground="#171717"/>
-            </StackPanel>
-          </Button>
-        </StackPanel>
-      </Border>
-
-      <Border Classes="FinPanel">
-        <StackPanel Spacing="16">
-          <Grid ColumnDefinitions="*,Auto">
-            <TextBlock Text="Transactions"
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Foreground="#171717"/>
-            <TextBlock Grid.Column="1"
-                       Text="Voir tout"
+                       Foreground="#8A9AA5"/>
+            <TextBlock Text="CO₂ évité"
                        FontSize="12"
+                       Foreground="#45545F"/>
+            <TextBlock Text="128,4 kg"
+                       FontSize="24"
                        FontWeight="Bold"
-                       Foreground="#2C5BAA"
-                       VerticalAlignment="Center"/>
-          </Grid>
+                       Foreground="#101820"/>
+            <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="10" Margin="0,8,0,0">
+              <Border Grid.Column="0" Height="2" Background="#B8D8BE" VerticalAlignment="Bottom"/>
+              <Border Grid.Column="1" Height="3" Background="#9BCFA8" VerticalAlignment="Bottom"/>
+              <Border Grid.Column="2" Height="4" Background="#7FC290" VerticalAlignment="Bottom"/>
+              <Border Grid.Column="3" Height="12" Background="#34A968" VerticalAlignment="Bottom"/>
+              <Border Grid.Column="4" Height="30" Background="#168246" VerticalAlignment="Bottom"/>
+            </Grid>
+          </StackPanel>
 
-          <ProgressBar IsIndeterminate="True"
-                       Height="3"
-                       IsVisible="{Binding IsBusy}"/>
-
-          <TextBlock Text="{Binding ErrorMessage}"
-                     Foreground="#FF4D4F"
-                     TextWrapping="Wrap"
-                     IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-
-          <ItemsControl ItemsSource="{Binding RecentOperations}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate x:DataType="ops:Operation">
-                <Grid ColumnDefinitions="Auto,*,Auto"
-                      ColumnSpacing="12"
-                      Margin="0,0,0,14">
-                  <Border Grid.Column="0"
-                          Width="42" Height="42"
-                          CornerRadius="13"
-                          Background="#F1F1F1"
-                          VerticalAlignment="Center">
-                    <ic:PackIconMaterial Kind="{Binding Category, Converter={x:Static vm:CategoryToIconConverter.Instance}}"
-                                         Width="19" Height="19"
-                                         Foreground="#171717"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Center"/>
-                  </Border>
-                  <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Label}"
-                               FontSize="15"
-                               FontWeight="Bold"
-                               Foreground="#171717"
-                               TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Text="Aujourd'hui"
-                               FontSize="12"
-                               Foreground="#8A8A8A"/>
-                  </StackPanel>
-                  <TextBlock Grid.Column="2"
-                             FontSize="15"
-                             FontWeight="Bold"
-                             VerticalAlignment="Center">
-                    <TextBlock.Text>
-                      <MultiBinding StringFormat="{}{0:+#,##0.00;-#,##0.00} {1}">
-                        <Binding Path="Amount"/>
-                        <Binding Path="Currency"/>
-                      </MultiBinding>
-                    </TextBlock.Text>
-                    <TextBlock.Foreground>
-                      <Binding Path="Amount" Converter="{x:Static vm:AmountToColorConverter.Instance}"/>
-                    </TextBlock.Foreground>
-                  </TextBlock>
-                </Grid>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
-        </StackPanel>
+          <Border Grid.Column="1"
+                  Width="82"
+                  Height="102"
+                  Background="#E7F7EE"
+                  CornerRadius="40,40,18,18"
+                  VerticalAlignment="Bottom">
+            <Grid>
+              <ic:PackIconMaterial Kind="Leaf"
+                                   Width="58"
+                                   Height="58"
+                                   Foreground="#168246"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+            </Grid>
+          </Border>
+        </Grid>
       </Border>
 
     </StackPanel>

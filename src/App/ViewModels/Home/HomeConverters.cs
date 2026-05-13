@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using Avalonia;
+using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 using IconPacks.Avalonia.Material;
@@ -12,8 +14,8 @@ public sealed class AmountToColorConverter : IValueConverter
 {
     public static readonly AmountToColorConverter Instance = new();
 
-    private static readonly SolidColorBrush CreditBrush  = new(Color.Parse("#1E7F4F"));
-    private static readonly SolidColorBrush DebitBrush   = new(Color.Parse("#1B1D1F"));
+    private static readonly SolidColorBrush CreditBrush  = new(Color.Parse("#168246"));
+    private static readonly SolidColorBrush DebitBrush   = new(Color.Parse("#101820"));
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -23,6 +25,67 @@ public sealed class AmountToColorConverter : IValueConverter
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+public sealed class MoneyTextConverter : IMultiValueConverter
+{
+    public static readonly MoneyTextConverter Instance = new();
+
+    private static readonly CultureInfo FrenchCulture = CultureInfo.GetCultureInfo("fr-FR");
+
+    public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (values.Count == 0 || values[0] is null || ReferenceEquals(values[0], AvaloniaProperty.UnsetValue))
+            return "";
+
+        var amount = values[0] switch
+        {
+            decimal d => d,
+            double d => (decimal)d,
+            float f => (decimal)f,
+            int i => i,
+            long l => l,
+            _ => 0m
+        };
+
+        var currency = values.Count > 1 ? values[1]?.ToString() : "EUR";
+        var symbol = string.Equals(currency, "EUR", StringComparison.OrdinalIgnoreCase) ? "€" : currency ?? "";
+        return $"{amount.ToString("N2", FrenchCulture)} {symbol}";
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+public sealed class SignedMoneyTextConverter : IMultiValueConverter
+{
+    public static readonly SignedMoneyTextConverter Instance = new();
+
+    private static readonly CultureInfo FrenchCulture = CultureInfo.GetCultureInfo("fr-FR");
+
+    public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (values.Count == 0 || values[0] is null || ReferenceEquals(values[0], AvaloniaProperty.UnsetValue))
+            return "";
+
+        var amount = values[0] switch
+        {
+            decimal d => d,
+            double d => (decimal)d,
+            float f => (decimal)f,
+            int i => i,
+            long l => l,
+            _ => 0m
+        };
+
+        var currency = values.Count > 1 ? values[1]?.ToString() : "EUR";
+        var symbol = string.Equals(currency, "EUR", StringComparison.OrdinalIgnoreCase) ? "€" : currency ?? "";
+        var sign = amount > 0 ? "+ " : amount < 0 ? "- " : "";
+        return $"{sign}{Math.Abs(amount).ToString("N2", FrenchCulture)} {symbol}";
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object? parameter, CultureInfo culture)
         => throw new NotSupportedException();
 }
 

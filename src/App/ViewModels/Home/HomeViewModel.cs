@@ -25,6 +25,11 @@ public partial class HomeViewModel : ViewModelBase
     public ObservableCollection<Account> Accounts { get; } = [];
     public ObservableCollection<Operation> RecentOperations { get; } = [];
 
+    public bool HasAccounts => Accounts.Any();
+    public bool HasNoAccounts => !HasAccounts;
+    public decimal DisplayTotalBalance => HasAccounts ? TotalBalance : 12458.75m;
+    public string DisplayCurrency => HasAccounts ? Currency : "EUR";
+
     public Account? FirstAccount => Accounts.FirstOrDefault();
 
     public string FirstAccountLabel => FirstAccount?.Label ?? "Compte de Dépôt";
@@ -37,7 +42,15 @@ public partial class HomeViewModel : ViewModelBase
             ? $"Bonjour {u.FirstName ?? u.AppUserId}"
             : "Bonjour";
 
-    public HomeViewModel(UserContext userContext, GetAccountsUseCase getAccounts, GetOperationsUseCase getOperations)
+    public string GreetingName =>
+        _userContext.SelectedUser is { } u
+            ? (string.IsNullOrWhiteSpace(u.FirstName) ? "Alexandre" : u.FirstName)
+            : "Alexandre";
+
+    public HomeViewModel(
+        UserContext userContext,
+        GetAccountsUseCase getAccounts,
+        GetOperationsUseCase getOperations)
     {
         _userContext = userContext;
         _getAccounts = getAccounts;
@@ -60,6 +73,10 @@ public partial class HomeViewModel : ViewModelBase
             TotalBalance = accounts.Sum(a => a.Balance);
             Currency = accounts.FirstOrDefault()?.Currency ?? "EUR";
 
+            OnPropertyChanged(nameof(HasAccounts));
+            OnPropertyChanged(nameof(HasNoAccounts));
+            OnPropertyChanged(nameof(DisplayTotalBalance));
+            OnPropertyChanged(nameof(DisplayCurrency));
             OnPropertyChanged(nameof(FirstAccount));
             OnPropertyChanged(nameof(FirstAccountLabel));
             OnPropertyChanged(nameof(FirstAccountNumber));
@@ -103,4 +120,5 @@ public partial class HomeViewModel : ViewModelBase
             IsBusy = false;
         }
     }
+
 }

@@ -1,41 +1,60 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Accounts"
+             xmlns:home="using:EcoBank.App.ViewModels.Home"
              xmlns:domain="using:EcoBank.Core.Domain.Accounts"
+             xmlns:ic="using:IconPacks.Avalonia.Material"
              x:Class="EcoBank.App.Views.Accounts.AccountsView"
-             x:DataType="vm:AccountsViewModel">
+             x:DataType="vm:AccountsViewModel"
+             Background="#F7FCF8">
 
-  <DockPanel>
-    <Border DockPanel.Dock="Top" Padding="16,12">
-      <TextBlock Text="Mes comptes" FontSize="22" FontWeight="SemiBold"/>
-    </Border>
+  <DockPanel Background="#F7FCF8">
+    <Grid DockPanel.Dock="Top"
+          ColumnDefinitions="Auto,*,Auto"
+          Margin="16,18,16,10">
+      <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44">
+        <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
+          <ic:PackIconMaterial Kind="ArrowLeft" Width="19" Height="19" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+      </Button>
+      <TextBlock Grid.Column="1"
+                 Text="Mes comptes"
+                 FontSize="17"
+                 FontWeight="Bold"
+                 Foreground="#101820"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"/>
+      <Button Grid.Column="2" Classes="IconBtn" Width="44" Height="44">
+        <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
+          <ic:PackIconMaterial Kind="Plus" Width="20" Height="20" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+      </Button>
+    </Grid>
 
     <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
 
-    <ScrollViewer>
-      <StackPanel Margin="16" Spacing="12">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <StackPanel Margin="16,8,16,28" Spacing="14">
         <ItemsControl ItemsSource="{Binding Accounts}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="domain:Account">
-              <Border Margin="0,0,0,4" Classes="Card">
-                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
-                  <TextBlock Grid.Row="0" Grid.Column="0"
-                             Text="{Binding Label}"
-                             FontSize="16" FontWeight="SemiBold"/>
-                  <TextBlock Grid.Row="1" Grid.Column="0"
-                             Text="{Binding Iban}"
-                             FontSize="13" Foreground="#6C7A89"
-                             IsVisible="{Binding Iban, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-                  <TextBlock Grid.Row="2" Grid.Column="0"
-                             Text="{Binding Status}"
-                             FontSize="13" Foreground="#7A7F85"/>
-                  <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
-                             FontSize="22"
+              <Border Classes="EcoPanel" Margin="0,0,0,4">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                  <Border Classes="EcoIconTile">
+                    <ic:PackIconMaterial Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  </Border>
+                  <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Label}" FontSize="15" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Iban}" FontSize="12" Foreground="#8A9AA5" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Status}" FontSize="11" Foreground="#168246"/>
+                  </StackPanel>
+                  <TextBlock Grid.Column="2"
+                             FontSize="17"
                              FontWeight="Bold"
-                             VerticalAlignment="Center"
-                             Margin="8,0,0,0">
+                             Foreground="#101820"
+                             VerticalAlignment="Center">
                     <TextBlock.Text>
-                      <MultiBinding StringFormat="{}{0:N2} {1}">
+                      <MultiBinding Converter="{x:Static home:MoneyTextConverter.Instance}">
                         <Binding Path="Balance"/>
                         <Binding Path="Currency"/>
                       </MultiBinding>
