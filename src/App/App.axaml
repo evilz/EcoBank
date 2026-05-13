@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="EcoBank.App.App"
              xmlns:local="using:EcoBank.App"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              RequestedThemeVariant="Light">
 
     <Application.DataTemplates>
@@ -10,6 +11,7 @@
 
     <Application.Styles>
         <FluentTheme />
+        <materialIcons:MaterialIconStyles />
         <StyleInclude Source="avares://EcoBank.App/Styles/Components.axaml"/>
     </Application.Styles>
 

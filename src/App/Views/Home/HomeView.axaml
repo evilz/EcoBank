@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Home"
              xmlns:domain="using:EcoBank.Core.Domain.Accounts"
-             xmlns:ic="using:IconPacks.Avalonia.Material"
+             xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Home.HomeView"
              x:DataType="vm:HomeViewModel"
              Background="#F7FCF8">
@@ -45,7 +45,7 @@
                       Height="36"
                       ToolTip.Tip="Notifications">
                 <Border Width="36" Height="36" CornerRadius="12" Background="#18FFFFFF">
-                  <ic:PackIconMaterial Kind="BellOutline"
+                  <ic:MaterialIcon Kind="BellOutline"
                                        Width="20"
                                        Height="20"
                                        Foreground="White"
@@ -82,7 +82,7 @@
                         Height="34"
                         Command="{Binding ToggleBalanceCommand}"
                         VerticalAlignment="Center">
-                  <ic:PackIconMaterial Kind="{Binding IsBalanceVisible, Converter={x:Static vm:BoolToEyeIconConverter.Instance}}"
+                  <ic:MaterialIcon Kind="{Binding IsBalanceVisible, Converter={x:Static vm:BoolToEyeIconConverter.Instance}}"
                                        Width="18"
                                        Height="18"
                                        Foreground="#DDEEE4"
@@ -123,7 +123,7 @@
                       ColumnSpacing="12"
                       Margin="0,0,0,14">
                   <Border Grid.Column="0" Classes="EcoIconTile">
-                    <ic:PackIconMaterial Kind="BankOutline"
+                    <ic:MaterialIcon Kind="BankOutline"
                                          Width="20"
                                          Height="20"
                                          Foreground="#168246"
@@ -160,7 +160,7 @@
 
           <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" IsVisible="{Binding HasNoAccounts}">
             <Border Grid.Column="0" Classes="EcoIconTile">
-              <ic:PackIconMaterial Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              <ic:MaterialIcon Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
             <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
               <TextBlock Text="{Binding EmptyAccountsMessage}" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
@@ -180,7 +180,7 @@
             <Button Classes="QuickAction">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
                 <Border Classes="EcoIconTile">
-                  <ic:PackIconMaterial Kind="BankTransfer" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <ic:MaterialIcon Kind="BankTransfer" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="Virement" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
@@ -188,7 +188,7 @@
             <Button Classes="QuickAction">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
                 <Border Classes="EcoIconTile">
-                  <ic:PackIconMaterial Kind="CreditCardOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <ic:MaterialIcon Kind="CreditCardOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="Paiement" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
@@ -196,7 +196,7 @@
             <Button Classes="QuickAction">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
                 <Border Classes="EcoIconTile">
-                  <ic:PackIconMaterial Kind="RepeatVariant" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <ic:MaterialIcon Kind="RepeatVariant" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="Recharger" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
@@ -204,7 +204,7 @@
             <Button Classes="QuickAction">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
                 <Border Classes="EcoIconTile">
-                  <ic:PackIconMaterial Kind="DotsHorizontal" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <ic:MaterialIcon Kind="DotsHorizontal" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="Plus" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
@@ -246,7 +246,7 @@
                   CornerRadius="40,40,18,18"
                   VerticalAlignment="Bottom">
             <Grid>
-              <ic:PackIconMaterial Kind="Leaf"
+              <ic:MaterialIcon Kind="Leaf"
                                    Width="58"
                                    Height="58"
                                    Foreground="#168246"

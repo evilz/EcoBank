@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
-using IconPacks.Avalonia.Material;
+using Material.Icons;
 
 namespace EcoBank.App.ViewModels.Home;
 
@@ -143,18 +143,18 @@ public sealed class CategoryToIconConverter : IValueConverter
 {
     public static readonly CategoryToIconConverter Instance = new();
 
-    private static readonly Dictionary<string, PackIconMaterialKind> _map = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, MaterialIconKind> _map = new(StringComparer.OrdinalIgnoreCase)
     {
-        { "virement",     PackIconMaterialKind.BankTransfer },
-        { "salaire",      PackIconMaterialKind.BriefcaseOutline },
-        { "courses",      PackIconMaterialKind.CartOutline },
-        { "alimentation", PackIconMaterialKind.FoodOutline },
-        { "transport",    PackIconMaterialKind.CarOutline },
-        { "auto",         PackIconMaterialKind.CarOutline },
-        { "loisirs",      PackIconMaterialKind.GamepadVariantOutline },
-        { "abonnement",   PackIconMaterialKind.RepeatVariant },
-        { "sante",        PackIconMaterialKind.MedicalBag },
-        { "banque",       PackIconMaterialKind.BankOutline },
+        { "virement",     MaterialIconKind.BankTransfer },
+        { "salaire",      MaterialIconKind.BriefcaseOutline },
+        { "courses",      MaterialIconKind.CartOutline },
+        { "alimentation", MaterialIconKind.FoodOutline },
+        { "transport",    MaterialIconKind.CarOutline },
+        { "auto",         MaterialIconKind.CarOutline },
+        { "loisirs",      MaterialIconKind.GamepadVariantOutline },
+        { "abonnement",   MaterialIconKind.RepeatVariant },
+        { "sante",        MaterialIconKind.MedicalBag },
+        { "banque",       MaterialIconKind.BankOutline },
     };
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -162,7 +162,7 @@ public sealed class CategoryToIconConverter : IValueConverter
         var category = value as string ?? "";
         return _map.TryGetValue(category, out var kind)
             ? kind
-            : PackIconMaterialKind.CreditCardOutline;
+            : MaterialIconKind.CreditCardOutline;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -177,7 +177,7 @@ public sealed class BoolToEyeIconConverter : IValueConverter
     public static readonly BoolToEyeIconConverter Instance = new();
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => value is true ? PackIconMaterialKind.Eye : PackIconMaterialKind.EyeOff;
+        => value is true ? MaterialIconKind.Eye : MaterialIconKind.EyeOff;
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotSupportedException();

@@ -3,7 +3,7 @@
              xmlns:vm="using:EcoBank.App.ViewModels.Operations"
              xmlns:home="using:EcoBank.App.ViewModels.Home"
              xmlns:domain="using:EcoBank.Core.Domain.Operations"
-             xmlns:ic="using:IconPacks.Avalonia.Material"
+             xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Operations.OperationsView"
              x:DataType="vm:OperationsViewModel"
              Background="#FFFFFF">
@@ -15,7 +15,7 @@
           Margin="16,14,16,0"
           Height="56">
       <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
-        <ic:PackIconMaterial Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ic:MaterialIcon Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
       </Button>
 
       <TextBlock Grid.Column="1"
@@ -27,10 +27,10 @@
                  VerticalAlignment="Center"/>
 
       <Button Grid.Column="2" Classes="IconBtn" Width="40" Height="44" VerticalAlignment="Center">
-        <ic:PackIconMaterial Kind="FilterOutline" Width="22" Height="22" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ic:MaterialIcon Kind="FilterOutline" Width="22" Height="22" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
       </Button>
       <Button Grid.Column="3" Classes="IconBtn" Width="40" Height="44" VerticalAlignment="Center">
-        <ic:PackIconMaterial Kind="Magnify" Width="22" Height="22" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ic:MaterialIcon Kind="Magnify" Width="22" Height="22" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
       </Button>
     </Grid>
 
@@ -63,7 +63,7 @@
                       Margin="0,0,0,18"
                       MinHeight="46">
                   <Border Grid.Column="0" Classes="EcoIconTile">
-                    <ic:PackIconMaterial Kind="{Binding Category, Converter={x:Static home:CategoryToIconConverter.Instance}}"
+                    <ic:MaterialIcon Kind="{Binding Category, Converter={x:Static home:CategoryToIconConverter.Instance}}"
                                          Width="19"
                                          Height="19"
                                          Foreground="#168246"
@@ -106,7 +106,7 @@
 
         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" MinHeight="64" IsVisible="{Binding HasNoOperations}">
           <Border Grid.Column="0" Classes="EcoIconTile">
-            <ic:PackIconMaterial Kind="ReceiptTextOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="ReceiptTextOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
           <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
             <TextBlock Text="Aucune opération" FontSize="13" FontWeight="Bold" Foreground="#101820"/>

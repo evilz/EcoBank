@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Profile"
-             xmlns:ic="using:IconPacks.Avalonia.Material"
+             xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Profile.ProfileView"
              x:DataType="vm:ProfileViewModel"
              Background="#FFFFFF">
@@ -15,7 +15,7 @@
                    Foreground="#101820"
                    VerticalAlignment="Center"/>
         <Button Grid.Column="1" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
-          <ic:PackIconMaterial Kind="CogOutline" Width="22" Height="22" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          <ic:MaterialIcon Kind="CogOutline" Width="22" Height="22" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
       </Grid>
 
@@ -26,7 +26,7 @@
                 Background="#DCE3E7"
                 ClipToBounds="True">
           <Grid>
-            <ic:PackIconMaterial Kind="Account"
+            <ic:MaterialIcon Kind="Account"
                                  Width="52"
                                  Height="52"
                                  Foreground="#60717D"
@@ -46,12 +46,12 @@
                    HorizontalAlignment="Center"/>
         <Border Background="#E7F7EE" CornerRadius="999" Padding="11,5" HorizontalAlignment="Center">
           <StackPanel Orientation="Horizontal" Spacing="5">
-            <ic:PackIconMaterial Kind="Leaf" Width="13" Height="13" Foreground="#168246"/>
+            <ic:MaterialIcon Kind="Leaf" Width="13" Height="13" Foreground="#168246"/>
             <TextBlock Text="Client EcoBank" FontSize="11" FontWeight="Bold" Foreground="#168246"/>
           </StackPanel>
         </Border>
         <StackPanel Orientation="Horizontal" Spacing="4" HorizontalAlignment="Center">
-          <ic:PackIconMaterial Kind="Leaf" Width="10" Height="10" Foreground="#168246"/>
+          <ic:MaterialIcon Kind="Leaf" Width="10" Height="10" Foreground="#168246"/>
           <TextBlock Text="Niveau Éco" FontSize="11" FontWeight="Medium" Foreground="#45545F"/>
         </StackPanel>
       </StackPanel>
@@ -59,63 +59,63 @@
       <StackPanel Spacing="0">
         <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
           <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
-            <ic:PackIconMaterial Kind="AccountOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="AccountOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1" Text="Informations personnelles" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
           </Grid>
         </Button>
         <Border Height="1" Background="#EEF2F4"/>
 
         <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
           <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
-            <ic:PackIconMaterial Kind="ShieldCheckOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="ShieldCheckOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1" Text="Sécurité" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
           </Grid>
         </Button>
         <Border Height="1" Background="#EEF2F4"/>
 
         <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
           <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
-            <ic:PackIconMaterial Kind="CreditCardOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="CreditCardOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1" Text="Moyens de paiement" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
           </Grid>
         </Button>
         <Border Height="1" Background="#EEF2F4"/>
 
         <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
           <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
-            <ic:PackIconMaterial Kind="BellOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="BellOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1" Text="Notifications" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
           </Grid>
         </Button>
         <Border Height="1" Background="#EEF2F4"/>
 
         <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
           <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
-            <ic:PackIconMaterial Kind="FileDocumentOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="FileDocumentOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1" Text="Documents" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
           </Grid>
         </Button>
         <Border Height="1" Background="#EEF2F4"/>
 
         <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
           <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
-            <ic:PackIconMaterial Kind="CogOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="CogOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1" Text="Paramètres" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
           </Grid>
         </Button>
         <Border Height="1" Background="#EEF2F4"/>
 
         <Button Background="Transparent" BorderThickness="0" Padding="0,13" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
           <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" MinHeight="30">
-            <ic:PackIconMaterial Kind="HelpCircleOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="HelpCircleOutline" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1" Text="Aide &amp; support" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
           </Grid>
         </Button>
       </StackPanel>

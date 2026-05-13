@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ic="using:IconPacks.Avalonia.Material">
+        xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
 
   <!--
     Design tokens are declared here so that {StaticResource} lookups inside <Setter> elements
@@ -298,7 +298,7 @@
   </Style>
 
   <!-- ===== PACKICON MATERIAL ===== -->
-  <Style Selector="ic|PackIconMaterial">
+  <Style Selector="ic|MaterialIcon">
     <Setter Property="Width" Value="24" />
     <Setter Property="Height" Value="24" />
   </Style>

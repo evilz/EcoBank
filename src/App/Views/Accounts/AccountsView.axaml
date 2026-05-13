@@ -3,7 +3,7 @@
              xmlns:vm="using:EcoBank.App.ViewModels.Accounts"
              xmlns:home="using:EcoBank.App.ViewModels.Home"
              xmlns:domain="using:EcoBank.Core.Domain.Accounts"
-             xmlns:ic="using:IconPacks.Avalonia.Material"
+             xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Accounts.AccountsView"
              x:DataType="vm:AccountsViewModel"
              Background="#F7FCF8">
@@ -14,7 +14,7 @@
           Margin="16,18,16,10">
       <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44">
         <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
-          <ic:PackIconMaterial Kind="ArrowLeft" Width="19" Height="19" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          <ic:MaterialIcon Kind="ArrowLeft" Width="19" Height="19" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
       </Button>
       <TextBlock Grid.Column="1"
@@ -26,7 +26,7 @@
                  VerticalAlignment="Center"/>
       <Button Grid.Column="2" Classes="IconBtn" Width="44" Height="44">
         <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
-          <ic:PackIconMaterial Kind="Plus" Width="20" Height="20" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          <ic:MaterialIcon Kind="Plus" Width="20" Height="20" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
       </Button>
     </Grid>
@@ -41,7 +41,7 @@
               <Border Classes="EcoPanel" Margin="0,0,0,4">
                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                   <Border Classes="EcoIconTile">
-                    <ic:PackIconMaterial Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ic:MaterialIcon Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                   </Border>
                   <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
                     <TextBlock Text="{Binding Label}" FontSize="15" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>

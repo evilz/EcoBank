@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Shell"
-             xmlns:ic="using:IconPacks.Avalonia.Material"
+             xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Shell.MainShellView"
              x:DataType="vm:MainShellViewModel"
              Background="#F7FCF8">
@@ -21,7 +21,7 @@
           <StackPanel DockPanel.Dock="Top" Margin="0,8,0,28" Spacing="18">
             <StackPanel Orientation="Horizontal" Spacing="12">
               <Border Width="42" Height="42" CornerRadius="13" Background="#E7F7EE">
-                <ic:PackIconMaterial Kind="Leaf"
+                <ic:MaterialIcon Kind="Leaf"
                                      Width="22" Height="22"
                                      Foreground="#168246"
                                      HorizontalAlignment="Center"
@@ -47,16 +47,16 @@
                         Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
                         CommandParameter="{Binding}">
                   <StackPanel Orientation="Horizontal" Spacing="12">
-                    <ic:PackIconMaterial Kind="{Binding Key, Converter={x:Static vm:NavTabIconConverter.Instance}}"
+                    <ic:MaterialIcon Kind="{Binding Key, Converter={x:Static vm:NavTabIconConverter.Instance}}"
                                          Width="20" Height="20"
                                          VerticalAlignment="Center">
-                      <ic:PackIconMaterial.Foreground>
+                      <ic:MaterialIcon.Foreground>
                         <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
                           <Binding Path="Key"/>
                           <Binding Path="$parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectedTab.Key"/>
                         </MultiBinding>
-                      </ic:PackIconMaterial.Foreground>
-                    </ic:PackIconMaterial>
+                      </ic:MaterialIcon.Foreground>
+                    </ic:MaterialIcon>
                     <TextBlock Text="{Binding Label}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center">
                       <TextBlock.Foreground>
                         <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
@@ -103,16 +103,16 @@
                       Command="{Binding $parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectTabCommand}"
                       CommandParameter="{Binding}">
                 <StackPanel Spacing="3" HorizontalAlignment="Center">
-                  <ic:PackIconMaterial Kind="{Binding Key, Converter={x:Static vm:NavTabIconConverter.Instance}}"
+                  <ic:MaterialIcon Kind="{Binding Key, Converter={x:Static vm:NavTabIconConverter.Instance}}"
                                        Width="21" Height="21"
                                        HorizontalAlignment="Center">
-                    <ic:PackIconMaterial.Foreground>
+                    <ic:MaterialIcon.Foreground>
                       <MultiBinding Converter="{x:Static vm:NavTabActiveColorConverter.Instance}">
                         <Binding Path="Key"/>
                         <Binding Path="$parent[ItemsControl].((vm:MainShellViewModel)DataContext).SelectedTab.Key"/>
                       </MultiBinding>
-                    </ic:PackIconMaterial.Foreground>
-                  </ic:PackIconMaterial>
+                    </ic:MaterialIcon.Foreground>
+                  </ic:MaterialIcon>
                   <TextBlock Text="{Binding Label}"
                              FontSize="10"
                              FontWeight="SemiBold"

@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Cards"
              xmlns:domain="using:EcoBank.Core.Domain.Cards"
-             xmlns:ic="using:IconPacks.Avalonia.Material"
+             xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Cards.CardsView"
              x:DataType="vm:CardsViewModel"
              Background="#FFFFFF">
@@ -14,7 +14,7 @@
             Margin="16,14,16,4"
             Height="56">
         <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
-          <ic:PackIconMaterial Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          <ic:MaterialIcon Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
         <TextBlock Grid.Column="1"
                    Text="Mes cartes"
@@ -24,7 +24,7 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
         <Button Grid.Column="2" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
-          <ic:PackIconMaterial Kind="Plus" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          <ic:MaterialIcon Kind="Plus" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
       </Grid>
 
@@ -69,7 +69,7 @@
                       </LinearGradientBrush>
                     </Border.Background>
                     <Grid RowDefinitions="Auto,*,Auto">
-                      <ic:PackIconMaterial Grid.RowSpan="3"
+                      <ic:MaterialIcon Grid.RowSpan="3"
                                            Kind="Leaf"
                                            Width="210"
                                            Height="210"
@@ -80,10 +80,10 @@
 
                       <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                          <ic:PackIconMaterial Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
+                          <ic:MaterialIcon Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
                           <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" Foreground="White"/>
                         </StackPanel>
-                        <ic:PackIconMaterial Grid.Column="1" Kind="ContactlessPayment" Width="24" Height="24" Foreground="White" Opacity="0.9"/>
+                        <ic:MaterialIcon Grid.Column="1" Kind="ContactlessPayment" Width="24" Height="24" Foreground="White" Opacity="0.9"/>
                       </Grid>
 
                       <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
@@ -116,13 +116,13 @@
               </LinearGradientBrush>
             </Border.Background>
             <Grid RowDefinitions="Auto,*,Auto">
-              <ic:PackIconMaterial Grid.RowSpan="3" Kind="Leaf" Width="210" Height="210" Foreground="#18FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-70,-46,0"/>
+              <ic:MaterialIcon Grid.RowSpan="3" Kind="Leaf" Width="210" Height="210" Foreground="#18FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-70,-46,0"/>
               <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                  <ic:PackIconMaterial Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
+                  <ic:MaterialIcon Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
                   <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" Foreground="White"/>
                 </StackPanel>
-                <ic:PackIconMaterial Grid.Column="1" Kind="ContactlessPayment" Width="24" Height="24" Foreground="White" Opacity="0.9"/>
+                <ic:MaterialIcon Grid.Column="1" Kind="ContactlessPayment" Width="24" Height="24" Foreground="White" Opacity="0.9"/>
               </Grid>
               <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
                 <TextBlock Grid.Column="0" Text="Aucune carte" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
@@ -139,14 +139,14 @@
               <TextBlock Text="Carte sélectionnée" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
               <TextBlock Text="{Binding SelectedCardMaskedPan}" FontSize="12" Foreground="#8A9AA5"/>
             </StackPanel>
-            <ic:PackIconMaterial Grid.Column="1" Kind="Refresh" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Grid.Column="1" Kind="Refresh" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
           </Grid>
 
           <UniformGrid Rows="1" Columns="4">
             <Button Classes="QuickAction" Command="{Binding ManageCardCommand}">
               <StackPanel Spacing="8" HorizontalAlignment="Center">
                 <Border Classes="QuickActionIcon">
-                  <ic:PackIconMaterial Kind="LockOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <ic:MaterialIcon Kind="LockOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="Verrouiller" FontSize="10" FontWeight="Medium" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
@@ -154,7 +154,7 @@
             <Button Classes="QuickAction" Command="{Binding ViewCardDetailsCommand}">
               <StackPanel Spacing="8" HorizontalAlignment="Center">
                 <Border Classes="QuickActionIcon">
-                  <ic:PackIconMaterial Kind="InformationOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <ic:MaterialIcon Kind="InformationOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="Détails" FontSize="10" FontWeight="Medium" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
@@ -162,7 +162,7 @@
             <Button Classes="QuickAction" Command="{Binding ManageAlertsCommand}">
               <StackPanel Spacing="8" HorizontalAlignment="Center">
                 <Border Classes="QuickActionIcon">
-                  <ic:PackIconMaterial Kind="Gauge" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <ic:MaterialIcon Kind="Gauge" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="Plafonds" FontSize="10" FontWeight="Medium" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
@@ -170,7 +170,7 @@
             <Button Classes="QuickAction">
               <StackPanel Spacing="8" HorizontalAlignment="Center">
                 <Border Classes="QuickActionIcon">
-                  <ic:PackIconMaterial Kind="DotsHorizontal" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <ic:MaterialIcon Kind="DotsHorizontal" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="Plus" FontSize="10" FontWeight="Medium" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
@@ -201,12 +201,12 @@
 
           <Border Classes="EcoPanel">
             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-              <ic:PackIconMaterial Grid.Column="0" Kind="ContactlessPayment" Width="24" Height="24" Foreground="#168246" VerticalAlignment="Center"/>
+              <ic:MaterialIcon Grid.Column="0" Kind="ContactlessPayment" Width="24" Height="24" Foreground="#168246" VerticalAlignment="Center"/>
               <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
                 <TextBlock Text="Paiement sans contact" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
                 <TextBlock Text="Activé" FontSize="12" Foreground="#45545F"/>
               </StackPanel>
-              <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="20" Height="20" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+              <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="20" Height="20" Foreground="#8A9AA5" VerticalAlignment="Center"/>
             </Grid>
           </Border>
         </StackPanel>
@@ -224,7 +224,7 @@
                 Height="44"
                 VerticalAlignment="Center"
                 Command="{Binding ShowCardListCommand}">
-          <ic:PackIconMaterial Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          <ic:MaterialIcon Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
         <TextBlock Grid.Column="1"
                    Text="Détails de la carte"
@@ -250,9 +250,9 @@
               </LinearGradientBrush>
             </Border.Background>
             <Grid RowDefinitions="Auto,*,Auto">
-              <ic:PackIconMaterial Grid.RowSpan="3" Kind="Leaf" Width="260" Height="260" Foreground="#22FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-76,-34,0"/>
+              <ic:MaterialIcon Grid.RowSpan="3" Kind="Leaf" Width="260" Height="260" Foreground="#22FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-76,-34,0"/>
               <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
-                <ic:PackIconMaterial Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
+                <ic:MaterialIcon Kind="Leaf" Width="22" Height="22" Foreground="#55BE85"/>
                 <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" Foreground="White"/>
               </StackPanel>
               <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
@@ -275,7 +275,7 @@
                 <TextBlock Text="Numéro de carte" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
                 <Grid ColumnDefinitions="*,Auto">
                   <TextBlock Text="{Binding SelectedCardMaskedPan}" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-                  <ic:PackIconMaterial Grid.Column="1" Kind="ContentCopy" Width="18" Height="18" Foreground="#45545F"/>
+                  <ic:MaterialIcon Grid.Column="1" Kind="ContentCopy" Width="18" Height="18" Foreground="#45545F"/>
                 </Grid>
               </StackPanel>
               <Grid ColumnDefinitions="*,*">
@@ -287,14 +287,14 @@
                   <TextBlock Text="CVV" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
                   <StackPanel Orientation="Horizontal" Spacing="5">
                     <TextBlock Text="Non disponible" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-                    <ic:PackIconMaterial Kind="EyeOutline" Width="16" Height="16" Foreground="#45545F"/>
+                    <ic:MaterialIcon Kind="EyeOutline" Width="16" Height="16" Foreground="#45545F"/>
                   </StackPanel>
                 </StackPanel>
               </Grid>
               <Border Height="1" Background="#EEF2F4" Margin="-16,0"/>
               <Grid ColumnDefinitions="*,Auto">
                 <TextBlock Text="Voir le code PIN" FontSize="13" FontWeight="Bold" Foreground="#168246"/>
-                <ic:PackIconMaterial Grid.Column="1" Kind="ChevronRight" Width="18" Height="18" Foreground="#168246"/>
+                <ic:MaterialIcon Grid.Column="1" Kind="ChevronRight" Width="18" Height="18" Foreground="#168246"/>
               </Grid>
             </StackPanel>
           </Border>

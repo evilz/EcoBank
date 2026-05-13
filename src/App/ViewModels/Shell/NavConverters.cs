@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
-using IconPacks.Avalonia.Material;
+using Material.Icons;
 
 namespace EcoBank.App.ViewModels.Shell;
 
@@ -86,12 +86,12 @@ public sealed class NavTabIconConverter : IValueConverter
     {
         return (value as string) switch
         {
-            "home" => PackIconMaterialKind.Home,
-            "cards" => PackIconMaterialKind.CreditCardOutline,
-            "contact" => PackIconMaterialKind.BankTransfer,
-            "operations" => PackIconMaterialKind.ChartLine,
-            "menu" => PackIconMaterialKind.AccountOutline,
-            _ => PackIconMaterialKind.CircleOutline
+            "home" => MaterialIconKind.Home,
+            "cards" => MaterialIconKind.CreditCardOutline,
+            "contact" => MaterialIconKind.BankTransfer,
+            "operations" => MaterialIconKind.ChartLine,
+            "menu" => MaterialIconKind.AccountOutline,
+            _ => MaterialIconKind.CircleOutline
         };
     }
 

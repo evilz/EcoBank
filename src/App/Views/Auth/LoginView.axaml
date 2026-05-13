@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Auth"
              xmlns:auth="using:EcoBank.App.Views.Auth"
-             xmlns:ic="using:IconPacks.Avalonia.Material"
+             xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Auth.LoginView"
              x:DataType="vm:LoginViewModel"
              Background="#F7FCF8">
@@ -82,7 +82,7 @@
       <StackPanel IsVisible="{Binding IsProfileSelectionState}" HorizontalAlignment="Center" MaxWidth="500" Margin="30,28,30,24" Spacing="0">
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,28">
-          <ic:PackIconMaterial Kind="Leaf" Width="36" Height="36" Foreground="#168246" VerticalAlignment="Center" />
+          <ic:MaterialIcon Kind="Leaf" Width="36" Height="36" Foreground="#168246" VerticalAlignment="Center" />
           <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="0">
             <TextBlock Text="Eco" FontSize="34" FontWeight="Medium" Foreground="#168246" />
             <TextBlock Text="Bank" FontSize="34" FontWeight="Medium" Foreground="#101820" />
@@ -92,7 +92,7 @@
         <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,26">
           <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
             <TextBlock Text="Bonjour" FontSize="38" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center" />
-            <ic:PackIconMaterial Kind="HandWave" Width="30" Height="30" Foreground="#E8A23A" VerticalAlignment="Center" />
+            <ic:MaterialIcon Kind="HandWave" Width="30" Height="30" Foreground="#E8A23A" VerticalAlignment="Center" />
           </StackPanel>
           <Border Grid.Column="1" CornerRadius="27" BoxShadow="0 6 18 0 #18101820">
             <Button Classes="ProfileMenuButton">
@@ -136,7 +136,7 @@
                                  HorizontalAlignment="Right"
                                  VerticalAlignment="Center"
                                  Margin="0,0,-46,0" />
-                        <ic:PackIconMaterial Kind="Leaf"
+                        <ic:MaterialIcon Kind="Leaf"
                                              Width="168"
                                              Height="168"
                                              Foreground="#24239A5B"
@@ -144,10 +144,10 @@
                                              VerticalAlignment="Center"
                                              Margin="0,0,28,0"
                                              RenderTransformOrigin="0.5,0.5">
-                          <ic:PackIconMaterial.RenderTransform>
+                          <ic:MaterialIcon.RenderTransform>
                             <RotateTransform Angle="-22" />
-                          </ic:PackIconMaterial.RenderTransform>
-                        </ic:PackIconMaterial>
+                          </ic:MaterialIcon.RenderTransform>
+                        </ic:MaterialIcon>
                         <Border Width="76"
                                 Height="76"
                                 CornerRadius="38"
@@ -156,7 +156,7 @@
                                 VerticalAlignment="Center"
                                 Margin="32,0,0,0"
                                 BoxShadow="0 10 26 0 #30101820">
-                          <ic:PackIconMaterial Kind="Sprout" Width="44" Height="44" Foreground="#0F6738" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                          <ic:MaterialIcon Kind="Sprout" Width="44" Height="44" Foreground="#0F6738" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                       </Grid>
                     </Border>
@@ -170,13 +170,13 @@
 
                           <Border Background="#E7F7EE" CornerRadius="20" Padding="10,7" HorizontalAlignment="Left">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                              <ic:PackIconMaterial Kind="CheckCircle" Width="20" Height="20" Foreground="#168246" VerticalAlignment="Center" />
+                              <ic:MaterialIcon Kind="CheckCircle" Width="20" Height="20" Foreground="#168246" VerticalAlignment="Center" />
                               <TextBlock Text="Profil actif" FontSize="15" FontWeight="Bold" Foreground="#168246" VerticalAlignment="Center" />
                             </StackPanel>
                           </Border>
                         </StackPanel>
 
-                        <ic:PackIconMaterial Grid.Column="1" Kind="ChevronRight" Width="34" Height="34" Foreground="#60717D" VerticalAlignment="Bottom" Margin="0,0,0,10" />
+                        <ic:MaterialIcon Grid.Column="1" Kind="ChevronRight" Width="34" Height="34" Foreground="#60717D" VerticalAlignment="Bottom" Margin="0,0,0,10" />
                       </Grid>
                     </Border>
                   </Grid>
@@ -198,7 +198,7 @@
                        StrokeThickness="1.4"
                        StrokeDashArray="7,7" />
             <StackPanel Orientation="Horizontal" Spacing="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24,0">
-              <ic:PackIconMaterial Kind="PlusCircleOutline" Width="36" Height="36" Foreground="#168246" />
+              <ic:MaterialIcon Kind="PlusCircleOutline" Width="36" Height="36" Foreground="#168246" />
               <TextBlock Text="Ajouter un profil" FontSize="20" FontWeight="Medium" Foreground="#168246" VerticalAlignment="Center" />
             </StackPanel>
           </Panel>
@@ -212,7 +212,7 @@
                 BorderThickness="1">
           <Grid ColumnDefinitions="64,*" ColumnSpacing="16">
             <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#FFFFFF" VerticalAlignment="Top">
-              <ic:PackIconMaterial Kind="Leaf" Width="34" Height="34" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              <ic:MaterialIcon Kind="Leaf" Width="34" Height="34" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <StackPanel Grid.Column="1" Spacing="8">
               <TextBlock Text="Gérez vos finances en toute simplicité" FontSize="18" FontWeight="Medium" Foreground="#101820" TextWrapping="Wrap" />
