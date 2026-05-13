@@ -19,6 +19,8 @@ public partial class OperationsViewModel : ViewModelBase
     [ObservableProperty] private Operation? _selectedOperation;
 
     public ObservableCollection<Operation> Operations { get; } = [];
+    public bool HasOperations => Operations.Any();
+    public bool HasNoOperations => !HasOperations;
 
     public OperationsViewModel(GetAccountsUseCase getAccounts, GetOperationsUseCase getOperations)
     {
@@ -38,6 +40,8 @@ public partial class OperationsViewModel : ViewModelBase
             if (string.IsNullOrEmpty(accountId))
             {
                 Operations.Clear();
+                OnPropertyChanged(nameof(HasOperations));
+                OnPropertyChanged(nameof(HasNoOperations));
                 return;
             }
             var ops = await _getOperations.ExecuteAsync(
@@ -49,6 +53,8 @@ public partial class OperationsViewModel : ViewModelBase
                 ct: ct);
             Operations.Clear();
             foreach (var o in ops) Operations.Add(o);
+            OnPropertyChanged(nameof(HasOperations));
+            OnPropertyChanged(nameof(HasNoOperations));
         }
         catch (Exception) { ErrorMessage = "Impossible de charger les opérations."; }
         finally { IsBusy = false; }

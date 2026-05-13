@@ -8,43 +8,43 @@
   <x:Double x:Key="SpacingLg">24</x:Double>
   <x:Double x:Key="SpacingXl">32</x:Double>
   <x:Double x:Key="SpacingXxl">48</x:Double>
-  <x:Double x:Key="ScreenPadding">16</x:Double>
+  <x:Double x:Key="ScreenPadding">20</x:Double>
   <Thickness x:Key="CardPadding">16</Thickness>
   <x:Double x:Key="ListItemHeight">72</x:Double>
   <x:Double x:Key="ListItemHeightCompact">56</x:Double>
 
   <!-- ===== RADIUS - OFFICIAL ECOBANK TOKENS ===== -->
-  <CornerRadius x:Key="RadiusXs">4</CornerRadius>
+  <CornerRadius x:Key="RadiusXs">6</CornerRadius>
   <CornerRadius x:Key="RadiusSm">8</CornerRadius>
   <CornerRadius x:Key="RadiusMd">12</CornerRadius>
   <CornerRadius x:Key="RadiusLg">16</CornerRadius>
-  <CornerRadius x:Key="RadiusCard">24</CornerRadius>
-  <CornerRadius x:Key="RadiusButton">28</CornerRadius>
-  <CornerRadius x:Key="RadiusXl">24</CornerRadius>
+  <CornerRadius x:Key="RadiusCard">16</CornerRadius>
+  <CornerRadius x:Key="RadiusButton">14</CornerRadius>
+  <CornerRadius x:Key="RadiusXl">28</CornerRadius>
   <CornerRadius x:Key="RadiusFull">9999</CornerRadius>
 
   <!-- ===== ACCESSIBILITY ===== -->
   <x:Double x:Key="MinTouchTarget">48</x:Double>
 
   <!-- ===== LIGHT THEME COLORS - OFFICIAL ECOBANK PALETTE ===== -->
-  <Color x:Key="LightBackground">#F7F8F5</Color>
+  <Color x:Key="LightBackground">#F7FCF8</Color>
   <Color x:Key="LightSurface">#FFFFFF</Color>
-  <Color x:Key="LightSurfaceVariant">#F7F8F5</Color>
-  <Color x:Key="LightOutline">#E0E0E0</Color>
-  <Color x:Key="LightPrimary">#7ED957</Color>
+  <Color x:Key="LightSurfaceVariant">#F1FBF5</Color>
+  <Color x:Key="LightOutline">#EEF2F4</Color>
+  <Color x:Key="LightPrimary">#168246</Color>
   <Color x:Key="LightOnPrimary">#FFFFFF</Color>
-  <Color x:Key="LightPrimaryContainer">#E8F5DB</Color>
-  <Color x:Key="LightSecondary">#7ED957</Color>
+  <Color x:Key="LightPrimaryContainer">#E7F7EE</Color>
+  <Color x:Key="LightSecondary">#239A5B</Color>
   <Color x:Key="LightOnSecondary">#FFFFFF</Color>
-  <Color x:Key="LightTertiary">#C6FF00</Color>
-  <Color x:Key="LightSuccess">#1E7F4F</Color>
-  <Color x:Key="LightWarning">#C6FF00</Color>
-  <Color x:Key="LightError">#FF4D4F</Color>
-  <Color x:Key="LightOnSurface">#1B1D1F</Color>
-  <Color x:Key="LightOnSurfaceVariant">#7A7F85</Color>
-  <Color x:Key="LightCredit">#1E7F4F</Color>
-  <Color x:Key="LightDebit">#FF4D4F</Color>
-  <Color x:Key="LightPending">#7A7F85</Color>
+  <Color x:Key="LightTertiary">#55BE85</Color>
+  <Color x:Key="LightSuccess">#168246</Color>
+  <Color x:Key="LightWarning">#E8A23A</Color>
+  <Color x:Key="LightError">#D84C4C</Color>
+  <Color x:Key="LightOnSurface">#101820</Color>
+  <Color x:Key="LightOnSurfaceVariant">#45545F</Color>
+  <Color x:Key="LightCredit">#168246</Color>
+  <Color x:Key="LightDebit">#101820</Color>
+  <Color x:Key="LightPending">#8A9AA5</Color>
 
   <!-- ===== DARK THEME COLORS - DISABLED FOR NOW ===== -->
   <!-- Dark theme will be enabled in future updates -->

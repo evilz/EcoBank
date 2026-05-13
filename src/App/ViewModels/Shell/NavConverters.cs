@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
+using Material.Icons;
 
 namespace EcoBank.App.ViewModels.Shell;
 
@@ -31,8 +32,8 @@ public sealed class NavKeyToBoolConverter : IValueConverter
 /// </summary>
 public sealed class NavActiveColorConverter : IValueConverter
 {
-    private static readonly SolidColorBrush Active   = new(Color.Parse("#1A7F4F"));
-    private static readonly SolidColorBrush Inactive = new(Color.Parse("#7A7F85"));
+    private static readonly SolidColorBrush Active   = new(Color.Parse("#168246"));
+    private static readonly SolidColorBrush Inactive = new(Color.Parse("#8A9AA5"));
 
     public static readonly NavActiveColorConverter ForHome       = new("home");
     public static readonly NavActiveColorConverter ForCards      = new("cards");
@@ -58,8 +59,8 @@ public sealed class NavTabActiveColorConverter : IMultiValueConverter
 {
     public static readonly NavTabActiveColorConverter Instance = new();
 
-    private static readonly SolidColorBrush Active   = new(Color.Parse("#1A7F4F"));
-    private static readonly SolidColorBrush Inactive = new(Color.Parse("#7A7F85"));
+    private static readonly SolidColorBrush Active   = new(Color.Parse("#168246"));
+    private static readonly SolidColorBrush Inactive = new(Color.Parse("#8A9AA5"));
 
     public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -74,3 +75,26 @@ public sealed class NavTabActiveColorConverter : IMultiValueConverter
         => throw new NotSupportedException();
 }
 
+/// <summary>
+/// Convertit la clé de navigation en icône Material pour éviter les glyphes emoji.
+/// </summary>
+public sealed class NavTabIconConverter : IValueConverter
+{
+    public static readonly NavTabIconConverter Instance = new();
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        return (value as string) switch
+        {
+            "home" => MaterialIconKind.Home,
+            "cards" => MaterialIconKind.CreditCardOutline,
+            "contact" => MaterialIconKind.BankTransfer,
+            "operations" => MaterialIconKind.ChartLine,
+            "menu" => MaterialIconKind.AccountOutline,
+            _ => MaterialIconKind.CircleOutline
+        };
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}

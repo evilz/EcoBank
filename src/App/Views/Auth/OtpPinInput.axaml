@@ -13,7 +13,7 @@
       <Setter Property="HorizontalContentAlignment" Value="Center" />
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Foreground" Value="#102636" />
+      <Setter Property="Foreground" Value="#101820" />
       <Setter Property="MaxLength" Value="1" />
       <Setter Property="Padding" Value="0" />
       <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -22,16 +22,16 @@
     <Style Selector="Border.OtpBox">
       <Setter Property="Width" Value="84" />
       <Setter Property="Height" Value="84" />
-      <Setter Property="Background" Value="#F8F9FA" />
-      <Setter Property="BorderBrush" Value="#EAECEF" />
+      <Setter Property="Background" Value="#FFFFFF" />
+      <Setter Property="BorderBrush" Value="#E6E8E8" />
       <Setter Property="BorderThickness" Value="1.5" />
       <Setter Property="CornerRadius" Value="12" />
     </Style>
     <Style Selector="Border.OtpBox:pointerover">
-      <Setter Property="BorderBrush" Value="#0F523A" />
+      <Setter Property="BorderBrush" Value="#168246" />
     </Style>
     <Style Selector="Border.OtpBox:focus-within">
-      <Setter Property="BorderBrush" Value="#0F523A" />
+      <Setter Property="BorderBrush" Value="#168246" />
     </Style>
   </UserControl.Styles>
 

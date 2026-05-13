@@ -1,4 +1,8 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
+using Avalonia.Data.Converters;
+using Avalonia.Layout;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EcoBank.App.Services;
@@ -55,7 +59,10 @@ public partial class LoginViewModel : ViewModelBase
     private string _appUserId = string.Empty;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RememberCredentialsLabel))]
     private bool _rememberCredentials = true;
+
+    public string RememberCredentialsLabel => RememberCredentials ? "Profil enregistré" : "Ne pas enregistrer";
 
     [ObservableProperty]
     private bool _isLoadingProfiles;
@@ -127,6 +134,15 @@ public partial class LoginViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void ToggleRememberCredentials()
+    {
+        if (!IsBusy)
+        {
+            RememberCredentials = !RememberCredentials;
+        }
+    }
+
+    [RelayCommand]
     private void CancelAddProfile()
     {
         ClearError();
@@ -194,9 +210,7 @@ public partial class LoginViewModel : ViewModelBase
             var appUserId = AppUserId.Trim();
             var clientId = ClientId.Trim();
 
-            // Try fetch user to get their actual name to save
-            var user = await _getUserUseCase.ExecuteAsync(appUserId, ct)
-                ?? new User(appUserId, null, null, null, KycStatus.Unknown, null);
+            var user = await FetchUserOrFallbackAsync(appUserId, ct);
 
             var profileId = Guid.NewGuid().ToString();
 
@@ -236,16 +250,32 @@ public partial class LoginViewModel : ViewModelBase
 
     private async Task NavigateToMainShellAsync(string appUserId, CancellationToken ct)
     {
-        var user = await _getUserUseCase.ExecuteAsync(appUserId, ct)
-            ?? new User(appUserId, null, null, null, KycStatus.Unknown, null);
+        var user = await FetchUserOrFallbackAsync(appUserId, ct);
         _selectUserUseCase.Execute(user);
         _navigation.NavigateTo<MainShellViewModel>();
+    }
+
+    private async Task<User> FetchUserOrFallbackAsync(string appUserId, CancellationToken ct)
+    {
+        try
+        {
+            return await _getUserUseCase.ExecuteAsync(appUserId, ct)
+                ?? new User(appUserId, null, null, null, KycStatus.Unknown, null);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to fetch user {AppUserId}; continuing with a local profile.", appUserId);
+            return new User(appUserId, null, null, null, KycStatus.Unknown, null);
+        }
     }
 
     private void HandleLoginError(Exception ex)
     {
         switch (ex)
         {
+            case HttpRequestException httpEx when ((int?)httpEx.StatusCode is 400):
+                ErrorMessage = "Identifiants invalides. Vérifiez votre Client ID et Client Secret.";
+                break;
             case HttpRequestException httpEx when ((int?)httpEx.StatusCode is 401 or 403):
                 ErrorMessage = "Identifiants invalides. Vérifiez votre Client ID et Client Secret.";
                 break;
@@ -290,5 +320,30 @@ public partial class LoginViewModel : ViewModelBase
     partial void OnClientSecretChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
     partial void OnAppUserIdChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
     partial void OnNewPinChanged(string value) => LoginCommand.NotifyCanExecuteChanged();
+    partial void OnRememberCredentialsChanged(bool value) => LoginCommand.NotifyCanExecuteChanged();
     partial void OnPinChanged(string value) => SubmitPinCommand.NotifyCanExecuteChanged();
+}
+
+public sealed class RememberCredentialsSwitchBrushConverter : IValueConverter
+{
+    public static readonly RememberCredentialsSwitchBrushConverter Instance = new();
+    private static readonly SolidColorBrush EnabledBrush = new(Color.Parse("#168246"));
+    private static readonly SolidColorBrush DisabledBrush = new(Color.Parse("#CBD5D1"));
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        value is true ? EnabledBrush : DisabledBrush;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        throw new NotSupportedException();
+}
+
+public sealed class RememberCredentialsSwitchAlignmentConverter : IValueConverter
+{
+    public static readonly RememberCredentialsSwitchAlignmentConverter Instance = new();
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        value is true ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        throw new NotSupportedException();
 }

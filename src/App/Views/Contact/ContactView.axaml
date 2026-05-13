@@ -1,17 +1,126 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Contact"
+             xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Contact.ContactView"
              x:DataType="vm:ContactViewModel"
-             Background="#F7F8F5">
-  <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
-    <TextBlock Text="📞" FontSize="48" HorizontalAlignment="Center"/>
-    <TextBlock Text="{Binding Message}"
-               FontSize="16"
-               Foreground="#7A7F85"
-               HorizontalAlignment="Center"
-               TextAlignment="Center"
-               Margin="32,0"/>
-  </StackPanel>
-</UserControl>
+             Background="#F7FCF8">
 
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="16,18,16,28" Spacing="16">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock Text="Paiements"
+                   FontSize="22"
+                   FontWeight="Bold"
+                   Foreground="#101820"
+                   VerticalAlignment="Center"/>
+        <Button Grid.Column="1" Classes="IconBtn" Width="44" Height="44">
+          <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
+            <ic:MaterialIcon Kind="Magnify" Width="20" Height="20" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+        </Button>
+      </Grid>
+
+      <Border CornerRadius="24"
+              Padding="18"
+              ClipToBounds="True"
+              BoxShadow="0 18 34 0 #22062D1E">
+        <Border.Background>
+          <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Color="#07351F" Offset="0"/>
+            <GradientStop Color="#0B4D2D" Offset="0.52"/>
+            <GradientStop Color="#168246" Offset="1"/>
+          </LinearGradientBrush>
+        </Border.Background>
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Grid.Column="0" Spacing="8">
+            <TextBlock Text="Transfert rapide"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Foreground="White"/>
+            <TextBlock Text="Envoyez de l'argent ou rechargez votre compte en quelques secondes."
+                       FontSize="13"
+                       Foreground="#CFE7D8"
+                       TextWrapping="Wrap"/>
+            <Button Classes="Primary"
+                    Background="#FFFFFF"
+                    Foreground="#168246"
+                    Padding="14,10"
+                    HorizontalAlignment="Left"
+                    Margin="0,8,0,0">
+              <TextBlock Text="Nouveau paiement" FontWeight="Bold"/>
+            </Button>
+          </StackPanel>
+          <ic:MaterialIcon Grid.Column="1"
+                               Kind="Leaf"
+                               Width="92"
+                               Height="92"
+                               Foreground="#24FFFFFF"
+                               VerticalAlignment="Bottom"
+                               Margin="8,0,-18,-18"/>
+        </Grid>
+      </Border>
+
+      <Border Classes="EcoPanel">
+        <StackPanel Spacing="14">
+          <TextBlock Text="Actions"
+                     FontSize="15"
+                     FontWeight="Bold"
+                     Foreground="#101820"/>
+          <UniformGrid Rows="1" Columns="3">
+            <Button Classes="QuickAction">
+              <StackPanel Spacing="7" HorizontalAlignment="Center">
+                <Border Classes="EcoIconTile">
+                  <ic:MaterialIcon Kind="BankTransfer" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Virement" FontSize="10" FontWeight="SemiBold" Foreground="#45545F"/>
+              </StackPanel>
+            </Button>
+            <Button Classes="QuickAction">
+              <StackPanel Spacing="7" HorizontalAlignment="Center">
+                <Border Classes="EcoIconTile">
+                  <ic:MaterialIcon Kind="CreditCardOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Carte" FontSize="10" FontWeight="SemiBold" Foreground="#45545F"/>
+              </StackPanel>
+            </Button>
+            <Button Classes="QuickAction">
+              <StackPanel Spacing="7" HorizontalAlignment="Center">
+                <Border Classes="EcoIconTile">
+                  <ic:MaterialIcon Kind="RepeatVariant" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Auto" FontSize="10" FontWeight="SemiBold" Foreground="#45545F"/>
+              </StackPanel>
+            </Button>
+          </UniformGrid>
+        </StackPanel>
+      </Border>
+
+      <Border Classes="EcoPanel">
+        <StackPanel Spacing="0">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,0,0,14">
+            <Border Classes="EcoIconTile">
+              <ic:MaterialIcon Kind="AccountOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+              <TextBlock Text="{Binding UserDisplayName}" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+              <TextBlock Text="Compte principal" FontSize="11" Foreground="#8A9AA5"/>
+            </StackPanel>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+          <Border Height="1" Background="#EEF2F4"/>
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,14,0,0">
+            <Border Classes="EcoIconTile">
+              <ic:MaterialIcon Kind="Plus" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+              <TextBlock Text="Ajouter un bénéficiaire" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+              <TextBlock Text="{Binding Message}" FontSize="11" Foreground="#8A9AA5" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

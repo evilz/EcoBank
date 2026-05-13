@@ -9,8 +9,12 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Avalonia.Android" Version="11.3.12" />
+    <PackageReference Include="Avalonia.Android" />
   </ItemGroup>
 
   <ItemGroup>

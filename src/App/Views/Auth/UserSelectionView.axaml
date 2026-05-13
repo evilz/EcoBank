@@ -3,11 +3,12 @@
              xmlns:vm="using:EcoBank.App.ViewModels.Auth"
              xmlns:domain="using:EcoBank.Core.Domain.Users"
              x:Class="EcoBank.App.Views.Auth.UserSelectionView"
-             x:DataType="vm:UserSelectionViewModel">
+             x:DataType="vm:UserSelectionViewModel"
+             Background="#F7FCF8">
 
-  <DockPanel>
+  <DockPanel Background="#F7FCF8">
     <!-- Header -->
-    <Border DockPanel.Dock="Top" Padding="16,12" BoxShadow="0 1 4 0 #10000000">
+    <Border DockPanel.Dock="Top" Padding="16,12" Background="#FFFFFF" BoxShadow="0 12 28 0 #100B2B1B">
       <Grid ColumnDefinitions="Auto,*,Auto">
         <Button Grid.Column="0"
                 Classes="Secondary"
@@ -17,17 +18,18 @@
         <TextBlock Grid.Column="1"
                    Text="Sélection de l'utilisateur"
                    FontSize="20"
-                   FontWeight="SemiBold"
+                   FontWeight="Bold"
+                   Foreground="#101820"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
       </Grid>
     </Border>
 
     <!-- Search bar -->
-    <Border DockPanel.Dock="Top" Padding="16,8">
+    <Border DockPanel.Dock="Top" Padding="16,12">
       <TextBox Classes="EcoField"
                Text="{Binding SearchQuery}"
-               Watermark="🔍  Rechercher un utilisateur..."
+               PlaceholderText="🔍  Rechercher un utilisateur..."
                AutomationProperties.Name="Recherche utilisateur"/>
     </Border>
 
@@ -52,13 +54,14 @@
                 Spacing="12"
                 Margin="32"
                 IsVisible="{Binding IsEmpty}">
-      <TextBlock Text="👤" FontSize="48" HorizontalAlignment="Center"/>
+      <TextBlock Text="🌿" FontSize="48" HorizontalAlignment="Center"/>
       <TextBlock Text="Aucun utilisateur trouvé"
                  FontSize="18"
-                 FontWeight="SemiBold"
+                 FontWeight="Bold"
+                 Foreground="#101820"
                  HorizontalAlignment="Center"/>
       <TextBlock Text="Vérifiez vos credentials ou essayez une autre recherche."
-                 Foreground="#6B7280"
+                 Foreground="#45545F"
                  TextWrapping="Wrap"
                  HorizontalAlignment="Center"
                  TextAlignment="Center"/>
@@ -66,6 +69,7 @@
 
     <!-- User list -->
     <ListBox ItemsSource="{Binding Users}"
+             Background="Transparent"
              SelectionMode="Single">
       <ListBox.ItemTemplate>
         <DataTemplate x:DataType="domain:User">
@@ -75,7 +79,8 @@
                   CommandParameter="{Binding}">
             <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" Margin="4">
               <TextBlock Grid.Row="0" Grid.Column="0"
-                         FontWeight="SemiBold"
+                         FontWeight="Bold"
+                         Foreground="#101820"
                          FontSize="15">
                 <TextBlock.Text>
                   <MultiBinding StringFormat="{}{0} {1}">
@@ -87,7 +92,7 @@
               <TextBlock Grid.Row="1" Grid.Column="0"
                          Text="{Binding AppUserId}"
                          FontSize="13"
-                         Foreground="#6B7280"/>
+                         Foreground="#8A9AA5"/>
               <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                       Classes="BadgeSuccess"
                       VerticalAlignment="Center">

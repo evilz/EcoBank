@@ -15,9 +15,12 @@ public partial class ProfileViewModel : ViewModelBase
     public User? CurrentUser => _userContext.SelectedUser;
     public string? UserDisplayName => CurrentUser is { } u
         ? $"{u.FirstName} {u.LastName}".Trim() is { Length: > 0 } n ? n : u.AppUserId
-        : null;
+        : "Utilisateur";
 
-    [ObservableProperty] private bool _darkModeEnabled;
+    public string ProfileEmail => string.IsNullOrWhiteSpace(CurrentUser?.Email)
+        ? "Non renseigné"
+        : CurrentUser.Email;
+
     [ObservableProperty] private string _selectedLanguage = "fr";
 
     public ProfileViewModel(UserContext userContext, INavigationService navigation)
