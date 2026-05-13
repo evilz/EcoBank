@@ -95,3 +95,8 @@
 - [ ] Run `dotnet build src/Desktop/EcoBank.Desktop.csproj`.
 - [ ] Fix compile, binding, or test failures.
 - [ ] Report any endpoint that remains best-effort because Xpollens specs expose retrieval by key but no list endpoint.
+
+### Best-effort endpoint notes (implementation)
+
+- Bank statements are currently integrated in retrieval mode (`GetBankStatementAsync(bankStatementId)`), because the client adapters in this implementation do not have a dedicated list flow wired to surface statement identifiers per account in the UI.
+- Document download is key-based (`GetDocumentContentAsync(appUserId, key, kind)`), and document listing remains dependent on provider-exposed keys from KYC demand payloads; if no keys are exposed, the app intentionally falls back to empty-state behavior.
