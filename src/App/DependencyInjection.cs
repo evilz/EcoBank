@@ -31,6 +31,9 @@ public static class DependencyInjection
         services.AddSingleton<ISecureStorage, FileSecureStorage>();
         services.AddSingleton<ProfileService>();
 
+        // Shell navigation (singleton so all VMs share the same instance)
+        services.AddSingleton<ShellNavigationContext>();
+
         // Use Cases
         services.AddTransient<AuthenticateUseCase>();
         services.AddTransient<GetUsersUseCase>();
@@ -38,11 +41,13 @@ public static class DependencyInjection
         services.AddTransient<SelectUserUseCase>();
         services.AddTransient<GetAccountsUseCase>();
         services.AddTransient<GetBankStatementUseCase>();
+        services.AddTransient<ListBankStatementsUseCase>();
         services.AddTransient<GetVirtualIbansUseCase>();
         services.AddTransient<GetOperationsUseCase>();
         services.AddTransient<GetCardsUseCase>();
         services.AddTransient<GetCardOperationsUseCase>();
         services.AddTransient<ToggleCardLockUseCase>();
+        services.AddTransient<CreatePhysicalCardUseCase>();
         services.AddTransient<GetBeneficiariesUseCase>();
         services.AddTransient<GetMandatesUseCase>();
         services.AddTransient<CreateSepaTransferUseCase>();

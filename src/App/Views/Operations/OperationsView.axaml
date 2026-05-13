@@ -14,7 +14,8 @@
           ColumnSpacing="8"
           Margin="16,14,16,0"
           Height="56">
-      <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
+      <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center"
+              Command="{Binding GoBackCommand}">
         <ic:MaterialIcon Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
       </Button>
 

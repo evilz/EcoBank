@@ -13,7 +13,8 @@
             ColumnDefinitions="Auto,*,Auto"
             Margin="16,14,16,4"
             Height="56">
-        <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
+        <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center"
+                Command="{Binding GoBackCommand}">
           <ic:MaterialIcon Kind="ArrowLeft" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
         <TextBlock Grid.Column="1"
@@ -23,7 +24,8 @@
                    Foreground="#101820"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
-        <Button Grid.Column="2" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center">
+        <Button Grid.Column="2" Classes="IconBtn" Width="44" Height="44" VerticalAlignment="Center"
+                Command="{Binding CreateCardCommand}">
           <ic:MaterialIcon Kind="Plus" Width="22" Height="22" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
       </Grid>
@@ -39,6 +41,14 @@
                  TextWrapping="Wrap"
                  Margin="16,6,16,0"
                  IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+      <TextBlock DockPanel.Dock="Top"
+                 Text="{Binding CardCreationMessage}"
+                 Foreground="#168246"
+                 FontWeight="SemiBold"
+                 TextWrapping="Wrap"
+                 Margin="16,6,16,0"
+                 IsVisible="{Binding CardCreationMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
 
       <TextBlock DockPanel.Dock="Top"
                  Text="{Binding SecurityMessage}"
@@ -140,12 +150,37 @@
             </Grid>
           </Border>
 
+          <!-- Create card prompt when no cards exist -->
+          <Border Classes="EcoPanel" IsVisible="{Binding HasNoCards}">
+            <StackPanel Spacing="12">
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Border Classes="EcoIconTile">
+                  <ic:MaterialIcon Kind="CreditCardPlusOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+                  <TextBlock Text="Aucune carte active" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+                  <TextBlock Text="Vous n'avez pas encore de carte. Créez votre carte EcoBank physique." FontSize="11" Foreground="#8A9AA5" TextWrapping="Wrap"/>
+                </StackPanel>
+              </Grid>
+              <Button Classes="Primary"
+                      Command="{Binding CreateCardCommand}"
+                      HorizontalAlignment="Stretch">
+                <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                  <ic:MaterialIcon Kind="CreditCardPlusOutline" Width="18" Height="18" Foreground="White"/>
+                  <TextBlock Text="Créer une carte physique" FontWeight="Bold"/>
+                </StackPanel>
+              </Button>
+            </StackPanel>
+          </Border>
+
           <Grid ColumnDefinitions="*,Auto" Margin="0,2,0,0">
             <StackPanel Grid.Column="0" Spacing="3">
               <TextBlock Text="Carte sélectionnée" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
               <TextBlock Text="{Binding SelectedCardMaskedPan}" FontSize="12" Foreground="#8A9AA5"/>
             </StackPanel>
-            <ic:MaterialIcon Grid.Column="1" Kind="Refresh" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            <Button Grid.Column="1" Classes="IconBtn" Width="34" Height="34" Command="{Binding LoadCommand}">
+              <ic:MaterialIcon Kind="Refresh" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
+            </Button>
           </Grid>
 
           <UniformGrid Rows="1" Columns="4">

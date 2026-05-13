@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EcoBank.App.Services;
 using EcoBank.Core.Domain.Operations;
 using EcoBank.Core.UseCases.Accounts;
 using EcoBank.Core.UseCases.Operations;
@@ -11,6 +12,7 @@ public partial class OperationsViewModel : ViewModelBase
 {
     private readonly GetAccountsUseCase _getAccounts;
     private readonly GetOperationsUseCase _getOperations;
+    private readonly ShellNavigationContext _shellNav;
 
     [ObservableProperty] private string _searchQuery = string.Empty;
     [ObservableProperty] private OperationType? _filterType;
@@ -22,10 +24,11 @@ public partial class OperationsViewModel : ViewModelBase
     public bool HasOperations => Operations.Any();
     public bool HasNoOperations => !HasOperations;
 
-    public OperationsViewModel(GetAccountsUseCase getAccounts, GetOperationsUseCase getOperations)
+    public OperationsViewModel(GetAccountsUseCase getAccounts, GetOperationsUseCase getOperations, ShellNavigationContext shellNav)
     {
         _getAccounts = getAccounts;
         _getOperations = getOperations;
+        _shellNav = shellNav;
     }
 
     [RelayCommand]
@@ -59,6 +62,9 @@ public partial class OperationsViewModel : ViewModelBase
         catch (Exception) { ErrorMessage = "Impossible de charger les opérations."; }
         finally { IsBusy = false; }
     }
+
+    [RelayCommand]
+    private void GoBack() => _shellNav.GoToHome();
 }
 
 file static class StringExtensions
