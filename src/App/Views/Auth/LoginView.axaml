@@ -285,16 +285,16 @@
         <Border Margin="0,0,0,24" CornerRadius="16" Padding="24" Background="White" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 8 24 0 #14101820">
           <StackPanel Spacing="20">
             <TextBox AutomationProperties.Name="Client ID"
-                     Watermark="Client ID"
+                     PlaceholderText="Client ID"
                      Text="{Binding ClientId}"
                      IsEnabled="{Binding !IsBusy}"/>
             <TextBox AutomationProperties.Name="Client Secret"
-                     Watermark="Client Secret"
+                     PlaceholderText="Client Secret"
                      Text="{Binding ClientSecret}"
                      PasswordChar="•"
                      IsEnabled="{Binding !IsBusy}"/>
             <TextBox AutomationProperties.Name="App User ID"
-                     Watermark="App User ID"
+                     PlaceholderText="App User ID"
                      Text="{Binding AppUserId}"
                      IsEnabled="{Binding !IsBusy}"/>
             
@@ -303,7 +303,7 @@
             <TextBlock Text="Définissez un code PIN pour simplifier vos prochaines connexions :" FontSize="14" Foreground="#6C7A89" TextWrapping="Wrap"/>
             
             <TextBox AutomationProperties.Name="Code PIN (Nouveau)"
-                     Watermark="Code PIN (Nouveau)"
+                     PlaceholderText="Code PIN (Nouveau)"
                      Text="{Binding NewPin}"
                      PasswordChar="•"
                      MaxLength="8"

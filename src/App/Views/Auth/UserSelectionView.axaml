@@ -29,7 +29,7 @@
     <Border DockPanel.Dock="Top" Padding="16,12">
       <TextBox Classes="EcoField"
                Text="{Binding SearchQuery}"
-               Watermark="🔍  Rechercher un utilisateur..."
+               PlaceholderText="🔍  Rechercher un utilisateur..."
                AutomationProperties.Name="Recherche utilisateur"/>
     </Border>
 
