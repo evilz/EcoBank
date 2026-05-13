@@ -72,7 +72,7 @@
                     </MultiBinding>
                   </TextBlock.Text>
                 </TextBlock>
-                <TextBlock Text="•••••• €"
+                <TextBlock Text="{Binding DisplayCurrency, Converter={x:Static vm:MaskedMoneyTextConverter.Instance}}"
                            FontSize="28"
                            FontWeight="Bold"
                            Foreground="White"
@@ -158,38 +158,15 @@
             </ItemsControl.ItemTemplate>
           </ItemsControl>
 
-          <StackPanel Spacing="14" IsVisible="{Binding HasNoAccounts}">
-            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-              <Border Grid.Column="0" Classes="EcoIconTile">
-                <ic:PackIconMaterial Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-              </Border>
-              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
-                <TextBlock Text="Compte principal" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-                <TextBlock Text="•••• 1234" FontSize="11" Foreground="#8A9AA5"/>
-              </StackPanel>
-              <TextBlock Grid.Column="2" Text="8 952,40 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            </Grid>
-            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-              <Border Grid.Column="0" Classes="EcoIconTile">
-                <ic:PackIconMaterial Kind="Leaf" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-              </Border>
-              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
-                <TextBlock Text="Livret Éco" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-                <TextBlock Text="•••• 5678" FontSize="11" Foreground="#8A9AA5"/>
-              </StackPanel>
-              <TextBlock Grid.Column="2" Text="2 750,35 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            </Grid>
-            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-              <Border Grid.Column="0" Background="#FFF4DF" Width="40" Height="40" CornerRadius="12">
-                <ic:PackIconMaterial Kind="BankOutline" Width="20" Height="20" Foreground="#B77A22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-              </Border>
-              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
-                <TextBlock Text="Compte joint" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-                <TextBlock Text="•••• 8765" FontSize="11" Foreground="#8A9AA5"/>
-              </StackPanel>
-              <TextBlock Grid.Column="2" Text="755,00 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-            </Grid>
-          </StackPanel>
+          <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" IsVisible="{Binding HasNoAccounts}">
+            <Border Grid.Column="0" Classes="EcoIconTile">
+              <ic:PackIconMaterial Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+              <TextBlock Text="{Binding EmptyAccountsMessage}" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+              <TextBlock Text="Actualisez le tableau de bord ou vérifiez votre accès bancaire." FontSize="11" Foreground="#8A9AA5" TextWrapping="Wrap"/>
+            </StackPanel>
+          </Grid>
         </StackPanel>
       </Border>
 

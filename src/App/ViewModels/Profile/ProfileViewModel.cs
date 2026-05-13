@@ -14,11 +14,11 @@ public partial class ProfileViewModel : ViewModelBase
 
     public User? CurrentUser => _userContext.SelectedUser;
     public string? UserDisplayName => CurrentUser is { } u
-        ? $"{u.FirstName} {u.LastName}".Trim() is { Length: > 0 } n ? n : "Alexandre Martin"
-        : "Alexandre Martin";
+        ? $"{u.FirstName} {u.LastName}".Trim() is { Length: > 0 } n ? n : u.AppUserId
+        : "Utilisateur";
 
     public string ProfileEmail => string.IsNullOrWhiteSpace(CurrentUser?.Email)
-        ? "alexandre.martin@email.com"
+        ? "Non renseigné"
         : CurrentUser.Email;
 
     [ObservableProperty] private string _selectedLanguage = "fr";

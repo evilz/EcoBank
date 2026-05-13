@@ -103,7 +103,7 @@
               <ic:PackIconMaterial Kind="AccountOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
             <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Alexandre Martin" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+              <TextBlock Text="{Binding UserDisplayName}" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
               <TextBlock Text="Compte principal" FontSize="11" Foreground="#8A9AA5"/>
             </StackPanel>
             <ic:PackIconMaterial Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>

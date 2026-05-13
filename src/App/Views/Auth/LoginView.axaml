@@ -323,18 +323,18 @@
                            Foreground="#101820"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
-                <Border Grid.Column="1"
-                        Width="48"
-                        Height="28"
-                        CornerRadius="14"
-                        Background="#168246"
-                        VerticalAlignment="Center">
-                  <Ellipse Width="22"
-                           Height="22"
-                           Fill="#FFFFFF"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center"
-                           Margin="3"/>
+                 <Border Grid.Column="1"
+                         Width="48"
+                         Height="28"
+                         CornerRadius="14"
+                         Background="{Binding RememberCredentials, Converter={x:Static vm:RememberCredentialsSwitchBrushConverter.Instance}}"
+                         VerticalAlignment="Center">
+                   <Ellipse Width="22"
+                            Height="22"
+                            Fill="#FFFFFF"
+                            HorizontalAlignment="{Binding RememberCredentials, Converter={x:Static vm:RememberCredentialsSwitchAlignmentConverter.Instance}}"
+                            VerticalAlignment="Center"
+                            Margin="3"/>
                 </Border>
               </Grid>
             </Button>

@@ -10,7 +10,7 @@ using EcoBank.Core.Application;
 
 namespace EcoBank.App.ViewModels.Shell;
 
-public record NavTab(string Key, string Label, string Icon, ViewModelBase Content);
+public record NavTab(string Key, string Label, ViewModelBase Content);
 
 public partial class MainShellViewModel : ViewModelBase
 {
@@ -41,11 +41,11 @@ public partial class MainShellViewModel : ViewModelBase
 
         Tabs =
         [
-            new("home",       "Accueil",    "home",        homeVm),
-            new("cards",      "Comptes",    "cards",       cardsVm),
-            new("contact",    "Paiements",  "contact",     contactVm),
-            new("operations", "Investir",   "operations",  operationsVm),
-            new("menu",       "Profil",     "menu",        profileVm),
+            new("home",       "Accueil",   homeVm),
+            new("cards",      "Comptes",   cardsVm),
+            new("contact",    "Paiements", contactVm),
+            new("operations", "Investir",  operationsVm),
+            new("menu",       "Profil",    profileVm),
         ];
 
         _selectedTab = Tabs[0];

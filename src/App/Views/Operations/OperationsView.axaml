@@ -104,90 +104,15 @@
           </ItemsControl>
         </StackPanel>
 
-        <StackPanel Spacing="14" IsVisible="{Binding HasNoOperations}">
-          <TextBlock Text="Aujourd'hui" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" MinHeight="46">
-            <Border Grid.Column="0" Classes="EcoIconTile">
-              <ic:PackIconMaterial Kind="CartOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Carrefour Bio" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Courses" FontSize="11" Foreground="#45545F"/>
-            </StackPanel>
-            <TextBlock Grid.Column="2" Text="- 42,68 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-          </Grid>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" MinHeight="46">
-            <Border Grid.Column="0" Classes="EcoIconTile">
-              <ic:PackIconMaterial Kind="ArrowDown" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Salaire" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Virement" FontSize="11" Foreground="#45545F"/>
-            </StackPanel>
-            <TextBlock Grid.Column="2" Text="+ 2 350,00 €" FontSize="13" FontWeight="Bold" Foreground="#168246" VerticalAlignment="Center"/>
-          </Grid>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" MinHeight="46">
-            <Border Grid.Column="0" Background="#0F6738" Width="36" Height="36" CornerRadius="18">
-              <ic:PackIconMaterial Kind="CoffeeOutline" Width="18" Height="18" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Starbucks" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Restauration" FontSize="11" Foreground="#45545F"/>
-            </StackPanel>
-            <TextBlock Grid.Column="2" Text="- 5,40 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-          </Grid>
-
-          <TextBlock Text="Hier" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5" Margin="0,4,0,0"/>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" MinHeight="46">
-            <Border Grid.Column="0" Background="#FFF4DF" Width="36" Height="36" CornerRadius="10">
-              <ic:PackIconMaterial Kind="Fire" Width="18" Height="18" Foreground="#E8A23A" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Planète Énergie" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Énergie" FontSize="11" Foreground="#45545F"/>
-            </StackPanel>
-            <TextBlock Grid.Column="2" Text="- 68,90 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-          </Grid>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" MinHeight="46">
-            <Border Grid.Column="0" Classes="EcoIconTile">
-              <ic:PackIconMaterial Kind="ArrowDown" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Virement à Marie" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Virement" FontSize="11" Foreground="#45545F"/>
-            </StackPanel>
-            <TextBlock Grid.Column="2" Text="- 50,00 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-          </Grid>
-
-          <TextBlock Text="10 mai 2024" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5" Margin="0,4,0,0"/>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" MinHeight="46">
-            <Border Grid.Column="0" Background="#EAF6FA" Width="36" Height="36" CornerRadius="10">
-              <ic:PackIconMaterial Kind="ShoppingOutline" Width="18" Height="18" Foreground="#3B82A0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Décathlon" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Shopping" FontSize="11" Foreground="#45545F"/>
-            </StackPanel>
-            <TextBlock Grid.Column="2" Text="- 89,99 €" FontSize="13" FontWeight="Bold" Foreground="#101820" VerticalAlignment="Center"/>
-          </Grid>
-
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" MinHeight="46">
-            <Border Grid.Column="0" Classes="EcoIconTile">
-              <ic:PackIconMaterial Kind="Leaf" Width="18" Height="18" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Intérêts Livret Éco" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Intérêts" FontSize="11" Foreground="#45545F"/>
-            </StackPanel>
-            <TextBlock Grid.Column="2" Text="+ 12,45 €" FontSize="13" FontWeight="Bold" Foreground="#168246" VerticalAlignment="Center"/>
-          </Grid>
-        </StackPanel>
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" MinHeight="64" IsVisible="{Binding HasNoOperations}">
+          <Border Grid.Column="0" Classes="EcoIconTile">
+            <ic:PackIconMaterial Kind="ReceiptTextOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+            <TextBlock Text="Aucune opération" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+            <TextBlock Text="Les transactions apparaîtront ici dès qu’elles seront disponibles." FontSize="11" Foreground="#45545F" TextWrapping="Wrap"/>
+          </StackPanel>
+        </Grid>
       </StackPanel>
     </ScrollViewer>
   </DockPanel>

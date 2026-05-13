@@ -27,8 +27,11 @@ public partial class HomeViewModel : ViewModelBase
 
     public bool HasAccounts => Accounts.Any();
     public bool HasNoAccounts => !HasAccounts;
-    public decimal DisplayTotalBalance => HasAccounts ? TotalBalance : 12458.75m;
-    public string DisplayCurrency => HasAccounts ? Currency : "EUR";
+    public decimal DisplayTotalBalance => TotalBalance;
+    public string DisplayCurrency => Currency;
+    public string EmptyAccountsMessage => string.IsNullOrWhiteSpace(ErrorMessage)
+        ? "Aucun compte disponible"
+        : ErrorMessage;
 
     public Account? FirstAccount => Accounts.FirstOrDefault();
 
@@ -44,8 +47,8 @@ public partial class HomeViewModel : ViewModelBase
 
     public string GreetingName =>
         _userContext.SelectedUser is { } u
-            ? (string.IsNullOrWhiteSpace(u.FirstName) ? "Alexandre" : u.FirstName)
-            : "Alexandre";
+            ? (string.IsNullOrWhiteSpace(u.FirstName) ? u.AppUserId : u.FirstName)
+            : "";
 
     public HomeViewModel(
         UserContext userContext,
@@ -77,6 +80,7 @@ public partial class HomeViewModel : ViewModelBase
             OnPropertyChanged(nameof(HasNoAccounts));
             OnPropertyChanged(nameof(DisplayTotalBalance));
             OnPropertyChanged(nameof(DisplayCurrency));
+            OnPropertyChanged(nameof(EmptyAccountsMessage));
             OnPropertyChanged(nameof(FirstAccount));
             OnPropertyChanged(nameof(FirstAccountLabel));
             OnPropertyChanged(nameof(FirstAccountNumber));
@@ -114,6 +118,7 @@ public partial class HomeViewModel : ViewModelBase
         catch (Exception)
         {
             ErrorMessage = "Impossible de charger le tableau de bord.";
+            OnPropertyChanged(nameof(EmptyAccountsMessage));
         }
         finally
         {

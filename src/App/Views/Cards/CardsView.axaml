@@ -33,6 +33,13 @@
                    Height="3"
                    IsVisible="{Binding IsBusy}"/>
 
+      <TextBlock DockPanel.Dock="Top"
+                 Text="{Binding ErrorMessage}"
+                 Foreground="#D84C4C"
+                 TextWrapping="Wrap"
+                 Margin="16,6,16,0"
+                 IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
       <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="16" Margin="16,8,16,24">
 
@@ -80,10 +87,10 @@
                       </Grid>
 
                       <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
-                        <TextBlock Grid.Column="0" Text="•••• 1234" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
+                        <TextBlock Grid.Column="0" Text="{Binding MaskedPan}" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
                         <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Spacing="-2">
-                          <TextBlock Text="VISA" FontSize="29" FontWeight="Bold" FontStyle="Italic" Foreground="White" HorizontalAlignment="Right"/>
-                          <TextBlock Text="Débit" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                          <TextBlock Text="{Binding Type}" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                          <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
                         </StackPanel>
                       </Grid>
                     </Grid>
@@ -118,10 +125,10 @@
                 <ic:PackIconMaterial Grid.Column="1" Kind="ContactlessPayment" Width="24" Height="24" Foreground="White" Opacity="0.9"/>
               </Grid>
               <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
-                <TextBlock Grid.Column="0" Text="•••• 1234" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Column="0" Text="Aucune carte" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
                 <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Spacing="-2">
-                  <TextBlock Text="VISA" FontSize="29" FontWeight="Bold" FontStyle="Italic" Foreground="White" HorizontalAlignment="Right"/>
-                  <TextBlock Text="Débit" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                  <TextBlock Text="Carte" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                  <TextBlock Text="Non disponible" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
                 </StackPanel>
               </Grid>
             </Grid>
@@ -129,8 +136,8 @@
 
           <Grid ColumnDefinitions="*,Auto" Margin="0,2,0,0">
             <StackPanel Grid.Column="0" Spacing="3">
-              <TextBlock Text="Carte principale" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Expire le 06/27" FontSize="12" Foreground="#8A9AA5"/>
+              <TextBlock Text="Carte sélectionnée" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+              <TextBlock Text="{Binding SelectedCardMaskedPan}" FontSize="12" Foreground="#8A9AA5"/>
             </StackPanel>
             <ic:PackIconMaterial Grid.Column="1" Kind="Refresh" Width="20" Height="20" Foreground="#45545F" VerticalAlignment="Center"/>
           </Grid>
@@ -174,7 +181,7 @@
             <StackPanel Spacing="18">
               <StackPanel Spacing="8">
                 <TextBlock Text="Plafond de paiement" FontSize="12" FontWeight="Bold" Foreground="#101820"/>
-                <TextBlock Text="3 000 € / mois" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="{Binding SelectedCardMonthlyLimitLabel}" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
                 <Grid Height="6">
                   <Border Background="#EEF2F4" CornerRadius="3"/>
                   <Border Width="210" Background="#168246" CornerRadius="3" HorizontalAlignment="Left"/>
@@ -183,7 +190,7 @@
 
               <StackPanel Spacing="8">
                 <TextBlock Text="Plafond de retrait" FontSize="12" FontWeight="Bold" Foreground="#101820"/>
-                <TextBlock Text="1 000 € / semaine" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="{Binding SelectedCardDailyLimitLabel}" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
                 <Grid Height="6">
                   <Border Background="#EEF2F4" CornerRadius="3"/>
                   <Border Width="154" Background="#168246" CornerRadius="3" HorizontalAlignment="Left"/>
@@ -249,10 +256,10 @@
                 <TextBlock Text="EcoBank" FontSize="18" FontWeight="Bold" Foreground="White"/>
               </StackPanel>
               <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
-                <TextBlock Grid.Column="0" Text="•••• 1234" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Column="0" Text="{Binding SelectedCardMaskedPan}" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Bottom"/>
                 <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Spacing="-2">
-                  <TextBlock Text="VISA" FontSize="30" FontWeight="Bold" FontStyle="Italic" Foreground="White" HorizontalAlignment="Right"/>
-                  <TextBlock Text="Débit" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                  <TextBlock Text="{Binding SelectedCardTypeLabel}" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                  <TextBlock Text="{Binding SelectedCardStatusLabel}" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
                 </StackPanel>
               </Grid>
             </Grid>
@@ -262,24 +269,24 @@
             <StackPanel Spacing="14">
               <StackPanel Spacing="4">
                 <TextBlock Text="Titulaire de la carte" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
-                <TextBlock Text="Alexandre Martin" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                <TextBlock Text="{Binding SelectedCardHolderName}" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
               </StackPanel>
               <StackPanel Spacing="4">
                 <TextBlock Text="Numéro de carte" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
                 <Grid ColumnDefinitions="*,Auto">
-                  <TextBlock Text="**** **** **** 1234" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                  <TextBlock Text="{Binding SelectedCardMaskedPan}" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
                   <ic:PackIconMaterial Grid.Column="1" Kind="ContentCopy" Width="18" Height="18" Foreground="#45545F"/>
                 </Grid>
               </StackPanel>
               <Grid ColumnDefinitions="*,*">
                 <StackPanel Grid.Column="0" Spacing="4">
                   <TextBlock Text="Expire fin" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
-                  <TextBlock Text="06 / 27" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                  <TextBlock Text="Non disponible" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Spacing="4">
                   <TextBlock Text="CVV" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
                   <StackPanel Orientation="Horizontal" Spacing="5">
-                    <TextBlock Text="•••" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
+                    <TextBlock Text="Non disponible" FontSize="13" FontWeight="Bold" Foreground="#101820"/>
                     <ic:PackIconMaterial Kind="EyeOutline" Width="16" Height="16" Foreground="#45545F"/>
                   </StackPanel>
                 </StackPanel>

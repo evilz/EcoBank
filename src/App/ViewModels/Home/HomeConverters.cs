@@ -58,6 +58,21 @@ public sealed class MoneyTextConverter : IMultiValueConverter
         => throw new NotSupportedException();
 }
 
+public sealed class MaskedMoneyTextConverter : IValueConverter
+{
+    public static readonly MaskedMoneyTextConverter Instance = new();
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        var currency = value?.ToString();
+        var symbol = string.Equals(currency, "EUR", StringComparison.OrdinalIgnoreCase) ? "€" : currency ?? "";
+        return string.IsNullOrWhiteSpace(symbol) ? "••••••" : $"•••••• {symbol}";
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
 public sealed class SignedMoneyTextConverter : IMultiValueConverter
 {
     public static readonly SignedMoneyTextConverter Instance = new();
