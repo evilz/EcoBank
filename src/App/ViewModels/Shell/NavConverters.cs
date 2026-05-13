@@ -14,9 +14,7 @@ public sealed class NavKeyToBoolConverter : IValueConverter
     public static readonly NavKeyToBoolConverter IsAccounts   = new("accounts");
     public static readonly NavKeyToBoolConverter IsPayments   = new("payments");
     public static readonly NavKeyToBoolConverter IsCards      = new("cards");
-    public static readonly NavKeyToBoolConverter IsContact    = new("contact");
-    public static readonly NavKeyToBoolConverter IsOperations = new("operations");
-    public static readonly NavKeyToBoolConverter IsMenu       = new("menu");
+    public static readonly NavKeyToBoolConverter IsProfile    = new("profile");
 
     private readonly string _key;
     private NavKeyToBoolConverter(string key) => _key = key;
@@ -41,9 +39,7 @@ public sealed class NavActiveColorConverter : IValueConverter
     public static readonly NavActiveColorConverter ForAccounts   = new("accounts");
     public static readonly NavActiveColorConverter ForPayments   = new("payments");
     public static readonly NavActiveColorConverter ForCards      = new("cards");
-    public static readonly NavActiveColorConverter ForContact    = new("contact");
-    public static readonly NavActiveColorConverter ForOperations = new("operations");
-    public static readonly NavActiveColorConverter ForMenu       = new("menu");
+    public static readonly NavActiveColorConverter ForProfile    = new("profile");
 
     private readonly string _myKey;
     private NavActiveColorConverter(string key) => _myKey = key;
@@ -94,10 +90,7 @@ public sealed class NavTabIconConverter : IValueConverter
             "accounts" => MaterialIconKind.BankOutline,
             "payments" => MaterialIconKind.BankTransfer,
             "cards" => MaterialIconKind.CreditCardOutline,
-            "contact" => MaterialIconKind.BankTransfer,
-            "operations" => MaterialIconKind.ChartLine,
-            "profile" => MaterialIconKind.AccountOutline,
-            "menu" => MaterialIconKind.AccountOutline,
+            "profile" => MaterialIconKind.AccountCircleOutline,
             _ => MaterialIconKind.CircleOutline
         };
     }

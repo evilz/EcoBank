@@ -24,17 +24,30 @@ public partial class ContactViewModel : ViewModelBase
     [ObservableProperty] private Beneficiary? _selectedBeneficiary;
     [ObservableProperty] private decimal _amount;
     [ObservableProperty] private string _paymentLabel = "";
-    [ObservableProperty] private bool _isInstantPayment;
+    [ObservableProperty] private PaymentModeOption? _selectedPaymentMode;
     [ObservableProperty] private PaymentResult? _lastPayment;
 
     public ObservableCollection<Account> Accounts { get; } = [];
     public ObservableCollection<Beneficiary> Beneficiaries { get; } = [];
     public ObservableCollection<Mandate> Mandates { get; } = [];
+    public ObservableCollection<PaymentModeOption> PaymentModes { get; } =
+    [
+        new() { Label = "Virement SEPA standard", Mode = PaymentExecutionMode.Standard },
+        new() { Label = "Virement instantané", Mode = PaymentExecutionMode.Instant },
+    ];
 
     public bool CanSubmitPayment =>
         SelectedAccount is not null
         && SelectedBeneficiary is not null
-        && Amount > 0;
+        && Amount > 0
+        && SelectedPaymentMode is not null;
+
+    public string PaymentValidationMessage =>
+        SelectedAccount is null ? "Sélectionnez un compte source." :
+        SelectedBeneficiary is null ? "Sélectionnez un bénéficiaire." :
+        Amount <= 0 ? "Le montant doit être supérieur à 0." :
+        SelectedPaymentMode is null ? "Sélectionnez un mode d’exécution." :
+        "";
 
     public string LastPaymentLabel => LastPayment is null
         ? "Aucun paiement soumis"
@@ -57,6 +70,7 @@ public partial class ContactViewModel : ViewModelBase
         _getBeneficiaries = getBeneficiaries;
         _getMandates = getMandates;
         _createSepaTransfer = createSepaTransfer;
+        _selectedPaymentMode = PaymentModes.FirstOrDefault();
     }
 
     [RelayCommand]
@@ -119,7 +133,7 @@ public partial class ContactViewModel : ViewModelBase
                 Amount,
                 SelectedAccount.Currency,
                 PaymentLabel.NullIfEmpty() ?? "Virement EcoBank",
-                IsInstantPayment ? PaymentExecutionMode.Instant : PaymentExecutionMode.Standard);
+                SelectedPaymentMode?.Mode ?? PaymentExecutionMode.Standard);
             LastPayment = await _createSepaTransfer.ExecuteAsync(order, ct);
             Message = LastPayment.Status == PaymentStatus.Completed
                 ? "Paiement exécuté."
@@ -143,10 +157,12 @@ public partial class ContactViewModel : ViewModelBase
     partial void OnSelectedAccountChanged(Account? value) => PaymentInputChanged();
     partial void OnSelectedBeneficiaryChanged(Beneficiary? value) => PaymentInputChanged();
     partial void OnAmountChanged(decimal value) => PaymentInputChanged();
+    partial void OnSelectedPaymentModeChanged(PaymentModeOption? value) => PaymentInputChanged();
 
     private void PaymentInputChanged()
     {
         OnPropertyChanged(nameof(CanSubmitPayment));
+        OnPropertyChanged(nameof(PaymentValidationMessage));
         SubmitPaymentCommand.NotifyCanExecuteChanged();
     }
 

@@ -102,8 +102,22 @@
                    Text="{Binding PaymentLabel}"
                    PlaceholderText="Libellé"/>
 
-          <CheckBox IsChecked="{Binding IsInstantPayment}"
-                    Content="Virement instantané"/>
+          <ComboBox ItemsSource="{Binding PaymentModes}"
+                    SelectedItem="{Binding SelectedPaymentMode}"
+                    HorizontalAlignment="Stretch"
+                    PlaceholderText="Mode d’exécution">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:PaymentModeOption">
+                <TextBlock Text="{Binding Label}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+
+          <TextBlock Text="{Binding PaymentValidationMessage}"
+                     FontSize="11"
+                     Foreground="#8A9AA5"
+                     TextWrapping="Wrap"
+                     IsVisible="{Binding !CanSubmitPayment}"/>
 
           <Button Classes="Primary"
                   Command="{Binding SubmitPaymentCommand}"
