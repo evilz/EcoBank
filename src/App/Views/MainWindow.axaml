@@ -1,7 +1,6 @@
-<suki:SukiWindow xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:EcoBank.App.ViewModels"
-        xmlns:suki="https://github.com/kikipoulet/SukiUI"
         x:Class="EcoBank.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="EcoBank"
@@ -9,9 +8,7 @@
         Width="1024"
         Height="768"
         MinWidth="720"
-        MinHeight="640"
-        IsTitleBarVisible="True"
-        BackgroundStyle="Flat">
+        MinHeight="640">
 
   <ContentControl Content="{Binding CurrentPage}"/>
-</suki:SukiWindow>
+</Window>
