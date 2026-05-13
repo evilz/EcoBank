@@ -1,8 +1,6 @@
 using Android.App;
 using Android.Content.PM;
-using Avalonia;
 using Avalonia.Android;
-using AvaloniaApp = EcoBank.App.App;
 
 namespace EcoBank.Android;
 
@@ -12,10 +10,6 @@ namespace EcoBank.Android;
     Icon = "@drawable/icon",
     MainLauncher = true,
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
-public class MainActivity : AvaloniaMainActivity<AvaloniaApp>
+public class MainActivity : AvaloniaMainActivity
 {
-    protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
-        => base.CustomizeAppBuilder(builder)
-            .WithInterFont()
-            .LogToTrace();
 }
