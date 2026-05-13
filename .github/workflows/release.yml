@@ -111,7 +111,7 @@ jobs:
           global-json-file: global.json
 
       - name: Install WASM workload
-        run: dotnet workload install wasm-tools
+        run: dotnet workload install wasm-tools --skip-manifest-update
 
       - name: Publish
         run: dotnet publish src/Browser/EcoBank.Browser.csproj -c Release -o publish/browser
