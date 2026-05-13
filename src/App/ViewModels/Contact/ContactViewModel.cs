@@ -46,6 +46,7 @@ public partial class ContactViewModel : ViewModelBase
         SelectedAccount is null ? "Sélectionnez un compte source." :
         SelectedBeneficiary is null ? "Sélectionnez un bénéficiaire." :
         Amount <= 0 ? "Le montant doit être supérieur à 0." :
+        SelectedPaymentMode is null ? "Sélectionnez un mode d’exécution." :
         "";
 
     public string LastPaymentLabel => LastPayment is null
