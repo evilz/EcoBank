@@ -30,7 +30,7 @@ public sealed class XpollensBankStatementRepository(HttpClient httpClient, ILogg
         if (!string.IsNullOrWhiteSpace(accountId))
             url += $"?accountId={Uri.EscapeDataString(accountId)}";
 
-        logger.LogDebug("Listing bank statements for accountId={AccountId}", accountId);
+        logger.LogDebug("Listing bank statements");
         var paged = await httpClient.GetFromJsonAsync<BankStatementPagedDto>(url, ct);
         return (paged?.Values ?? []).Select(Map).ToList().AsReadOnly();
     }

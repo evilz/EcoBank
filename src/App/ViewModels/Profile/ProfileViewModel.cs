@@ -190,7 +190,10 @@ public partial class ProfileViewModel : ViewModelBase
             else if (IsDocumentPdf)
             {
                 // Save to temp file and open with OS default PDF viewer
-                var tempPath = Path.Combine(Path.GetTempPath(), $"ecobank_{content.Key.Replace('/', '_')}.pdf");
+                var safeName = string.Concat(
+                    content.Key
+                        .Select(c => Array.IndexOf(Path.GetInvalidFileNameChars(), c) >= 0 ? '_' : c));
+                var tempPath = Path.Combine(Path.GetTempPath(), $"ecobank_{safeName}.pdf");
                 await File.WriteAllBytesAsync(tempPath, content.Content, ct);
                 DocumentMessage = $"PDF ouvert dans le visualiseur système.";
                 try
