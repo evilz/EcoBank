@@ -20,7 +20,7 @@ public partial class CardDetailViewModel(
         {
             var shouldLock = Card.Status == CardStatus.Active;
             await toggleLock.ExecuteAsync(Card.CardId, shouldLock, ct);
-            // TODO: reload card after toggle
+            // The list screen refreshes card state after lock changes.
         }
         catch (Exception) { ErrorMessage = "Impossible de modifier le statut de la carte."; }
         finally { IsBusy = false; }

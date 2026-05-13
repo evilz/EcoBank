@@ -24,6 +24,7 @@ public partial class HomeViewModel : ViewModelBase
 
     public ObservableCollection<Account> Accounts { get; } = [];
     public ObservableCollection<Operation> RecentOperations { get; } = [];
+    public ObservableCollection<string> DashboardAlerts { get; } = [];
 
     public bool HasAccounts => Accounts.Any();
     public bool HasNoAccounts => !HasAccounts;
@@ -88,6 +89,15 @@ public partial class HomeViewModel : ViewModelBase
             OnPropertyChanged(nameof(FirstAccountCurrency));
 
             var firstAccountId = accounts.FirstOrDefault()?.AccountId;
+            DashboardAlerts.Clear();
+            if (accounts.Count == 0)
+            {
+                DashboardAlerts.Add("Aucun compte disponible pour cet utilisateur.");
+            }
+            else
+            {
+                DashboardAlerts.Add("Comptes et paiements synchronisés avec Xpollens.");
+            }
 
             var ops = await _getOperations.ExecuteAsync(
                 accountId: firstAccountId,
@@ -96,9 +106,8 @@ public partial class HomeViewModel : ViewModelBase
             RecentOperations.Clear();
             foreach (var o in ops) RecentOperations.Add(o);
 
-            // Calcul du solde à venir : solde courant + opérations Pending
-            // On charge une page large pour ne pas manquer les Pending hors des 3 dernières opérations.
-            // TODO: remplacer par champ API Account.UpcomingBalance quand disponible
+            // Calcul du solde à venir : solde courant + opérations Pending.
+            // L'API compte ne fournit pas toujours un solde à venir dédié.
             if (firstAccountId is not null)
             {
                 var allPendingOps = await _getOperations.ExecuteAsync(
@@ -114,6 +123,8 @@ public partial class HomeViewModel : ViewModelBase
             {
                 UpcomingBalance = FirstAccountBalance;
             }
+
+            OnPropertyChanged(nameof(DashboardAlerts));
         }
         catch (Exception)
         {

@@ -1,0 +1,57 @@
+<h2>Architecture d'ecrans pour l'app client final</h2>
+<p class="subtitle">Choisis l'approche qui correspond le mieux au produit attendu. Ma recommandation est l'option A.</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">Accueil | Comptes | Paiements | Cartes | Profil</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;font-size:12px">
+        <div class="placeholder" style="height:42px">Synthese</div>
+        <div class="placeholder" style="height:42px">Actions rapides</div>
+        <div class="placeholder" style="height:42px">Compte detail</div>
+        <div class="placeholder" style="height:42px">Documents</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Navigation client classique</h3>
+      <p>5 onglets stables, chaque famille Xpollens est rangee dans le parcours naturel du client. Simple, mobile-first, peu de friction.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">Accueil | Argent | Services | Profil</div>
+      <div style="display:grid;gap:8px;margin-top:10px;font-size:12px">
+        <div class="placeholder" style="height:42px">Argent: comptes + virements + cartes</div>
+        <div class="placeholder" style="height:42px">Services: documents + support + notifications</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Navigation compacte</h3>
+      <p>Moins d'onglets, mais des ecrans plus denses. Interessant si l'app doit rester tres simple, moins bon pour une banque complete.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">Tableau de bord</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;font-size:12px">
+        <div class="placeholder" style="height:42px">Comptes</div>
+        <div class="placeholder" style="height:42px">Paiements</div>
+        <div class="placeholder" style="height:42px">Cartes</div>
+        <div class="placeholder" style="height:42px">Documents</div>
+        <div class="placeholder" style="height:42px">Securite</div>
+        <div class="placeholder" style="height:42px">Support</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Hub de services</h3>
+      <p>Tout part d'un catalogue de services. Puissant, mais moins fluide pour les usages quotidiens comme consulter et payer.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Recommandation</h3>
+  <p>Option A : garder une navigation bancaire lisible, renommer les onglets actuels, et ajouter des sous-vues detaillees sans transformer l'app en console admin.</p>
+</div>

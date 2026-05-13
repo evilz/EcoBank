@@ -3,8 +3,11 @@ using EcoBank.Core.Ports;
 using EcoBank.Infrastructure.Xpollens.Accounts;
 using EcoBank.Infrastructure.Xpollens.Auth;
 using EcoBank.Infrastructure.Xpollens.Cards;
+using EcoBank.Infrastructure.Xpollens.Documents;
 using EcoBank.Infrastructure.Xpollens.Http;
 using EcoBank.Infrastructure.Xpollens.Operations;
+using EcoBank.Infrastructure.Xpollens.Payments;
+using EcoBank.Infrastructure.Xpollens.Security;
 using EcoBank.Infrastructure.Xpollens.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -41,6 +44,11 @@ public static class DependencyInjection
             .AddHttpMessageHandler<CorrelationIdHandler>()
             .AddHttpMessageHandler<LoggingHandler>();
 
+        services.AddHttpClient<IVirtualIbanRepository, XpollensVirtualIbanRepository>(c => c.BaseAddress = new Uri(baseUrl))
+            .AddHttpMessageHandler<AuthenticatedHandler>()
+            .AddHttpMessageHandler<CorrelationIdHandler>()
+            .AddHttpMessageHandler<LoggingHandler>();
+
         services.AddHttpClient<IOperationRepository, XpollensOperationRepository>(c => c.BaseAddress = new Uri(baseUrl))
             .AddHttpMessageHandler<AuthenticatedHandler>()
             .AddHttpMessageHandler<CorrelationIdHandler>()
@@ -52,6 +60,26 @@ public static class DependencyInjection
             .AddHttpMessageHandler<LoggingHandler>();
 
         services.AddHttpClient<ICardOperationRepository, XpollensCardOperationRepository>(c => c.BaseAddress = new Uri(baseUrl))
+            .AddHttpMessageHandler<AuthenticatedHandler>()
+            .AddHttpMessageHandler<CorrelationIdHandler>()
+            .AddHttpMessageHandler<LoggingHandler>();
+
+        services.AddHttpClient<IBeneficiaryRepository, XpollensBeneficiaryRepository>(c => c.BaseAddress = new Uri(baseUrl))
+            .AddHttpMessageHandler<AuthenticatedHandler>()
+            .AddHttpMessageHandler<CorrelationIdHandler>()
+            .AddHttpMessageHandler<LoggingHandler>();
+
+        services.AddHttpClient<IPaymentRepository, XpollensPaymentRepository>(c => c.BaseAddress = new Uri(baseUrl))
+            .AddHttpMessageHandler<AuthenticatedHandler>()
+            .AddHttpMessageHandler<CorrelationIdHandler>()
+            .AddHttpMessageHandler<LoggingHandler>();
+
+        services.AddHttpClient<IDocumentRepository, XpollensDocumentRepository>(c => c.BaseAddress = new Uri(baseUrl))
+            .AddHttpMessageHandler<AuthenticatedHandler>()
+            .AddHttpMessageHandler<CorrelationIdHandler>()
+            .AddHttpMessageHandler<LoggingHandler>();
+
+        services.AddHttpClient<ISecurityRepository, XpollensSecurityRepository>(c => c.BaseAddress = new Uri(baseUrl))
             .AddHttpMessageHandler<AuthenticatedHandler>()
             .AddHttpMessageHandler<CorrelationIdHandler>()
             .AddHttpMessageHandler<LoggingHandler>();

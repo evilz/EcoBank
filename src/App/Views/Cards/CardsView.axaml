@@ -40,6 +40,12 @@
                  Margin="16,6,16,0"
                  IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
 
+      <TextBlock DockPanel.Dock="Top"
+                 Text="{Binding SecurityMessage}"
+                 Foreground="#45545F"
+                 TextWrapping="Wrap"
+                 Margin="16,6,16,0"/>
+
       <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="16" Margin="16,8,16,24">
 
@@ -293,7 +299,12 @@
               </Grid>
               <Border Height="1" Background="#EEF2F4" Margin="-16,0"/>
               <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Text="Voir le code PIN" FontSize="13" FontWeight="Bold" Foreground="#168246"/>
+                <Button Background="Transparent"
+                        BorderThickness="0"
+                        Padding="0"
+                        Command="{Binding RequestPinDisplayCommand}">
+                  <TextBlock Text="Voir le code PIN" FontSize="13" FontWeight="Bold" Foreground="#168246"/>
+                </Button>
                 <ic:MaterialIcon Grid.Column="1" Kind="ChevronRight" Width="18" Height="18" Foreground="#168246"/>
               </Grid>
             </StackPanel>

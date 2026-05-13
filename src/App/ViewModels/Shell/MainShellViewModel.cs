@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EcoBank.App.ViewModels.Accounts;
 using EcoBank.App.ViewModels.Cards;
 using EcoBank.App.ViewModels.Contact;
 using EcoBank.App.ViewModels.Home;
-using EcoBank.App.ViewModels.Operations;
 using EcoBank.App.ViewModels.Profile;
 using EcoBank.Core.Application;
 
@@ -32,20 +32,20 @@ public partial class MainShellViewModel : ViewModelBase
     public MainShellViewModel(
         UserContext userContext,
         HomeViewModel homeVm,
+        AccountsViewModel accountsVm,
+        ContactViewModel paymentsVm,
         CardsViewModel cardsVm,
-        ContactViewModel contactVm,
-        OperationsViewModel operationsVm,
         ProfileViewModel profileVm)
     {
         _userContext = userContext;
 
         Tabs =
         [
-            new("home",       "Accueil",   homeVm),
-            new("cards",      "Comptes",   cardsVm),
-            new("contact",    "Paiements", contactVm),
-            new("operations", "Investir",  operationsVm),
-            new("menu",       "Profil",    profileVm),
+            new("home",     "Accueil",   homeVm),
+            new("accounts", "Comptes",   accountsVm),
+            new("payments", "Paiements", paymentsVm),
+            new("cards",    "Cartes",    cardsVm),
+            new("profile",  "Profil",    profileVm),
         ];
 
         _selectedTab = Tabs[0];

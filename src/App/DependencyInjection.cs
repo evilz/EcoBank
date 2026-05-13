@@ -12,7 +12,10 @@ using EcoBank.Core.Ports;
 using EcoBank.Core.UseCases.Accounts;
 using EcoBank.Core.UseCases.Auth;
 using EcoBank.Core.UseCases.Cards;
+using EcoBank.Core.UseCases.Documents;
 using EcoBank.Core.UseCases.Operations;
+using EcoBank.Core.UseCases.Payments;
+using EcoBank.Core.UseCases.Security;
 using EcoBank.Core.UseCases.Users;
 using EcoBank.Infrastructure.Xpollens;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,10 +38,17 @@ public static class DependencyInjection
         services.AddTransient<SelectUserUseCase>();
         services.AddTransient<GetAccountsUseCase>();
         services.AddTransient<GetBankStatementUseCase>();
+        services.AddTransient<GetVirtualIbansUseCase>();
         services.AddTransient<GetOperationsUseCase>();
         services.AddTransient<GetCardsUseCase>();
         services.AddTransient<GetCardOperationsUseCase>();
         services.AddTransient<ToggleCardLockUseCase>();
+        services.AddTransient<GetBeneficiariesUseCase>();
+        services.AddTransient<GetMandatesUseCase>();
+        services.AddTransient<CreateSepaTransferUseCase>();
+        services.AddTransient<GetUserDocumentsUseCase>();
+        services.AddTransient<GetUserDocumentContentUseCase>();
+        services.AddTransient<RequestStrongAuthenticationUseCase>();
 
         // Navigation
         services.AddSingleton<INavigationService, NavigationService>();

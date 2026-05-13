@@ -11,6 +11,8 @@ namespace EcoBank.App.ViewModels.Shell;
 public sealed class NavKeyToBoolConverter : IValueConverter
 {
     public static readonly NavKeyToBoolConverter IsHome       = new("home");
+    public static readonly NavKeyToBoolConverter IsAccounts   = new("accounts");
+    public static readonly NavKeyToBoolConverter IsPayments   = new("payments");
     public static readonly NavKeyToBoolConverter IsCards      = new("cards");
     public static readonly NavKeyToBoolConverter IsContact    = new("contact");
     public static readonly NavKeyToBoolConverter IsOperations = new("operations");
@@ -36,6 +38,8 @@ public sealed class NavActiveColorConverter : IValueConverter
     private static readonly SolidColorBrush Inactive = new(Color.Parse("#8A9AA5"));
 
     public static readonly NavActiveColorConverter ForHome       = new("home");
+    public static readonly NavActiveColorConverter ForAccounts   = new("accounts");
+    public static readonly NavActiveColorConverter ForPayments   = new("payments");
     public static readonly NavActiveColorConverter ForCards      = new("cards");
     public static readonly NavActiveColorConverter ForContact    = new("contact");
     public static readonly NavActiveColorConverter ForOperations = new("operations");
@@ -87,9 +91,12 @@ public sealed class NavTabIconConverter : IValueConverter
         return (value as string) switch
         {
             "home" => MaterialIconKind.Home,
+            "accounts" => MaterialIconKind.BankOutline,
+            "payments" => MaterialIconKind.BankTransfer,
             "cards" => MaterialIconKind.CreditCardOutline,
             "contact" => MaterialIconKind.BankTransfer,
             "operations" => MaterialIconKind.ChartLine,
+            "profile" => MaterialIconKind.AccountOutline,
             "menu" => MaterialIconKind.AccountOutline,
             _ => MaterialIconKind.CircleOutline
         };

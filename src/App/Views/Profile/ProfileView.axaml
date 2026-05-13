@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Profile"
+             xmlns:docs="using:EcoBank.Core.Domain.Documents"
              xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Profile.ProfileView"
              x:DataType="vm:ProfileViewModel"
@@ -119,6 +120,51 @@
           </Grid>
         </Button>
       </StackPanel>
+
+      <Border Classes="EcoPanel">
+        <StackPanel Spacing="14">
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Documents"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       Foreground="#101820"/>
+            <Button Grid.Column="1" Classes="IconBtn" Width="34" Height="34" Command="{Binding LoadCommand}">
+              <ic:MaterialIcon Kind="Refresh" Width="18" Height="18" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button>
+          </Grid>
+          <ProgressBar IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
+          <TextBlock Text="{Binding ErrorMessage}" Foreground="#D84C4C" TextWrapping="Wrap" IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+          <TextBlock Text="{Binding DocumentMessage}" FontSize="12" Foreground="#45545F" TextWrapping="Wrap"/>
+          <ItemsControl ItemsSource="{Binding Documents}" IsVisible="{Binding HasDocuments}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="docs:UserDocument">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,0,0,12">
+                  <Border Classes="EcoIconTile">
+                    <ic:MaterialIcon Kind="FileDocumentOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  </Border>
+                  <StackPanel Grid.Column="1" Spacing="2">
+                    <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Kind}" FontSize="11" Foreground="#8A9AA5"/>
+                  </StackPanel>
+                  <Button Grid.Column="2"
+                          Classes="IconBtn"
+                          Width="34"
+                          Height="34"
+                          Command="{Binding $parent[ItemsControl].((vm:ProfileViewModel)DataContext).OpenDocumentCommand}"
+                          CommandParameter="{Binding}">
+                    <ic:MaterialIcon Kind="EyeOutline" Width="18" Height="18" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  </Button>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <TextBlock Text="{Binding DocumentsEmptyMessage}"
+                     FontSize="12"
+                     Foreground="#8A9AA5"
+                     TextWrapping="Wrap"
+                     IsVisible="{Binding !HasDocuments}"/>
+        </StackPanel>
+      </Border>
 
       <Button Command="{Binding ResetSessionCommand}"
               Background="#FFFFFF"

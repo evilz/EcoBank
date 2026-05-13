@@ -1,0 +1,6 @@
+[mcp_servers.avalonia-docs]
+url = "https://docs-mcp.avaloniaui.net/mcp"
+
+[mcp_servers.xpollens]
+url = "https://docs.xpollens.com/mcp"
+

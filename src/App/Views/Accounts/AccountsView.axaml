@@ -65,6 +65,65 @@
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <Border Classes="EcoPanel" IsVisible="{Binding SelectedAccount}">
+          <StackPanel Spacing="14">
+            <TextBlock Text="Détail du compte"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       Foreground="#101820"/>
+            <TextBlock Text="{Binding SelectedAccount.Iban}"
+                       FontSize="12"
+                       Foreground="#45545F"
+                       TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedAccountLimitLabel}"
+                       FontSize="12"
+                       Foreground="#8A9AA5"
+                       TextWrapping="Wrap"/>
+          </StackPanel>
+        </Border>
+
+        <Border Classes="EcoPanel">
+          <StackPanel Spacing="14">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="IBAN virtuels"
+                         FontSize="15"
+                         FontWeight="Bold"
+                         Foreground="#101820"/>
+              <ic:MaterialIcon Grid.Column="1" Kind="Identifier" Width="20" Height="20" Foreground="#168246"/>
+            </Grid>
+            <ItemsControl ItemsSource="{Binding VirtualIbans}" IsVisible="{Binding HasVirtualIbans}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="domain:VirtualIban">
+                  <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                    <StackPanel Spacing="2">
+                      <TextBlock Text="{Binding Iban}" FontSize="13" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
+                      <TextBlock Text="{Binding Label}" FontSize="11" Foreground="#8A9AA5"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" Text="{Binding Status}" FontSize="11" Foreground="#168246" VerticalAlignment="Center"/>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="Aucun IBAN virtuel disponible pour ce compte."
+                       FontSize="12"
+                       Foreground="#8A9AA5"
+                       IsVisible="{Binding !HasVirtualIbans}"/>
+          </StackPanel>
+        </Border>
+
+        <Border Classes="EcoPanel">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+            <Border Classes="EcoIconTile">
+              <ic:MaterialIcon Kind="FileDocumentOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="Relevés bancaires" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+              <TextBlock Text="Les relevés disponibles restent accessibles depuis le détail du compte." FontSize="11" Foreground="#8A9AA5" TextWrapping="Wrap"/>
+            </StackPanel>
+            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+          </Grid>
+        </Border>
       </StackPanel>
     </ScrollViewer>
   </DockPanel>

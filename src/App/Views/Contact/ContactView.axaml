@@ -1,6 +1,8 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EcoBank.App.ViewModels.Contact"
+             xmlns:accounts="using:EcoBank.Core.Domain.Accounts"
+             xmlns:payments="using:EcoBank.Core.Domain.Payments"
              xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Contact.ContactView"
              x:DataType="vm:ContactViewModel"
@@ -14,12 +16,19 @@
                    FontWeight="Bold"
                    Foreground="#101820"
                    VerticalAlignment="Center"/>
-        <Button Grid.Column="1" Classes="IconBtn" Width="44" Height="44">
+        <Button Grid.Column="1" Classes="IconBtn" Width="44" Height="44" Command="{Binding LoadCommand}">
           <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
-            <ic:MaterialIcon Kind="Magnify" Width="20" Height="20" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ic:MaterialIcon Kind="Refresh" Width="20" Height="20" Foreground="#45545F" HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
         </Button>
       </Grid>
+
+      <ProgressBar IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
+
+      <TextBlock Text="{Binding ErrorMessage}"
+                 Foreground="#D84C4C"
+                 TextWrapping="Wrap"
+                 IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
 
       <Border CornerRadius="24"
               Padding="18"
@@ -38,87 +47,119 @@
                        FontSize="18"
                        FontWeight="Bold"
                        Foreground="White"/>
-            <TextBlock Text="Envoyez de l'argent ou rechargez votre compte en quelques secondes."
+            <TextBlock Text="{Binding Message}"
                        FontSize="13"
                        Foreground="#CFE7D8"
                        TextWrapping="Wrap"/>
-            <Button Classes="Primary"
-                    Background="#FFFFFF"
-                    Foreground="#168246"
-                    Padding="14,10"
-                    HorizontalAlignment="Left"
-                    Margin="0,8,0,0">
-              <TextBlock Text="Nouveau paiement" FontWeight="Bold"/>
-            </Button>
+            <TextBlock Text="{Binding LastPaymentLabel}"
+                       FontSize="12"
+                       FontWeight="SemiBold"
+                       Foreground="#FFFFFF"/>
           </StackPanel>
           <ic:MaterialIcon Grid.Column="1"
-                               Kind="Leaf"
-                               Width="92"
-                               Height="92"
-                               Foreground="#24FFFFFF"
-                               VerticalAlignment="Bottom"
-                               Margin="8,0,-18,-18"/>
+                           Kind="BankTransfer"
+                           Width="78"
+                           Height="78"
+                           Foreground="#24FFFFFF"
+                           VerticalAlignment="Bottom"
+                           Margin="8,0,-10,-12"/>
         </Grid>
       </Border>
 
       <Border Classes="EcoPanel">
         <StackPanel Spacing="14">
-          <TextBlock Text="Actions"
+          <TextBlock Text="Nouveau virement"
                      FontSize="15"
                      FontWeight="Bold"
                      Foreground="#101820"/>
-          <UniformGrid Rows="1" Columns="3">
-            <Button Classes="QuickAction">
-              <StackPanel Spacing="7" HorizontalAlignment="Center">
-                <Border Classes="EcoIconTile">
-                  <ic:MaterialIcon Kind="BankTransfer" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <TextBlock Text="Virement" FontSize="10" FontWeight="SemiBold" Foreground="#45545F"/>
-              </StackPanel>
-            </Button>
-            <Button Classes="QuickAction">
-              <StackPanel Spacing="7" HorizontalAlignment="Center">
-                <Border Classes="EcoIconTile">
-                  <ic:MaterialIcon Kind="CreditCardOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <TextBlock Text="Carte" FontSize="10" FontWeight="SemiBold" Foreground="#45545F"/>
-              </StackPanel>
-            </Button>
-            <Button Classes="QuickAction">
-              <StackPanel Spacing="7" HorizontalAlignment="Center">
-                <Border Classes="EcoIconTile">
-                  <ic:MaterialIcon Kind="RepeatVariant" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <TextBlock Text="Auto" FontSize="10" FontWeight="SemiBold" Foreground="#45545F"/>
-              </StackPanel>
-            </Button>
-          </UniformGrid>
+
+          <ComboBox ItemsSource="{Binding Accounts}"
+                    SelectedItem="{Binding SelectedAccount}"
+                    HorizontalAlignment="Stretch"
+                    PlaceholderText="Compte source">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="accounts:Account">
+                <TextBlock Text="{Binding Label}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+
+          <ComboBox ItemsSource="{Binding Beneficiaries}"
+                    SelectedItem="{Binding SelectedBeneficiary}"
+                    HorizontalAlignment="Stretch"
+                    PlaceholderText="Bénéficiaire">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="payments:Beneficiary">
+                <TextBlock Text="{Binding DisplayName}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+
+          <TextBox Classes="EcoField"
+                   Text="{Binding Amount}"
+                   PlaceholderText="Montant"/>
+          <TextBox Classes="EcoField"
+                   Text="{Binding PaymentLabel}"
+                   PlaceholderText="Libellé"/>
+
+          <CheckBox IsChecked="{Binding IsInstantPayment}"
+                    Content="Virement instantané"/>
+
+          <Button Classes="Primary"
+                  Command="{Binding SubmitPaymentCommand}"
+                  HorizontalAlignment="Stretch">
+            <TextBlock Text="Envoyer le paiement" FontWeight="Bold" HorizontalAlignment="Center"/>
+          </Button>
         </StackPanel>
       </Border>
 
       <Border Classes="EcoPanel">
-        <StackPanel Spacing="0">
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,0,0,14">
-            <Border Classes="EcoIconTile">
-              <ic:MaterialIcon Kind="AccountOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="{Binding UserDisplayName}" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Compte principal" FontSize="11" Foreground="#8A9AA5"/>
-            </StackPanel>
-            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
-          </Grid>
-          <Border Height="1" Background="#EEF2F4"/>
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,14,0,0">
-            <Border Classes="EcoIconTile">
-              <ic:MaterialIcon Kind="Plus" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-              <TextBlock Text="Ajouter un bénéficiaire" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="{Binding Message}" FontSize="11" Foreground="#8A9AA5" TextTrimming="CharacterEllipsis"/>
-            </StackPanel>
-            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
-          </Grid>
+        <StackPanel Spacing="14">
+          <TextBlock Text="Bénéficiaires"
+                     FontSize="15"
+                     FontWeight="Bold"
+                     Foreground="#101820"/>
+          <ItemsControl ItemsSource="{Binding Beneficiaries}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="payments:Beneficiary">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,0,0,12">
+                  <Border Classes="EcoIconTile">
+                    <ic:MaterialIcon Kind="AccountOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  </Border>
+                  <StackPanel Grid.Column="1" Spacing="2">
+                    <TextBlock Text="{Binding DisplayName}" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+                    <TextBlock Text="{Binding Iban}" FontSize="11" Foreground="#8A9AA5" TextTrimming="CharacterEllipsis"/>
+                  </StackPanel>
+                  <TextBlock Grid.Column="2" Text="{Binding Status}" FontSize="11" Foreground="#168246" VerticalAlignment="Center"/>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Border>
+
+      <Border Classes="EcoPanel">
+        <StackPanel Spacing="14">
+          <TextBlock Text="Prélèvements et mandats"
+                     FontSize="15"
+                     FontWeight="Bold"
+                     Foreground="#101820"/>
+          <ItemsControl ItemsSource="{Binding Mandates}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="payments:Mandate">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,0,0,12">
+                  <Border Classes="EcoIconTile">
+                    <ic:MaterialIcon Kind="FileSign" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  </Border>
+                  <StackPanel Grid.Column="1" Spacing="2">
+                    <TextBlock Text="{Binding CreditorName}" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
+                    <TextBlock Text="{Binding Reference}" FontSize="11" Foreground="#8A9AA5" TextTrimming="CharacterEllipsis"/>
+                  </StackPanel>
+                  <TextBlock Grid.Column="2" Text="{Binding Status}" FontSize="11" Foreground="#45545F" VerticalAlignment="Center"/>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
         </StackPanel>
       </Border>
     </StackPanel>

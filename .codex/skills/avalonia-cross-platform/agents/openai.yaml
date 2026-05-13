@@ -1,0 +1,4 @@
+interface:
+  display_name: "Avalonia Cross-Platform"
+  short_description: "Build multi-platform Avalonia apps"
+  default_prompt: "Use $avalonia-cross-platform to build or debug this Avalonia app across desktop, mobile, and WebAssembly targets."

@@ -1,0 +1,59 @@
+<h2>Couverture cible Xpollens pour EcoBank</h2>
+<p class="subtitle">Carte de cadrage : ce qui existe déjà dans l'app, ce qu'il faut ajouter, et les zones à isoler dans un back-office.</p>
+
+<div class="cards">
+  <div class="card" data-choice="retail" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px">
+        <div class="placeholder" style="height:54px">Accueil<br>soldes, actions</div>
+        <div class="placeholder" style="height:54px">Comptes<br>IBAN, relevés</div>
+        <div class="placeholder" style="height:54px">Paiements<br>SCT, instant, bénéficiaires</div>
+        <div class="placeholder" style="height:54px">Cartes<br>lock, limites, PIN</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>App client complète</h3>
+      <p>Priorité aux parcours quotidiens : consulter, payer, gérer ses cartes, suivre KYC/SCA, recevoir des notifications.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="ops" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:grid;gap:8px;font-size:12px">
+        <div class="placeholder" style="height:38px">KYC, AML, PEP, FATCA</div>
+        <div class="placeholder" style="height:38px">Webhooks, callbacks, incidents</div>
+        <div class="placeholder" style="height:38px">Pilotage limites, comptes, paiements</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Client + console opérations</h3>
+      <p>Sépare l'expérience bancaire client des fonctionnalités conformité/support nécessaires mais non destinées au client final.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Familles d'API identifiées</h3>
+  <div class="options" data-multiselect>
+    <div class="option" data-choice="accounts" onclick="toggleSelect(this)">
+      <div class="letter">1</div>
+      <div class="content"><h3>Comptes</h3><p>Solde, détail compte, IBAN virtuels, relevés, limites, opérations.</p></div>
+    </div>
+    <div class="option" data-choice="payments" onclick="toggleSelect(this)">
+      <div class="letter">2</div>
+      <div class="content"><h3>Paiements</h3><p>Bénéficiaires, virements SEPA, instant payment, VOP, SDD, mandats.</p></div>
+    </div>
+    <div class="option" data-choice="cards" onclick="toggleSelect(this)">
+      <div class="letter">3</div>
+      <div class="content"><h3>Cartes</h3><p>Cartes physiques/virtuelles, self-care, plafonds, PIN, opérations carte.</p></div>
+    </div>
+    <div class="option" data-choice="identity" onclick="toggleSelect(this)">
+      <div class="letter">4</div>
+      <div class="content"><h3>Identité et conformité</h3><p>Utilisateurs, KYC, documents, SCA, AML, PEP, FATCA, TIN.</p></div>
+    </div>
+    <div class="option" data-choice="platform" onclick="toggleSelect(this)">
+      <div class="letter">5</div>
+      <div class="content"><h3>Plateforme</h3><p>Top-up, webhooks/callbacks, audit, états techniques, gestion des erreurs.</p></div>
+    </div>
+  </div>
+</div>

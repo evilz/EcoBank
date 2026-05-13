@@ -171,6 +171,27 @@
       </Border>
 
       <Border Classes="EcoPanel" Margin="16,0">
+        <StackPanel Spacing="10">
+          <TextBlock Text="Alertes"
+                     FontSize="15"
+                     FontWeight="Bold"
+                     Foreground="#101820"/>
+          <ItemsControl ItemsSource="{Binding DashboardAlerts}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Margin="0,0,0,8">
+                  <Border Classes="EcoIconTile" Width="34" Height="34">
+                    <ic:MaterialIcon Kind="BellOutline" Width="18" Height="18" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  </Border>
+                  <TextBlock Grid.Column="1" Text="{Binding}" FontSize="12" Foreground="#45545F" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Border>
+
+      <Border Classes="EcoPanel" Margin="16,0">
         <StackPanel Spacing="14">
           <TextBlock Text="Actions rapides"
                      FontSize="15"

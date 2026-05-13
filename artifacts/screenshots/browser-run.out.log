@@ -1,0 +1,6 @@
+WasmAppHost --use-staticwebassets --runtime-config E:\PROJECTS\GITHUB\EcoBank\src\Browser\bin\Debug\net10.0-browser\EcoBank.Browser.runtimeconfig.json
+
+App url: http://127.0.0.1:59842/
+App url: https://127.0.0.1:59843/
+Debug at url: http://127.0.0.1:59842/_framework/debug
+Debug at url: https://127.0.0.1:59843/_framework/debug
