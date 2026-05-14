@@ -6,7 +6,7 @@ L'application cible un parcours client existant : connexion OAuth2 avec `clientI
 
 ## Aperçu
 
-### Selection de profil desktop
+### Sélection de profil desktop
 
 ![EcoBank desktop](docs/screenshot-desktop.png)
 
