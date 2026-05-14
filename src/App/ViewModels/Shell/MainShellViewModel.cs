@@ -45,7 +45,7 @@ public partial class MainShellViewModel : ViewModelBase
         [
             new("home",     "Accueil",   homeVm),
             new("accounts", "Comptes",   accountsVm),
-            new("payments", "Paiements", paymentsVm),
+            new("payments", "Virements", paymentsVm),
             new("cards",    "Cartes",    cardsVm),
             new("profile",  "Profil",    profileVm),
         ];

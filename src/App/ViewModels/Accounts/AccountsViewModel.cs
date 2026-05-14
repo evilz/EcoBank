@@ -3,7 +3,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EcoBank.App.Services;
 using EcoBank.Core.Domain.Accounts;
+using EcoBank.Core.Domain.Operations;
 using EcoBank.Core.UseCases.Accounts;
+using EcoBank.Core.UseCases.Operations;
 
 namespace EcoBank.App.ViewModels.Accounts;
 
@@ -13,6 +15,7 @@ public partial class AccountsViewModel : ViewModelBase
     private readonly GetVirtualIbansUseCase _getVirtualIbans;
     private readonly ListBankStatementsUseCase _listBankStatements;
     private readonly GetBankStatementUseCase _getBankStatement;
+    private readonly GetOperationsUseCase _getOperations;
     private readonly ShellNavigationContext _shellNav;
 
     [ObservableProperty] private Account? _selectedAccount;
@@ -22,9 +25,12 @@ public partial class AccountsViewModel : ViewModelBase
     public ObservableCollection<Account> Accounts { get; } = [];
     public ObservableCollection<VirtualIban> VirtualIbans { get; } = [];
     public ObservableCollection<BankStatement> BankStatements { get; } = [];
+    public ObservableCollection<Operation> Operations { get; } = [];
 
     public bool HasVirtualIbans => VirtualIbans.Any();
     public bool HasBankStatements => BankStatements.Any();
+    public bool HasOperations => Operations.Any();
+    public bool HasNoOperations => !HasOperations;
     public string SelectedAccountLimitLabel => SelectedAccount is null
         ? "Sélectionnez un compte"
         : "Limites et soldes complémentaires disponibles selon le contrat Xpollens.";
@@ -34,12 +40,14 @@ public partial class AccountsViewModel : ViewModelBase
         GetVirtualIbansUseCase getVirtualIbans,
         ListBankStatementsUseCase listBankStatements,
         GetBankStatementUseCase getBankStatement,
+        GetOperationsUseCase getOperations,
         ShellNavigationContext shellNav)
     {
         _getAccounts = getAccounts;
         _getVirtualIbans = getVirtualIbans;
         _listBankStatements = listBankStatements;
         _getBankStatement = getBankStatement;
+        _getOperations = getOperations;
         _shellNav = shellNav;
     }
 
@@ -57,6 +65,7 @@ public partial class AccountsViewModel : ViewModelBase
 
             // Load bank statements for the selected account
             await LoadBankStatementsAsync(SelectedAccount?.AccountId, ct);
+            await LoadOperationsAsync(SelectedAccount?.AccountId, ct);
         }
         catch (Exception) { ErrorMessage = "Impossible de charger les comptes."; }
         finally { IsBusy = false; }
@@ -92,6 +101,7 @@ public partial class AccountsViewModel : ViewModelBase
         OnPropertyChanged(nameof(SelectedAccountLimitLabel));
         _ = LoadVirtualIbansAsync(value?.AccountId);
         _ = LoadBankStatementsAsync(value?.AccountId);
+        _ = LoadOperationsAsync(value?.AccountId);
     }
 
     private async Task LoadVirtualIbansAsync(string? accountId)
@@ -128,6 +138,30 @@ public partial class AccountsViewModel : ViewModelBase
             BankStatements.Clear();
             OnPropertyChanged(nameof(HasBankStatements));
             ErrorMessage = "Impossible de charger les relevés.";
+        }
+    }
+
+    private async Task LoadOperationsAsync(string? accountId = null, CancellationToken ct = default)
+    {
+        try
+        {
+            Operations.Clear();
+            if (!string.IsNullOrWhiteSpace(accountId))
+            {
+                foreach (var operation in await _getOperations.ExecuteAsync(accountId: accountId, pageSize: 20, ct: ct))
+                {
+                    Operations.Add(operation);
+                }
+            }
+            OnPropertyChanged(nameof(HasOperations));
+            OnPropertyChanged(nameof(HasNoOperations));
+        }
+        catch (Exception)
+        {
+            Operations.Clear();
+            OnPropertyChanged(nameof(HasOperations));
+            OnPropertyChanged(nameof(HasNoOperations));
+            ErrorMessage = "Impossible de charger les opérations.";
         }
     }
 }

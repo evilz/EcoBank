@@ -45,12 +45,12 @@ public partial class HomeViewModel : ViewModelBase
 
     public string WelcomeMessage =>
         _userContext.SelectedUser is { } u
-            ? $"Bonjour {u.FirstName ?? u.AppUserId}"
+            ? string.IsNullOrWhiteSpace(u.FirstName) ? "Bonjour" : $"Bonjour {u.FirstName}"
             : "Bonjour";
 
     public string GreetingName =>
         _userContext.SelectedUser is { } u
-            ? (string.IsNullOrWhiteSpace(u.FirstName) ? u.AppUserId : u.FirstName)
+            ? (string.IsNullOrWhiteSpace(u.FirstName) ? string.Empty : u.FirstName)
             : "";
 
     public HomeViewModel(

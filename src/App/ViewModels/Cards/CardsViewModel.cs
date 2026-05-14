@@ -17,6 +17,7 @@ public partial class CardsViewModel : ViewModelBase
     private readonly ToggleCardLockUseCase _toggleCardLock;
     private readonly RequestStrongAuthenticationUseCase _requestStrongAuthentication;
     private readonly CreatePhysicalCardUseCase _createPhysicalCard;
+    private readonly CreateVirtualCardUseCase _createVirtualCard;
     private readonly ShellNavigationContext _shellNav;
 
     [ObservableProperty] private Card? _selectedCard;
@@ -39,6 +40,7 @@ public partial class CardsViewModel : ViewModelBase
         ToggleCardLockUseCase toggleCardLock,
         RequestStrongAuthenticationUseCase requestStrongAuthentication,
         CreatePhysicalCardUseCase createPhysicalCard,
+        CreateVirtualCardUseCase createVirtualCard,
         ShellNavigationContext shellNav)
     {
         _userContext = userContext;
@@ -46,6 +48,7 @@ public partial class CardsViewModel : ViewModelBase
         _toggleCardLock = toggleCardLock;
         _requestStrongAuthentication = requestStrongAuthentication;
         _createPhysicalCard = createPhysicalCard;
+        _createVirtualCard = createVirtualCard;
         _shellNav = shellNav;
     }
 
@@ -97,6 +100,31 @@ public partial class CardsViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private async Task CreateVirtualCardAsync(CancellationToken ct)
+    {
+        IsBusy = true;
+        ClearError();
+        CardCreationMessage = "";
+        try
+        {
+            var card = await _createVirtualCard.ExecuteAsync(ct);
+            Cards.Add(card);
+            SelectedCard = card;
+            OnPropertyChanged(nameof(HasCards));
+            OnPropertyChanged(nameof(HasNoCards));
+            CardCreationMessage = "Carte virtuelle créée avec succès.";
+        }
+        catch (Exception)
+        {
+            ErrorMessage = "Impossible de créer la carte virtuelle.";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
     private async Task ManageCardAsync(CancellationToken ct)
     {
         if (SelectedCard is null)
@@ -124,6 +152,14 @@ public partial class CardsViewModel : ViewModelBase
 
     [RelayCommand]
     private void ManageAlerts() => SecurityMessage = "Les plafonds et alertes carte sont affichés dans le détail de la carte.";
+
+    [RelayCommand]
+    private async Task EnrollApplePayAsync(CancellationToken ct) =>
+        await RequestWalletEnrollmentAsync("ApplePay", "Enrôlement Apple Pay lancé.", ct);
+
+    [RelayCommand]
+    private async Task EnrollXPayAsync(CancellationToken ct) =>
+        await RequestWalletEnrollmentAsync("XPay", "Enrôlement XPay lancé.", ct);
 
     [RelayCommand]
     private void ViewCardDetails() => IsDetailVisible = true;
@@ -158,6 +194,39 @@ public partial class CardsViewModel : ViewModelBase
         catch (Exception)
         {
             ErrorMessage = "Impossible de demander l'affichage du PIN.";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private async Task RequestWalletEnrollmentAsync(string walletProvider, string successMessage, CancellationToken ct)
+    {
+        if (SelectedCard is null || _userContext.SelectedUser is null)
+        {
+            return;
+        }
+
+        IsBusy = true;
+        ClearError();
+        try
+        {
+            var result = await _requestStrongAuthentication.ExecuteAsync(
+                new StrongAuthenticationRequest(
+                    _userContext.SelectedUser.AppUserId,
+                    $"WalletEnrollment:{walletProvider}",
+                    SelectedCard.CardId,
+                    null,
+                    SelectedCard.Currency),
+                ct);
+            SecurityMessage = result.Status == StrongAuthenticationStatus.Approved
+                ? successMessage
+                : $"Demande d'authentification forte envoyée pour {walletProvider}.";
+        }
+        catch (Exception)
+        {
+            ErrorMessage = $"Impossible de lancer l'enrôlement {walletProvider}.";
         }
         finally
         {

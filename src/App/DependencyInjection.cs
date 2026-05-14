@@ -48,6 +48,7 @@ public static class DependencyInjection
         services.AddTransient<GetCardOperationsUseCase>();
         services.AddTransient<ToggleCardLockUseCase>();
         services.AddTransient<CreatePhysicalCardUseCase>();
+        services.AddTransient<CreateVirtualCardUseCase>();
         services.AddTransient<GetBeneficiariesUseCase>();
         services.AddTransient<GetMandatesUseCase>();
         services.AddTransient<CreateSepaTransferUseCase>();

@@ -25,7 +25,7 @@ public enum ProfileSection
 
 public partial class ProfileViewModel : ViewModelBase
 {
-    private const string TempPdfPrefix = "ecobank_";
+    private const string TempDocumentPrefix = "ecobank_";
     private readonly UserContext _userContext;
     private readonly INavigationService _navigation;
     private readonly GetUserDocumentsUseCase _getUserDocuments;
@@ -54,10 +54,12 @@ public partial class ProfileViewModel : ViewModelBase
     [ObservableProperty] private Bitmap? _documentImageBitmap;
     [ObservableProperty] private string? _documentMimeType;
     [ObservableProperty] private string? _viewingDocumentName;
+    [ObservableProperty] private string? _documentFilePath;
 
     public bool IsDocumentImage => DocumentMimeType?.StartsWith("image/", StringComparison.OrdinalIgnoreCase) == true;
     public bool IsDocumentPdf => string.Equals(DocumentMimeType, "application/pdf", StringComparison.OrdinalIgnoreCase);
-    public bool IsViewingDocument => DocumentImageBitmap is not null || IsDocumentPdf;
+    public bool IsDocumentFile => !string.IsNullOrWhiteSpace(DocumentFilePath);
+    public bool IsViewingDocument => DocumentImageBitmap is not null || IsDocumentFile;
 
     // Section visibility helpers
     public bool IsMainSection => CurrentSection == ProfileSection.Main;
@@ -177,8 +179,9 @@ public partial class ProfileViewModel : ViewModelBase
                 return;
             }
 
-            ViewingDocumentName = content.Name;
-            DocumentMimeType = content.ContentType ?? document.ContentType;
+            var displayName = ResolveDisplayDocumentName(content.Name, document.Name);
+            ViewingDocumentName = displayName;
+            DocumentMimeType = ResolveDocumentMimeType(content.ContentType ?? document.ContentType, displayName);
             OnPropertyChanged(nameof(IsDocumentImage));
             OnPropertyChanged(nameof(IsDocumentPdf));
 
@@ -191,26 +194,24 @@ public partial class ProfileViewModel : ViewModelBase
             }
             else if (IsDocumentPdf)
             {
-                var safeName = string.Concat(
-                    content.Name
-                        .Select(c => Array.IndexOf(Path.GetInvalidFileNameChars(), c) >= 0 ? '_' : c));
-                var tempPath = Path.Combine(Path.GetTempPath(), $"{TempPdfPrefix}{safeName}_{Guid.NewGuid():N}.pdf");
+                var tempPath = CreateTempDocumentPath(displayName);
                 await File.WriteAllBytesAsync(tempPath, content.Content, ct);
                 CleanupTempPdfFile();
                 _lastPdfTempPath = tempPath;
-                DocumentMessage = $"PDF ouvert dans le visualiseur système.";
-                try
-                {
-                    var psi = new System.Diagnostics.ProcessStartInfo(tempPath) { UseShellExecute = true };
-                    System.Diagnostics.Process.Start(psi);
-                }
-                catch
-                {
-                    DocumentMessage = $"PDF enregistré dans : {tempPath}";
-                }
+                DocumentFilePath = tempPath;
+                OnPropertyChanged(nameof(IsDocumentFile));
+                OnPropertyChanged(nameof(IsViewingDocument));
+                DocumentMessage = $"PDF prêt à être consulté.";
             }
             else
             {
+                var tempPath = CreateTempDocumentPath(displayName);
+                await File.WriteAllBytesAsync(tempPath, content.Content, ct);
+                CleanupTempPdfFile();
+                _lastPdfTempPath = tempPath;
+                DocumentFilePath = tempPath;
+                OnPropertyChanged(nameof(IsDocumentFile));
+                OnPropertyChanged(nameof(IsViewingDocument));
                 DocumentMessage = $"{document.Name} chargé ({content.Content.Length:N0} octets).";
             }
         }
@@ -232,6 +233,26 @@ public partial class ProfileViewModel : ViewModelBase
         _userContext.Reset();
         _navigation.NavigateTo<LoginViewModel>();
     }
+
+    [RelayCommand]
+    private void OpenSelectedDocumentExternally()
+    {
+        if (string.IsNullOrWhiteSpace(DocumentFilePath))
+        {
+            return;
+        }
+
+        try
+        {
+            var psi = new ProcessStartInfo(DocumentFilePath) { UseShellExecute = true };
+            Process.Start(psi);
+            DocumentMessage = "Document ouvert dans le visualiseur système.";
+        }
+        catch
+        {
+            DocumentMessage = $"Document disponible dans : {DocumentFilePath}";
+        }
+    }
     
     private void ClearDocumentPreview()
     {
@@ -239,10 +260,12 @@ public partial class ProfileViewModel : ViewModelBase
         DocumentImageBitmap = null;
         DocumentMimeType = null;
         ViewingDocumentName = null;
+        DocumentFilePath = null;
         previousBitmap?.Dispose();
         OnPropertyChanged(nameof(IsViewingDocument));
         OnPropertyChanged(nameof(IsDocumentImage));
         OnPropertyChanged(nameof(IsDocumentPdf));
+        OnPropertyChanged(nameof(IsDocumentFile));
     }
 
     private void CleanupTempPdfFile()
@@ -267,6 +290,54 @@ public partial class ProfileViewModel : ViewModelBase
         {
             _lastPdfTempPath = null;
         }
+    }
+
+    private static string CreateTempDocumentPath(string documentName)
+    {
+        var safeName = string.Concat(
+            Path.GetFileNameWithoutExtension(documentName)
+                .Select(c => Array.IndexOf(Path.GetInvalidFileNameChars(), c) >= 0 ? '_' : c));
+        if (string.IsNullOrWhiteSpace(safeName))
+        {
+            safeName = "document";
+        }
+
+        var extension = Path.GetExtension(documentName);
+        if (string.IsNullOrWhiteSpace(extension))
+        {
+            extension = ".bin";
+        }
+
+        return Path.Combine(Path.GetTempPath(), $"{TempDocumentPrefix}{safeName}_{Guid.NewGuid():N}{extension}");
+    }
+
+    private static string ResolveDisplayDocumentName(string contentName, string documentName)
+    {
+        if (!string.IsNullOrWhiteSpace(contentName) && !string.IsNullOrWhiteSpace(Path.GetExtension(contentName)))
+        {
+            return contentName;
+        }
+
+        return string.IsNullOrWhiteSpace(documentName) ? contentName : documentName;
+    }
+
+    private static string? ResolveDocumentMimeType(string? contentType, string documentName)
+    {
+        if (!string.IsNullOrWhiteSpace(contentType))
+        {
+            return contentType;
+        }
+
+        return Path.GetExtension(documentName).ToLowerInvariant() switch
+        {
+            ".png" => "image/png",
+            ".jpg" or ".jpeg" => "image/jpeg",
+            ".gif" => "image/gif",
+            ".bmp" => "image/bmp",
+            ".webp" => "image/webp",
+            ".pdf" => "application/pdf",
+            _ => contentType
+        };
     }
 
     private static string FormatKycStatus(KycStatus? status) => status switch

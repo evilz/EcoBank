@@ -1,7 +1,11 @@
 using EcoBank.Core.Domain.Documents;
+using EcoBank.Core.Domain.Cards;
 using EcoBank.Core.Domain.Payments;
 using EcoBank.Core.Domain.Security;
 using EcoBank.Core.Ports;
+using EcoBank.Core.Application;
+using EcoBank.Core.Domain.Users;
+using EcoBank.Core.UseCases.Cards;
 using EcoBank.Core.UseCases.Documents;
 using EcoBank.Core.UseCases.Payments;
 using EcoBank.Core.UseCases.Security;
@@ -46,6 +50,20 @@ public sealed class ClientBankingUseCaseTests
         Assert.Equal("card-1", repository.LastRequest?.ResourceId);
     }
 
+    [Fact]
+    public async Task CreateVirtualCard_uses_selected_user_as_holder()
+    {
+        var userContext = new UserContext();
+        userContext.SelectUser(new User("holder-1", "Alice", null, null, KycStatus.Validated, null));
+        var repository = new CapturingCardRepository();
+        var useCase = new CreateVirtualCardUseCase(repository, userContext);
+
+        var card = await useCase.ExecuteAsync(TestContext.Current.CancellationToken);
+
+        Assert.Equal("holder-1", repository.LastVirtualHolderRef);
+        Assert.Equal(CardType.Virtual, card.Type);
+    }
+
     private sealed class CapturingPaymentRepository : IPaymentRepository
     {
         public Task<PaymentResult> CreateSepaTransferAsync(PaymentOrder order, CancellationToken ct = default) =>
@@ -79,5 +97,32 @@ public sealed class ClientBankingUseCaseTests
             LastRequest = request;
             return Task.FromResult(new StrongAuthenticationResult("sca-1", StrongAuthenticationStatus.Pending, "Validation requise"));
         }
+    }
+
+    private sealed class CapturingCardRepository : ICardRepository
+    {
+        public string? LastVirtualHolderRef { get; private set; }
+
+        public Task<IReadOnlyList<Card>> GetCardsAsync(CancellationToken ct = default) =>
+            Task.FromResult<IReadOnlyList<Card>>([]);
+
+        public Task<IReadOnlyList<Card>> GetCardsByHolderAsync(string holderExternalRef, CancellationToken ct = default) =>
+            Task.FromResult<IReadOnlyList<Card>>([]);
+
+        public Task<Card?> GetCardAsync(string cardId, CancellationToken ct = default) =>
+            Task.FromResult<Card?>(null);
+
+        public Task<Card> CreatePhysicalCardAsync(string holderExternalRef, CancellationToken ct = default) =>
+            Task.FromResult(new Card("physical-1", null, CardType.Physical, CardStatus.Active, null, null, null, "EUR"));
+
+        public Task<Card> CreateVirtualCardAsync(string holderExternalRef, CancellationToken ct = default)
+        {
+            LastVirtualHolderRef = holderExternalRef;
+            return Task.FromResult(new Card("virtual-1", "4970 **** **** 1234", CardType.Virtual, CardStatus.Active, "Alice", null, null, "EUR"));
+        }
+
+        public Task LockCardAsync(string cardId, CancellationToken ct = default) => Task.CompletedTask;
+
+        public Task UnlockCardAsync(string cardId, CancellationToken ct = default) => Task.CompletedTask;
     }
 }

@@ -12,6 +12,7 @@ namespace EcoBank.Infrastructure.Xpollens.Cards;
 /// GET  api/v2.0/card/holder/{holderExternalRef} — list cards by holder
 /// GET  api/v3.0/cards/{cardId}                  — get a single card
 /// POST api/v3.0/cards/physical                  — create a physical card
+/// POST api/v3.0/cards/virtual                   — create a virtual card
 /// POST api/v3.0/cards/{cardId}/lock             — lock a card
 /// POST api/v3.0/cards/{cardId}/unlock           — unlock a card
 /// </summary>
@@ -34,6 +35,10 @@ internal sealed record HolderCardDto(
     [property: JsonPropertyName("currency")] string? Currency);
 
 internal sealed record CreatePhysicalCardRequest(
+    [property: JsonPropertyName("holderExternalRef")] string HolderExternalRef,
+    [property: JsonPropertyName("cardPrint")] string CardPrint = "EcoBank");
+
+internal sealed record CreateVirtualCardRequest(
     [property: JsonPropertyName("holderExternalRef")] string HolderExternalRef,
     [property: JsonPropertyName("cardPrint")] string CardPrint = "EcoBank");
 
@@ -87,6 +92,17 @@ public sealed class XpollensCardRepository(HttpClient httpClient, ILogger<Xpolle
         response.EnsureSuccessStatusCode();
         var created = await response.Content.ReadFromJsonAsync<CardDto>(cancellationToken: ct)
             ?? throw new InvalidOperationException("Card creation returned no data.");
+        return Map(created);
+    }
+
+    public async Task<Card> CreateVirtualCardAsync(string holderExternalRef, CancellationToken ct = default)
+    {
+        logger.LogInformation("Creating virtual card for holder {HolderExternalRef}", holderExternalRef);
+        var request = new CreateVirtualCardRequest(holderExternalRef);
+        var response = await httpClient.PostAsJsonAsync("api/v3.0/cards/virtual", request, ct);
+        response.EnsureSuccessStatusCode();
+        var created = await response.Content.ReadFromJsonAsync<CardDto>(cancellationToken: ct)
+            ?? throw new InvalidOperationException("Virtual card creation returned no data.");
         return Map(created);
     }
 
