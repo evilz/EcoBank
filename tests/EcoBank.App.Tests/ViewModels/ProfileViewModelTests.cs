@@ -44,6 +44,21 @@ public sealed class ProfileViewModelTests
         Assert.EndsWith(".txt", vm.DocumentFilePath, StringComparison.OrdinalIgnoreCase);
     }
 
+    [Fact]
+    public async Task OpenDocument_handles_missing_content_and_document_names()
+    {
+        var repository = new SingleDocumentRepository(
+            new UserDocumentContent("unknown", null!, DocumentKind.Kyc, null, [1, 2, 3]));
+        var vm = CreateViewModel(repository);
+        var document = new UserDocument("unknown", null!, DocumentKind.Kyc, null, null);
+
+        await vm.OpenDocumentCommand.ExecuteAsync(document);
+
+        Assert.NotNull(vm.DocumentFilePath);
+        Assert.EndsWith(".bin", vm.DocumentFilePath, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal("document", vm.ViewingDocumentName);
+    }
+
     private static ProfileViewModel CreateViewModel(IDocumentRepository repository)
     {
         var userContext = new UserContext();

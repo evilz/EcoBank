@@ -192,17 +192,6 @@ public partial class ProfileViewModel : ViewModelBase
                 OnPropertyChanged(nameof(IsViewingDocument));
                 DocumentMessage = $"{document.Name} chargé ({content.Content.Length:N0} octets).";
             }
-            else if (IsDocumentPdf)
-            {
-                var tempPath = CreateTempDocumentPath(displayName);
-                await File.WriteAllBytesAsync(tempPath, content.Content, ct);
-                CleanupTempPdfFile();
-                _lastPdfTempPath = tempPath;
-                DocumentFilePath = tempPath;
-                OnPropertyChanged(nameof(IsDocumentFile));
-                OnPropertyChanged(nameof(IsViewingDocument));
-                DocumentMessage = $"PDF prêt à être consulté.";
-            }
             else
             {
                 var tempPath = CreateTempDocumentPath(displayName);
@@ -212,7 +201,9 @@ public partial class ProfileViewModel : ViewModelBase
                 DocumentFilePath = tempPath;
                 OnPropertyChanged(nameof(IsDocumentFile));
                 OnPropertyChanged(nameof(IsViewingDocument));
-                DocumentMessage = $"{document.Name} chargé ({content.Content.Length:N0} octets).";
+                DocumentMessage = IsDocumentPdf
+                    ? "PDF prêt à être consulté."
+                    : $"{document.Name} chargé ({content.Content.Length:N0} octets).";
             }
         }
         catch (Exception)
@@ -292,17 +283,18 @@ public partial class ProfileViewModel : ViewModelBase
         }
     }
 
-    private static string CreateTempDocumentPath(string documentName)
+    private static string CreateTempDocumentPath(string? documentName)
     {
+        var name = string.IsNullOrWhiteSpace(documentName) ? "document" : documentName;
         var safeName = string.Concat(
-            Path.GetFileNameWithoutExtension(documentName)
+            Path.GetFileNameWithoutExtension(name)
                 .Select(c => Array.IndexOf(Path.GetInvalidFileNameChars(), c) >= 0 ? '_' : c));
         if (string.IsNullOrWhiteSpace(safeName))
         {
             safeName = "document";
         }
 
-        var extension = Path.GetExtension(documentName);
+        var extension = Path.GetExtension(name);
         if (string.IsNullOrWhiteSpace(extension))
         {
             extension = ".bin";
@@ -311,19 +303,19 @@ public partial class ProfileViewModel : ViewModelBase
         return Path.Combine(Path.GetTempPath(), $"{TempDocumentPrefix}{safeName}_{Guid.NewGuid():N}{extension}");
     }
 
-    private static string ResolveDisplayDocumentName(string contentName, string documentName)
+    private static string ResolveDisplayDocumentName(string? contentName, string? documentName)
     {
         if (!string.IsNullOrWhiteSpace(contentName) && !string.IsNullOrWhiteSpace(Path.GetExtension(contentName)))
         {
             return contentName;
         }
 
-        return string.IsNullOrWhiteSpace(documentName) ? contentName : documentName;
+        return string.IsNullOrWhiteSpace(documentName) ? contentName ?? "document" : documentName;
     }
 
-    private static string? ResolveDocumentMimeType(string? contentType, string documentName)
+    private static string? ResolveDocumentMimeType(string? contentType, string? documentName)
     {
-        if (!string.IsNullOrWhiteSpace(contentType))
+        if (!string.IsNullOrWhiteSpace(contentType) || string.IsNullOrWhiteSpace(documentName))
         {
             return contentType;
         }

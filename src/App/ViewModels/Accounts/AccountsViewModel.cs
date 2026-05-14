@@ -148,20 +148,25 @@ public partial class AccountsViewModel : ViewModelBase
             Operations.Clear();
             if (!string.IsNullOrWhiteSpace(accountId))
             {
-                foreach (var operation in await _getOperations.ExecuteAsync(accountId: accountId, pageSize: 20, ct: ct))
+                var results = await _getOperations.ExecuteAsync(accountId: accountId, pageSize: 20, ct: ct);
+                if (results is not null)
                 {
-                    Operations.Add(operation);
+                    foreach (var operation in results)
+                    {
+                        Operations.Add(operation);
+                    }
                 }
             }
-            OnPropertyChanged(nameof(HasOperations));
-            OnPropertyChanged(nameof(HasNoOperations));
         }
         catch (Exception)
         {
             Operations.Clear();
+            ErrorMessage = "Impossible de charger les opérations.";
+        }
+        finally
+        {
             OnPropertyChanged(nameof(HasOperations));
             OnPropertyChanged(nameof(HasNoOperations));
-            ErrorMessage = "Impossible de charger les opérations.";
         }
     }
 }
