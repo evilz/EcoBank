@@ -28,6 +28,7 @@ public partial class ProfileViewModel : ViewModelBase
     private readonly GetUserDocumentsUseCase _getUserDocuments;
     private readonly GetUserDocumentContentUseCase _getUserDocumentContent;
     private readonly ShellNavigationContext _shellNav;
+    private string? _lastPdfTempPath;
 
     public User? CurrentUser => _userContext.SelectedUser;
     public string? UserDisplayName => CurrentUser is { } u
@@ -127,15 +128,14 @@ public partial class ProfileViewModel : ViewModelBase
     [RelayCommand] private void GoToSettings() => NavigateTo(ProfileSection.Settings);
     [RelayCommand] private void GoBackToMain()
     {
-        DocumentBytes = null;
-        DocumentMimeType = null;
-        ViewingDocumentName = null;
-        OnPropertyChanged(nameof(IsViewingDocument));
-        OnPropertyChanged(nameof(IsDocumentImage));
-        OnPropertyChanged(nameof(IsDocumentPdf));
+        ClearDocumentPreview();
+        CleanupTempPdfFile();
         CurrentSection = ProfileSection.Main;
         UpdateSectionProperties();
     }
+    
+    [RelayCommand]
+    private void CloseDocumentPreview() => ClearDocumentPreview();
 
     private void NavigateTo(ProfileSection section)
     {
@@ -164,9 +164,7 @@ public partial class ProfileViewModel : ViewModelBase
 
         IsBusy = true;
         ClearError();
-        DocumentBytes = null;
-        DocumentMimeType = null;
-        ViewingDocumentName = null;
+        ClearDocumentPreview();
         try
         {
             var content = await _getUserDocumentContent.ExecuteAsync(appUserId, document, ct);
@@ -189,12 +187,13 @@ public partial class ProfileViewModel : ViewModelBase
             }
             else if (IsDocumentPdf)
             {
-                // Save to temp file and open with OS default PDF viewer
                 var safeName = string.Concat(
-                    content.Key
+                    content.Name
                         .Select(c => Array.IndexOf(Path.GetInvalidFileNameChars(), c) >= 0 ? '_' : c));
-                var tempPath = Path.Combine(Path.GetTempPath(), $"ecobank_{safeName}.pdf");
+                var tempPath = Path.Combine(Path.GetTempPath(), $"ecobank_{safeName}_{Guid.NewGuid():N}.pdf");
                 await File.WriteAllBytesAsync(tempPath, content.Content, ct);
+                CleanupTempPdfFile();
+                _lastPdfTempPath = tempPath;
                 DocumentMessage = $"PDF ouvert dans le visualiseur système.";
                 try
                 {
@@ -224,8 +223,43 @@ public partial class ProfileViewModel : ViewModelBase
     [RelayCommand]
     private void ResetSession()
     {
+        CleanupTempPdfFile();
+        ClearDocumentPreview();
         _userContext.Reset();
         _navigation.NavigateTo<LoginViewModel>();
+    }
+    
+    private void ClearDocumentPreview()
+    {
+        DocumentBytes = null;
+        DocumentMimeType = null;
+        ViewingDocumentName = null;
+        OnPropertyChanged(nameof(IsViewingDocument));
+        OnPropertyChanged(nameof(IsDocumentImage));
+        OnPropertyChanged(nameof(IsDocumentPdf));
+    }
+
+    private void CleanupTempPdfFile()
+    {
+        if (string.IsNullOrWhiteSpace(_lastPdfTempPath))
+        {
+            return;
+        }
+
+        try
+        {
+            if (File.Exists(_lastPdfTempPath))
+            {
+                File.Delete(_lastPdfTempPath);
+            }
+        }
+        catch
+        {
+        }
+        finally
+        {
+            _lastPdfTempPath = null;
+        }
     }
 
     private static string FormatKycStatus(KycStatus? status) => status switch

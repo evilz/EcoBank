@@ -12,11 +12,13 @@ namespace EcoBank.App.ViewModels.Profile;
 public sealed class BoolToToggleColorConverter : IValueConverter
 {
     public static readonly BoolToToggleColorConverter Instance = new();
+    private static readonly IBrush OnBrush = new SolidColorBrush(Color.Parse("#168246"));
+    private static readonly IBrush OffBrush = new SolidColorBrush(Color.Parse("#EEF2F4"));
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         => value is true
-            ? new SolidColorBrush(Color.Parse("#168246"))
-            : new SolidColorBrush(Color.Parse("#EEF2F4"));
+            ? OnBrush
+            : OffBrush;
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotSupportedException();

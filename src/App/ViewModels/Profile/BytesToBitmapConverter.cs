@@ -10,19 +10,35 @@ namespace EcoBank.App.ViewModels.Profile;
 public sealed class BytesToBitmapConverter : IValueConverter
 {
     public static readonly BytesToBitmapConverter Instance = new();
+    private readonly object _sync = new();
+    private byte[]? _cachedBytes;
+    private Bitmap? _cachedBitmap;
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is byte[] { Length: > 0 } bytes)
         {
-            try
+            lock (_sync)
             {
-                using var stream = new MemoryStream(bytes);
-                return new Bitmap(stream);
-            }
-            catch
-            {
-                return null;
+                try
+                {
+                    if (_cachedBytes is not null && bytes.AsSpan().SequenceEqual(_cachedBytes))
+                    {
+                        return _cachedBitmap;
+                    }
+
+                    using var stream = new MemoryStream(bytes);
+                    var bitmap = new Bitmap(stream);
+                    var previous = _cachedBitmap;
+                    _cachedBytes = bytes.ToArray();
+                    _cachedBitmap = bitmap;
+                    previous?.Dispose();
+                    return bitmap;
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
         return null;

@@ -8,6 +8,7 @@ namespace EcoBank.Infrastructure.Xpollens.Cards;
 
 /// <summary>
 /// Xpollens card endpoints.
+/// GET  api/v3.0/cards                              — list cards
 /// GET  api/v2.0/card/holder/{holderExternalRef} — list cards by holder
 /// GET  api/v3.0/cards/{cardId}                  — get a single card
 /// POST api/v3.0/cards/physical                  — create a physical card

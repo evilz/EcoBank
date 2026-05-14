@@ -123,11 +123,11 @@ public partial class AccountsViewModel : ViewModelBase
             }
             OnPropertyChanged(nameof(HasBankStatements));
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             BankStatements.Clear();
             OnPropertyChanged(nameof(HasBankStatements));
-            ErrorMessage = $"Impossible de charger les relevés : {ex.Message}";
+            ErrorMessage = "Impossible de charger les relevés.";
         }
     }
 }
