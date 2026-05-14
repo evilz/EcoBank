@@ -108,11 +108,6 @@ EcoBank/
 
 Pour lancer le profil de test utilisé pour les captures :
 
-```text
-clientId: Demo
-clientSecret: Demo
-appUserId: 72025cebA
-```
 
 Le `clientSecret` n'est pas loggé et n'est persisté que si l'utilisateur active l'enregistrement du profil. Dans ce cas, il est chiffré localement et protégé par le PIN.
 
