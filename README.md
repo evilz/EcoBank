@@ -1,26 +1,63 @@
 # EcoBank
 
-Application bancaire multi-plateformes en **Avalonia .NET 10**, basée sur les APIs **Xpollens**.
+EcoBank est une application bancaire multi-plateformes en **Avalonia .NET 10** connectée aux APIs sandbox **Xpollens**.
 
-## 🎨 Design Officiel EcoBank Appliqué
+L'application cible un parcours client existant : connexion OAuth2 avec `clientId` / `clientSecret`, sélection ou association d'un `appUserId`, consultation des comptes, opérations, cartes, paiements et informations de profil.
 
-Toutes les pages utilisent la **palette officielle EcoBank**:
-- **Palette primaire** : Vert clair `#7ED957` (boutons, titres, héros)
-- **Palette accent** : Jaune acide `#C6FF00` (highlights, badges)
-- **Palettes neutres** : Background `#F7F8F5`, Cards `#FFFFFF`
-- **Typographie** : Inter / SF Pro, weights 400/700
-- **Composants** : Buttons pill (28px), Cards (24px), Shadows officielles
-- **Layout** : Responsive mobile-first
-- **Accessibilité** : WCAG AA+ compliant
-- **Theme** : Light theme uniquement
+## Aperçu
 
-### Pages Redesignées
-- ✅ **Login** : Authentification moderne avec palette verte
-- ✅ **Home** : Dashboard avec héros vert, actions rapides, accounts, transactions
+### Sélection de profil desktop
 
-![Écran de connexion EcoBank](docs/screenshot-login.png)
+![EcoBank desktop](docs/screenshot-desktop.png)
 
-![Écran d'accueil EcoBank](docs/screenshot-home.png)
+### Association de profil desktop
+
+![EcoBank ajout de profil desktop](docs/screenshot-add-profile-desktop.png)
+
+### Sélection de profil Android / mobile
+
+![EcoBank Android](docs/screenshot-android.png)
+
+### Association de profil Android / mobile
+
+![EcoBank ajout de profil mobile](docs/screenshot-add-profile-mobile.png)
+
+### Fonctionnalités après sélection du profil
+
+![EcoBank accueil](docs/screenshot-feature-home-desktop.png)
+
+![EcoBank comptes](docs/screenshot-feature-accounts-desktop.png)
+
+![EcoBank virements](docs/screenshot-feature-payments-desktop.png)
+
+![EcoBank cartes](docs/screenshot-feature-cards-desktop.png)
+
+![EcoBank profil](docs/screenshot-feature-profile-desktop.png)
+
+Des variantes compactes sont aussi disponibles pour les vues post-connexion :
+
+| Vue | Capture compacte |
+|---|---|
+| Accueil | ![EcoBank accueil mobile](docs/screenshot-feature-home-mobile.png) |
+| Comptes | ![EcoBank comptes mobile](docs/screenshot-feature-accounts-mobile.png) |
+| Virements | ![EcoBank virements mobile](docs/screenshot-feature-payments-mobile.png) |
+| Cartes | ![EcoBank cartes mobile](docs/screenshot-feature-cards-mobile.png) |
+| Profil | ![EcoBank profil mobile](docs/screenshot-feature-profile-mobile.png) |
+
+Les captures ci-dessus utilisent le profil de démonstration fourni (clientId=Demo, clientSecret=Demo, appUserId=72025cebA) et des données bancaires de démonstration pour documenter le shell Avalonia partagé.
+
+## Fonctionnalités
+
+- Authentification Xpollens OAuth2 avec gestion d'erreurs réseau et HTTP.
+- Profils enregistrés localement avec secret chiffré AES-GCM et déverrouillage par PIN.
+- Sélection d'un utilisateur Xpollens existant, sans parcours d'onboarding.
+- Tableau de bord avec solde total, premier compte, alertes et dernières opérations.
+- Comptes : soldes, IBANs virtuels, relevés bancaires et détail de compte.
+- Opérations : liste paginée, statut, montant, libellé et détail.
+- Virements : bénéficiaires, mandats, virement SEPA standard ou instantané.
+- Cartes : cartes physiques et virtuelles, statut, limites, verrouillage, Apple Pay / XPay et demandes d'authentification forte.
+- Profil : informations utilisateur, documents KYC disponibles et statut de sécurité.
+- UI responsive : navigation latérale en desktop/tablette, navigation basse en mobile.
 
 ## Plateformes cibles
 
@@ -29,108 +66,99 @@ Toutes les pages utilisent la **palette officielle EcoBank**:
 | Windows / macOS / Linux | `src/Desktop` | `net10.0` |
 | Android | `src/Android` | `net10.0-android` |
 | iOS | `src/iOS` | `net10.0-ios` |
-| Browser (WASM) | `src/Browser` | `net10.0-browser` |
+| Browser / WebAssembly | `src/Browser` | `net10.0-browser` |
 
 ## Architecture
 
-```
+```text
 EcoBank/
 ├── src/
-│   ├── App/                        # Bibliothèque partagée (UI, ViewModels, Services)
-│   │   ├── Views/                  # Écrans AXAML (Auth, Home, Accounts, Operations, Cards, Profile)
-│   │   ├── ViewModels/             # ViewModels MVVM (CommunityToolkit.Mvvm)
-│   │   ├── Services/               # NavigationService, ISecureStorage
-│   │   └── Styles/                 # Tokens.axaml, Components.axaml (design system)
-│   ├── Core/                       # Domaine métier (sans dépendances UI)
-│   │   ├── Domain/                 # Entités : User, Account, Operation, Card
-│   │   ├── Ports/                  # Interfaces : IAuthService, IAccountRepository…
-│   │   ├── UseCases/               # Cas d'usage : Authenticate, GetAccounts…
-│   │   └── Application/            # UserContext (state partagé)
-│   ├── Infrastructure.Xpollens/    # Adaptateurs HTTP vers l'API Xpollens
-│   │   ├── Auth/                   # XpollensAuthService
-│   │   ├── Http/                   # AuthenticatedHandler, CorrelationIdHandler, LoggingHandler
-│   │   ├── Accounts/Users/Operations/Cards/
-│   │   └── DependencyInjection.cs
-│   ├── Shared/                     # Design tokens JSON
-│   ├── Desktop/                    # Point d'entrée Desktop (Program.cs)
-│   ├── Android/                    # Point d'entrée Android (MainActivity.cs)
-│   ├── iOS/                        # Point d'entrée iOS (AppDelegate.cs)
-│   └── Browser/                    # Point d'entrée Browser/WASM (Program.cs)
-└── EcoBank.slnx
+│   ├── App/                        # UI Avalonia partagée, ViewModels, styles, services
+│   │   ├── Views/                  # Auth, Shell, Home, Accounts, Operations, Cards, Profile
+│   │   ├── ViewModels/             # MVVM avec CommunityToolkit.Mvvm
+│   │   ├── Services/               # Navigation, stockage sécurisé, profils
+│   │   └── Styles/                 # Tokens et composants visuels
+│   ├── Core/                       # Domaine métier et cas d'usage
+│   │   ├── Domain/                 # Users, Accounts, Operations, Cards, Payments, Documents
+│   │   ├── Ports/                  # Interfaces des adaptateurs
+│   │   ├── UseCases/               # Auth, Users, Accounts, Operations, Cards, Payments, Security
+│   │   └── Application/            # UserContext partagé
+│   ├── Infrastructure.Xpollens/    # Adaptateurs HTTP Xpollens
+│   │   ├── Auth/                   # OAuth2 sandbox
+│   │   ├── Http/                   # Bearer token, correlation id, logging filtré
+│   │   └── Accounts, Cards, Documents, Operations, Payments, Security, Users
+│   ├── Shared/                     # Tokens JSON partagés
+│   ├── Desktop/                    # Point d'entrée desktop
+│   ├── Android/                    # Point d'entrée Android
+│   ├── iOS/                        # Point d'entrée iOS
+│   └── Browser/                    # Point d'entrée WebAssembly
+└── tests/
+    └── EcoBank.App.Tests/          # Tests ViewModels et use cases
 ```
 
-## Parcours de navigation
+## Parcours utilisateur
 
-1. **Connexion Xpollens** — Saisie Client ID / Client Secret → authentification OAuth2
-2. **Sélection utilisateur** — Liste paginée avec recherche, statut KYC
-3. **Shell principal** (responsive)
-   - Navigation latérale sur tablette/desktop (≥ 600 px)
-   - Barre de navigation basse sur mobile (< 600 px)
-4. **Onglets** : Accueil · Comptes · Opérations · Cartes · Profil
+1. **Ajouter ou choisir un profil** : saisie du `clientId`, `clientSecret`, `appUserId` et d'un PIN local.
+2. **Connexion** : authentification OAuth2 via `https://sb-connect.xpollens.com/`.
+3. **Chargement utilisateur** : récupération de l'utilisateur Xpollens ou fallback local si le profil n'est pas disponible.
+4. **Shell bancaire** : onglets Accueil, Comptes, Virements, Cartes et Profil.
+5. **Actions client** : consultation des comptes/opérations, préparation de virements, gestion des cartes et documents.
 
-## Design System
+## Configuration de démonstration
 
-Les tokens sont définis dans `src/App/Styles/Tokens.axaml` (ResourceDictionary) et `src/App/Styles/Components.axaml` (Styles).
+Pour lancer le profil de test utilisé pour les captures :
 
-### Palette officielle EcoBank
+```text
+clientId: Demo
+clientSecret: Demo
+appUserId: 72025cebA
+```
 
-**Couleurs principales** :
-- Primary (Green) : `#7ED957` - Boutons, titres accentués
-- Primary Dark : `#1E7F4F` - Success states
-- Accent (Yellow) : `#C6FF00` - Éléments décoratifs
-- Background : `#F7F8F5` - Page background
-- Card Background : `#FFFFFF` - Cartes
-- Text Primary : `#1B1D1F` - Texte principal
-- Text Secondary : `#7A7F85` - Texte secondaire
-- Danger : `#FF4D4F` - États d'erreur
-- **Dark mode** : Désactivé pour maintenant
+Le `clientSecret` n'est pas loggé et n'est persisté que si l'utilisateur active l'enregistrement du profil. Dans ce cas, il est chiffré localement et protégé par le PIN.
 
-**Espacement** : Grille 4dp (xs=4, sm=8, md=16, lg=24, xl=32)
+## Lancer l'application
 
-**Border Radius** :
-- Card : 24px
-- Button (pill) : 28px
-- Small : 16px
-- Autres : 4-12px
-
-**Accessibilité** : Touch target minimum 48dp
-
-### Styles de composants
-
-| Classe | Utilisation | Couleur |
-|--------|-------------|---------|
-| `Button.Primary` | Bouton principal | `#7ED957` |
-| `Button.Secondary` | Bouton secondaire (transparent) | - |
-| `Button.Danger` | Bouton destructive | `#FF4D4F` |
-| `TextBox.EcoField` | Champ de formulaire | - |
-| `Border.Card` | Conteneur de contenu | Radius: 24px |
-| `TextBlock.AmountCredit` | Montant crédit | `#1E7F4F` |
-| `TextBlock.AmountDebit` | Montant débit | `#FF4D4F` |
-
-## Lancer l'application (Desktop)
+### Desktop
 
 ```bash
 dotnet run --project src/Desktop/EcoBank.Desktop.csproj
 ```
 
-## Construction
+### Android
+
+Le workload Android et un JDK 21 sont requis.
 
 ```bash
-# Desktop
-dotnet build src/Desktop/EcoBank.Desktop.csproj
+dotnet build src/Android/EcoBank.Android.csproj -c Debug
+```
 
-# Android (nécessite le workload Android)
-dotnet build src/Android/EcoBank.Android.csproj
+Si plusieurs JDK sont installés, forcez JDK 21 pour la commande :
 
-# iOS (nécessite le workload iOS + Xcode)
-dotnet build src/iOS/EcoBank.iOS.csproj
+```powershell
+$env:JAVA_HOME = "C:\\Program Files\\Java\\jdk-21" # Update this path to your local JDK 21 installation
+$env:PATH = "$env:JAVA_HOME\bin;$env:PATH"
+dotnet build src/Android/EcoBank.Android.csproj -c Debug
+```
 
-# Browser/WASM (nécessite le workload wasm-tools)
-dotnet build src/Browser/EcoBank.Browser.csproj
+### Browser / WebAssembly
+
+```bash
+dotnet build src/Browser/EcoBank.Browser.csproj -c Debug
+dotnet run --project src/Browser/EcoBank.Browser.csproj -c Debug
+```
+
+## Validation
+
+```bash
+dotnet build src/Desktop/EcoBank.Desktop.csproj -c Debug
+dotnet build src/Android/EcoBank.Android.csproj -c Debug
+dotnet test tests/EcoBank.App.Tests/EcoBank.App.Tests.csproj -c Debug
 ```
 
 ## Sécurité
 
-- Le `clientSecret` n'est **jamais** persisté en clair ni loggé
-- Pipeline HTTP : injection du Bearer token + X-Correlation-ID + logging sans secrets
-- Les endpoints Xpollens non documentés sont marqués `// TODO: confirm exact path`
+- Secret client filtré des logs et jamais stocké en clair.
+- Stockage local chiffré avec AES-GCM.
+- PIN haché avec PBKDF2.
+- Pipeline HTTP avec Bearer token, `X-Correlation-ID` et logging sans secrets.
+- Authentification forte modélisée pour les actions carte sensibles.
