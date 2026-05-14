@@ -135,7 +135,7 @@ dotnet build src/Android/EcoBank.Android.csproj -c Debug
 Si plusieurs JDK sont installés, forcez JDK 21 pour la commande :
 
 ```powershell
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-21.0.11"
+$env:JAVA_HOME = "C:\\Program Files\\Java\\jdk-21" # Update this path to your local JDK 21 installation
 $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"
 dotnet build src\Android\EcoBank.Android.csproj -c Debug
 ```
