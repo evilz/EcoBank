@@ -302,7 +302,7 @@
                   <ic:MaterialIcon Kind="Close" Width="16" Height="16" Foreground="#45545F"/>
                 </Button>
               </Grid>
-              <Image Source="{Binding DocumentBytes, Converter={x:Static vm:BytesToBitmapConverter.Instance}}"
+              <Image Source="{Binding DocumentImageBitmap}"
                      MaxHeight="320"
                      Stretch="Uniform"/>
             </StackPanel>

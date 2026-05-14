@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Avalonia.Media.Imaging;
 using EcoBank.App.Services;
 using EcoBank.App.ViewModels.Auth;
 using EcoBank.Core.Application;
@@ -23,6 +25,7 @@ public enum ProfileSection
 
 public partial class ProfileViewModel : ViewModelBase
 {
+    private const string TempPdfPrefix = "ecobank_";
     private readonly UserContext _userContext;
     private readonly INavigationService _navigation;
     private readonly GetUserDocumentsUseCase _getUserDocuments;
@@ -48,13 +51,13 @@ public partial class ProfileViewModel : ViewModelBase
     [ObservableProperty] private ProfileSection _currentSection = ProfileSection.Main;
 
     // Document viewer state
-    [ObservableProperty] private byte[]? _documentBytes;
+    [ObservableProperty] private Bitmap? _documentImageBitmap;
     [ObservableProperty] private string? _documentMimeType;
     [ObservableProperty] private string? _viewingDocumentName;
 
     public bool IsDocumentImage => DocumentMimeType?.StartsWith("image/", StringComparison.OrdinalIgnoreCase) == true;
     public bool IsDocumentPdf => string.Equals(DocumentMimeType, "application/pdf", StringComparison.OrdinalIgnoreCase);
-    public bool IsViewingDocument => DocumentBytes is not null || IsDocumentPdf;
+    public bool IsViewingDocument => DocumentImageBitmap is not null || IsDocumentPdf;
 
     // Section visibility helpers
     public bool IsMainSection => CurrentSection == ProfileSection.Main;
@@ -181,7 +184,8 @@ public partial class ProfileViewModel : ViewModelBase
 
             if (IsDocumentImage)
             {
-                DocumentBytes = content.Content;
+                using var stream = new MemoryStream(content.Content);
+                DocumentImageBitmap = new Bitmap(stream);
                 OnPropertyChanged(nameof(IsViewingDocument));
                 DocumentMessage = $"{document.Name} chargé ({content.Content.Length:N0} octets).";
             }
@@ -190,7 +194,7 @@ public partial class ProfileViewModel : ViewModelBase
                 var safeName = string.Concat(
                     content.Name
                         .Select(c => Array.IndexOf(Path.GetInvalidFileNameChars(), c) >= 0 ? '_' : c));
-                var tempPath = Path.Combine(Path.GetTempPath(), $"ecobank_{safeName}_{Guid.NewGuid():N}.pdf");
+                var tempPath = Path.Combine(Path.GetTempPath(), $"{TempPdfPrefix}{safeName}_{Guid.NewGuid():N}.pdf");
                 await File.WriteAllBytesAsync(tempPath, content.Content, ct);
                 CleanupTempPdfFile();
                 _lastPdfTempPath = tempPath;
@@ -231,9 +235,11 @@ public partial class ProfileViewModel : ViewModelBase
     
     private void ClearDocumentPreview()
     {
-        DocumentBytes = null;
+        var previousBitmap = DocumentImageBitmap;
+        DocumentImageBitmap = null;
         DocumentMimeType = null;
         ViewingDocumentName = null;
+        previousBitmap?.Dispose();
         OnPropertyChanged(nameof(IsViewingDocument));
         OnPropertyChanged(nameof(IsDocumentImage));
         OnPropertyChanged(nameof(IsDocumentPdf));
@@ -253,8 +259,9 @@ public partial class ProfileViewModel : ViewModelBase
                 File.Delete(_lastPdfTempPath);
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Trace.TraceWarning("Failed to clean temporary PDF file {0}: {1}", _lastPdfTempPath, ex.Message);
         }
         finally
         {
