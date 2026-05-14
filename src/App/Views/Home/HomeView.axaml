@@ -43,7 +43,8 @@
                       Classes="IconBtn"
                       Width="36"
                       Height="36"
-                      ToolTip.Tip="Notifications">
+                      ToolTip.Tip="Notifications"
+                      Command="{Binding GoToNotificationsCommand}">
                 <Border Width="36" Height="36" CornerRadius="12" Background="#18FFFFFF">
                   <ic:MaterialIcon Kind="BellOutline"
                                        Width="20"
@@ -107,12 +108,17 @@
                        FontSize="14"
                        FontWeight="Bold"
                        Foreground="#101820"/>
-            <TextBlock Grid.Column="1"
-                       Text="Voir tout"
-                       FontSize="12"
-                       FontWeight="Bold"
-                       Foreground="#168246"
-                       VerticalAlignment="Center"/>
+            <Button Grid.Column="1"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Padding="4,0"
+                    Command="{Binding GoToAccountsCommand}">
+              <TextBlock Text="Voir tout"
+                         FontSize="12"
+                         FontWeight="Bold"
+                         Foreground="#168246"
+                         VerticalAlignment="Center"/>
+            </Button>
           </Grid>
 
           <ItemsControl ItemsSource="{Binding Accounts}"
@@ -198,7 +204,7 @@
                      FontWeight="Bold"
                      Foreground="#101820"/>
           <UniformGrid Rows="1" Columns="4">
-            <Button Classes="QuickAction">
+            <Button Classes="QuickAction" Command="{Binding GoToTransferCommand}">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
                 <Border Classes="EcoIconTile">
                   <ic:MaterialIcon Kind="BankTransfer" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -206,7 +212,7 @@
                 <TextBlock Text="Virement" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
             </Button>
-            <Button Classes="QuickAction">
+            <Button Classes="QuickAction" Command="{Binding GoToPaymentCommand}">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
                 <Border Classes="EcoIconTile">
                   <ic:MaterialIcon Kind="CreditCardOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -214,7 +220,7 @@
                 <TextBlock Text="Paiement" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
             </Button>
-            <Button Classes="QuickAction">
+            <Button Classes="QuickAction" Command="{Binding GoToAccountsCommand}">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
                 <Border Classes="EcoIconTile">
                   <ic:MaterialIcon Kind="RepeatVariant" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -222,7 +228,7 @@
                 <TextBlock Text="Recharger" FontSize="10" FontWeight="SemiBold" Foreground="#45545F" HorizontalAlignment="Center"/>
               </StackPanel>
             </Button>
-            <Button Classes="QuickAction">
+            <Button Classes="QuickAction" Command="{Binding GoToNotificationsCommand}">
               <StackPanel Spacing="7" HorizontalAlignment="Center">
                 <Border Classes="EcoIconTile">
                   <ic:MaterialIcon Kind="DotsHorizontal" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>

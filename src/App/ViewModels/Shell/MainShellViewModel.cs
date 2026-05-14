@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EcoBank.App.Services;
 using EcoBank.App.ViewModels.Accounts;
 using EcoBank.App.ViewModels.Cards;
 using EcoBank.App.ViewModels.Contact;
@@ -31,6 +32,7 @@ public partial class MainShellViewModel : ViewModelBase
 
     public MainShellViewModel(
         UserContext userContext,
+        ShellNavigationContext shellNav,
         HomeViewModel homeVm,
         AccountsViewModel accountsVm,
         ContactViewModel paymentsVm,
@@ -50,6 +52,13 @@ public partial class MainShellViewModel : ViewModelBase
 
         _selectedTab = Tabs[0];
         _currentContent = Tabs[0].Content;
+
+        // Register shell navigation callback so child VMs can switch tabs
+        shellNav.SelectTabByKey = key =>
+        {
+            var tab = Tabs.FirstOrDefault(t => t.Key == key);
+            if (tab is not null) SelectTab(tab);
+        };
     }
 
     [RelayCommand]

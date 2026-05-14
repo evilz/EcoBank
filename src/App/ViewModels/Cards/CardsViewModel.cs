@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EcoBank.App.Services;
 using EcoBank.Core.Application;
 using EcoBank.Core.Domain.Cards;
 using EcoBank.Core.Domain.Security;
@@ -15,10 +16,13 @@ public partial class CardsViewModel : ViewModelBase
     private readonly GetCardsUseCase _getCards;
     private readonly ToggleCardLockUseCase _toggleCardLock;
     private readonly RequestStrongAuthenticationUseCase _requestStrongAuthentication;
+    private readonly CreatePhysicalCardUseCase _createPhysicalCard;
+    private readonly ShellNavigationContext _shellNav;
 
     [ObservableProperty] private Card? _selectedCard;
     [ObservableProperty] private bool _isDetailVisible;
     [ObservableProperty] private string _securityMessage = "Les données sensibles nécessitent une authentification forte.";
+    [ObservableProperty] private string _cardCreationMessage = "";
     public ObservableCollection<Card> Cards { get; } = [];
     public bool HasCards => Cards.Any();
     public bool HasNoCards => !HasCards;
@@ -33,12 +37,16 @@ public partial class CardsViewModel : ViewModelBase
         UserContext userContext,
         GetCardsUseCase getCards,
         ToggleCardLockUseCase toggleCardLock,
-        RequestStrongAuthenticationUseCase requestStrongAuthentication)
+        RequestStrongAuthenticationUseCase requestStrongAuthentication,
+        CreatePhysicalCardUseCase createPhysicalCard,
+        ShellNavigationContext shellNav)
     {
         _userContext = userContext;
         _getCards = getCards;
         _toggleCardLock = toggleCardLock;
         _requestStrongAuthentication = requestStrongAuthentication;
+        _createPhysicalCard = createPhysicalCard;
+        _shellNav = shellNav;
     }
 
     [RelayCommand]
@@ -46,6 +54,7 @@ public partial class CardsViewModel : ViewModelBase
     {
         IsBusy = true;
         ClearError();
+        CardCreationMessage = "";
         try
         {
             var cards = await _getCards.ExecuteAsync(ct);
@@ -57,6 +66,34 @@ public partial class CardsViewModel : ViewModelBase
         }
         catch (Exception) { ErrorMessage = "Impossible de charger les cartes."; }
         finally { IsBusy = false; }
+    }
+
+    [RelayCommand]
+    private void GoBack() => _shellNav.GoToHome();
+
+    [RelayCommand]
+    private async Task CreateCardAsync(CancellationToken ct)
+    {
+        IsBusy = true;
+        ClearError();
+        CardCreationMessage = "";
+        try
+        {
+            var card = await _createPhysicalCard.ExecuteAsync(ct);
+            Cards.Add(card);
+            SelectedCard = card;
+            OnPropertyChanged(nameof(HasCards));
+            OnPropertyChanged(nameof(HasNoCards));
+            CardCreationMessage = "Carte physique créée avec succès.";
+        }
+        catch (Exception)
+        {
+            ErrorMessage = "Impossible de créer la carte.";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]

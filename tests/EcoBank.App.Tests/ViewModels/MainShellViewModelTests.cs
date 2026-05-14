@@ -1,3 +1,4 @@
+using EcoBank.App.Services;
 using EcoBank.App.ViewModels.Shell;
 using EcoBank.Core.Application;
 using Xunit;
@@ -11,6 +12,7 @@ public sealed class MainShellViewModelTests
     {
         var vm = new MainShellViewModel(
             new UserContext(),
+            new ShellNavigationContext(),
             homeVm: null!,
             accountsVm: null!,
             paymentsVm: null!,

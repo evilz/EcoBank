@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EcoBank.App.Services;
 using EcoBank.Core.Application;
 using EcoBank.Core.Domain.Accounts;
 using EcoBank.Core.Domain.Operations;
@@ -14,6 +15,7 @@ public partial class HomeViewModel : ViewModelBase
     private readonly UserContext _userContext;
     private readonly GetAccountsUseCase _getAccounts;
     private readonly GetOperationsUseCase _getOperations;
+    private readonly ShellNavigationContext _shellNav;
 
     [ObservableProperty] private decimal _totalBalance;
     [ObservableProperty] private string _currency = "EUR";
@@ -54,15 +56,29 @@ public partial class HomeViewModel : ViewModelBase
     public HomeViewModel(
         UserContext userContext,
         GetAccountsUseCase getAccounts,
-        GetOperationsUseCase getOperations)
+        GetOperationsUseCase getOperations,
+        ShellNavigationContext shellNav)
     {
         _userContext = userContext;
         _getAccounts = getAccounts;
         _getOperations = getOperations;
+        _shellNav = shellNav;
     }
 
     [RelayCommand]
     private void ToggleBalance() => IsBalanceVisible = !IsBalanceVisible;
+
+    [RelayCommand]
+    private void GoToTransfer() => _shellNav.GoToPayments();
+
+    [RelayCommand]
+    private void GoToPayment() => _shellNav.GoToPayments();
+
+    [RelayCommand]
+    private void GoToAccounts() => _shellNav.GoToAccounts();
+
+    [RelayCommand]
+    private void GoToNotifications() => _shellNav.GoToProfile();
 
     [RelayCommand]
     private async Task RefreshAsync(CancellationToken ct)

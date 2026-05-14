@@ -8,123 +8,226 @@
              x:DataType="vm:AccountsViewModel"
              Background="#F7FCF8">
 
-  <DockPanel Background="#F7FCF8">
-    <Grid DockPanel.Dock="Top"
-          ColumnDefinitions="Auto,*,Auto"
-          Margin="16,18,16,10">
-      <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44">
-        <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
-          <ic:MaterialIcon Kind="ArrowLeft" Width="19" Height="19" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Border>
-      </Button>
-      <TextBlock Grid.Column="1"
-                 Text="Mes comptes"
-                 FontSize="17"
-                 FontWeight="Bold"
-                 Foreground="#101820"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center"/>
-      <Button Grid.Column="2" Classes="IconBtn" Width="44" Height="44">
-        <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
-          <ic:MaterialIcon Kind="Plus" Width="20" Height="20" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Border>
-      </Button>
-    </Grid>
+  <Grid Background="#F7FCF8">
 
-    <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
+    <!-- Main accounts list panel -->
+    <DockPanel IsVisible="{Binding !IsStatementDetailVisible}">
+      <Grid DockPanel.Dock="Top"
+            ColumnDefinitions="Auto,*,Auto"
+            Margin="16,18,16,10">
+        <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" Command="{Binding GoBackCommand}">
+          <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
+            <ic:MaterialIcon Kind="ArrowLeft" Width="19" Height="19" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+        </Button>
+        <TextBlock Grid.Column="1"
+                   Text="Mes comptes"
+                   FontSize="17"
+                   FontWeight="Bold"
+                   Foreground="#101820"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <Button Grid.Column="2" Classes="IconBtn" Width="44" Height="44" Command="{Binding LoadCommand}">
+          <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
+            <ic:MaterialIcon Kind="Refresh" Width="20" Height="20" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+        </Button>
+      </Grid>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-      <StackPanel Margin="16,8,16,28" Spacing="14">
-        <ItemsControl ItemsSource="{Binding Accounts}">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate x:DataType="domain:Account">
-              <Border Classes="EcoPanel" Margin="0,0,0,4">
-                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                  <Border Classes="EcoIconTile">
-                    <ic:MaterialIcon Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                  </Border>
-                  <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Label}" FontSize="15" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Text="{Binding Iban}" FontSize="12" Foreground="#8A9AA5" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Text="{Binding Status}" FontSize="11" Foreground="#168246"/>
-                  </StackPanel>
-                  <TextBlock Grid.Column="2"
-                             FontSize="17"
-                             FontWeight="Bold"
-                             Foreground="#101820"
-                             VerticalAlignment="Center">
-                    <TextBlock.Text>
-                      <MultiBinding Converter="{x:Static home:MoneyTextConverter.Instance}">
-                        <Binding Path="Balance"/>
-                        <Binding Path="Currency"/>
-                      </MultiBinding>
-                    </TextBlock.Text>
-                  </TextBlock>
-                </Grid>
-              </Border>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
+      <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
 
-        <Border Classes="EcoPanel" IsVisible="{Binding SelectedAccount}">
-          <StackPanel Spacing="14">
-            <TextBlock Text="Détail du compte"
-                       FontSize="15"
-                       FontWeight="Bold"
-                       Foreground="#101820"/>
-            <TextBlock Text="{Binding SelectedAccount.Iban}"
-                       FontSize="12"
-                       Foreground="#45545F"
-                       TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SelectedAccountLimitLabel}"
-                       FontSize="12"
-                       Foreground="#8A9AA5"
-                       TextWrapping="Wrap"/>
-          </StackPanel>
-        </Border>
+      <TextBlock DockPanel.Dock="Top"
+                 Text="{Binding ErrorMessage}"
+                 Foreground="#D84C4C"
+                 TextWrapping="Wrap"
+                 Margin="16,6,16,0"
+                 IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
 
-        <Border Classes="EcoPanel">
-          <StackPanel Spacing="14">
-            <Grid ColumnDefinitions="*,Auto">
-              <TextBlock Text="IBAN virtuels"
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16,8,16,28" Spacing="14">
+          <ItemsControl ItemsSource="{Binding Accounts}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="domain:Account">
+                <Border Classes="EcoPanel" Margin="0,0,0,4">
+                  <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                    <Border Classes="EcoIconTile">
+                      <ic:MaterialIcon Kind="BankOutline" Width="20" Height="20" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+                      <TextBlock Text="{Binding Label}" FontSize="15" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
+                      <TextBlock Text="{Binding Iban}" FontSize="12" Foreground="#8A9AA5" TextTrimming="CharacterEllipsis"/>
+                      <TextBlock Text="{Binding Status}" FontSize="11" Foreground="#168246"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               FontSize="17"
+                               FontWeight="Bold"
+                               Foreground="#101820"
+                               VerticalAlignment="Center">
+                      <TextBlock.Text>
+                        <MultiBinding Converter="{x:Static home:MoneyTextConverter.Instance}">
+                          <Binding Path="Balance"/>
+                          <Binding Path="Currency"/>
+                        </MultiBinding>
+                      </TextBlock.Text>
+                    </TextBlock>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+
+          <Border Classes="EcoPanel" IsVisible="{Binding SelectedAccount}">
+            <StackPanel Spacing="14">
+              <TextBlock Text="Détail du compte"
                          FontSize="15"
                          FontWeight="Bold"
                          Foreground="#101820"/>
-              <ic:MaterialIcon Grid.Column="1" Kind="Identifier" Width="20" Height="20" Foreground="#168246"/>
-            </Grid>
-            <ItemsControl ItemsSource="{Binding VirtualIbans}" IsVisible="{Binding HasVirtualIbans}">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="domain:VirtualIban">
-                  <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
-                    <StackPanel Spacing="2">
-                      <TextBlock Text="{Binding Iban}" FontSize="13" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
-                      <TextBlock Text="{Binding Label}" FontSize="11" Foreground="#8A9AA5"/>
-                    </StackPanel>
-                    <TextBlock Grid.Column="1" Text="{Binding Status}" FontSize="11" Foreground="#168246" VerticalAlignment="Center"/>
-                  </Grid>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <TextBlock Text="Aucun IBAN virtuel disponible pour ce compte."
-                       FontSize="12"
-                       Foreground="#8A9AA5"
-                       IsVisible="{Binding !HasVirtualIbans}"/>
-          </StackPanel>
-        </Border>
-
-        <Border Classes="EcoPanel">
-          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-            <Border Classes="EcoIconTile">
-              <ic:MaterialIcon Kind="FileDocumentOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <StackPanel Grid.Column="1" Spacing="2">
-              <TextBlock Text="Relevés bancaires" FontSize="14" FontWeight="Bold" Foreground="#101820"/>
-              <TextBlock Text="Les relevés disponibles restent accessibles depuis le détail du compte." FontSize="11" Foreground="#8A9AA5" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding SelectedAccount.Iban}"
+                         FontSize="12"
+                         Foreground="#45545F"
+                         TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding SelectedAccountLimitLabel}"
+                         FontSize="12"
+                         Foreground="#8A9AA5"
+                         TextWrapping="Wrap"/>
             </StackPanel>
-            <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
-          </Grid>
-        </Border>
-      </StackPanel>
-    </ScrollViewer>
-  </DockPanel>
+          </Border>
+
+          <Border Classes="EcoPanel">
+            <StackPanel Spacing="14">
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="IBAN virtuels"
+                           FontSize="15"
+                           FontWeight="Bold"
+                           Foreground="#101820"/>
+                <ic:MaterialIcon Grid.Column="1" Kind="Identifier" Width="20" Height="20" Foreground="#168246"/>
+              </Grid>
+              <ItemsControl ItemsSource="{Binding VirtualIbans}" IsVisible="{Binding HasVirtualIbans}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="domain:VirtualIban">
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                      <StackPanel Spacing="2">
+                        <TextBlock Text="{Binding Iban}" FontSize="13" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Label}" FontSize="11" Foreground="#8A9AA5"/>
+                      </StackPanel>
+                      <TextBlock Grid.Column="1" Text="{Binding Status}" FontSize="11" Foreground="#168246" VerticalAlignment="Center"/>
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="Aucun IBAN virtuel disponible pour ce compte."
+                         FontSize="12"
+                         Foreground="#8A9AA5"
+                         IsVisible="{Binding !HasVirtualIbans}"/>
+            </StackPanel>
+          </Border>
+
+          <!-- Bank Statements section -->
+          <Border Classes="EcoPanel">
+            <StackPanel Spacing="14">
+              <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Spacing="2">
+                  <TextBlock Text="Relevés bancaires" FontSize="15" FontWeight="Bold" Foreground="#101820"/>
+                  <TextBlock Text="Vos relevés de compte mensuels" FontSize="11" Foreground="#8A9AA5"/>
+                </StackPanel>
+                <ic:MaterialIcon Grid.Column="1" Kind="FileDocumentOutline" Width="20" Height="20" Foreground="#168246" VerticalAlignment="Center"/>
+              </Grid>
+
+              <ItemsControl ItemsSource="{Binding BankStatements}" IsVisible="{Binding HasBankStatements}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="domain:BankStatement">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Padding="0,6"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Command="{Binding $parent[ItemsControl].((vm:AccountsViewModel)DataContext).OpenBankStatementCommand}"
+                            CommandParameter="{Binding}">
+                      <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Border Classes="EcoIconTile">
+                          <ic:MaterialIcon Kind="FileDocumentOutline" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                          <TextBlock Text="{Binding Label}" FontSize="13" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
+                          <TextBlock FontSize="11" Foreground="#8A9AA5">
+                            <TextBlock.Text>
+                              <MultiBinding StringFormat="{}{0:dd/MM/yyyy} — {1:dd/MM/yyyy}">
+                                <Binding Path="PeriodStart"/>
+                                <Binding Path="PeriodEnd"/>
+                              </MultiBinding>
+                            </TextBlock.Text>
+                          </TextBlock>
+                        </StackPanel>
+                        <ic:MaterialIcon Grid.Column="2" Kind="ChevronRight" Width="18" Height="18" Foreground="#8A9AA5" VerticalAlignment="Center"/>
+                      </Grid>
+                    </Button>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+
+              <TextBlock Text="Aucun relevé disponible pour ce compte."
+                         FontSize="12"
+                         Foreground="#8A9AA5"
+                         IsVisible="{Binding !HasBankStatements}"/>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </DockPanel>
+
+    <!-- Bank statement detail panel -->
+    <DockPanel IsVisible="{Binding IsStatementDetailVisible}">
+      <Grid DockPanel.Dock="Top"
+            ColumnDefinitions="Auto,*"
+            Margin="16,18,16,10">
+        <Button Grid.Column="0" Classes="IconBtn" Width="44" Height="44" Command="{Binding CloseStatementDetailCommand}">
+          <Border Width="40" Height="40" CornerRadius="14" Background="#FFFFFF" BorderBrush="#EEF2F4" BorderThickness="1" BoxShadow="0 2 8 0 #10101820">
+            <ic:MaterialIcon Kind="ArrowLeft" Width="19" Height="19" Foreground="#101820" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+        </Button>
+        <TextBlock Grid.Column="1"
+                   Text="Relevé bancaire"
+                   FontSize="17"
+                   FontWeight="Bold"
+                   Foreground="#101820"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+      </Grid>
+
+      <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" Height="3" IsVisible="{Binding IsBusy}"/>
+
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16,8,16,28" Spacing="14" IsVisible="{Binding SelectedBankStatement}">
+          <Border Classes="EcoPanel">
+            <StackPanel Spacing="14">
+              <StackPanel Spacing="4">
+                <TextBlock Text="Intitulé" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
+                <TextBlock Text="{Binding SelectedBankStatement.Label}" FontSize="15" FontWeight="Bold" Foreground="#101820"/>
+              </StackPanel>
+              <StackPanel Spacing="4">
+                <TextBlock Text="Période" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
+                <TextBlock FontSize="13" Foreground="#45545F">
+                  <TextBlock.Text>
+                    <MultiBinding StringFormat="Du {0:dd/MM/yyyy} au {1:dd/MM/yyyy}">
+                      <Binding Path="SelectedBankStatement.PeriodStart"/>
+                      <Binding Path="SelectedBankStatement.PeriodEnd"/>
+                    </MultiBinding>
+                  </TextBlock.Text>
+                </TextBlock>
+              </StackPanel>
+              <StackPanel Spacing="4">
+                <TextBlock Text="Identifiant" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
+                <TextBlock Text="{Binding SelectedBankStatement.BankStatementId}" FontSize="12" Foreground="#45545F" TextTrimming="CharacterEllipsis"/>
+              </StackPanel>
+              <StackPanel Spacing="4" IsVisible="{Binding SelectedBankStatement.DocumentUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <TextBlock Text="Document disponible" FontSize="11" FontWeight="SemiBold" Foreground="#8A9AA5"/>
+                <TextBlock Text="{Binding SelectedBankStatement.DocumentUrl}" FontSize="11" Foreground="#168246" TextWrapping="Wrap"/>
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </DockPanel>
+
+  </Grid>
 </UserControl>
