@@ -302,9 +302,43 @@
                   <ic:MaterialIcon Kind="Close" Width="16" Height="16" Foreground="#45545F"/>
                 </Button>
               </Grid>
-              <Image Source="{Binding DocumentImageBitmap}"
-                     MaxHeight="320"
-                     Stretch="Uniform"/>
+              <Border Background="#F7FCF8"
+                      BorderBrush="#EEF2F4"
+                      BorderThickness="1"
+                      CornerRadius="14"
+                      Padding="10"
+                      MinHeight="260"
+                      MaxHeight="560"
+                      ClipToBounds="True">
+                <Image Source="{Binding DocumentImageBitmap}"
+                       Stretch="Uniform"
+                       StretchDirection="DownOnly"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"/>
+              </Border>
+            </StackPanel>
+          </Border>
+
+          <Border Classes="EcoPanel" IsVisible="{Binding IsDocumentFile}">
+            <StackPanel Spacing="12">
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0" Text="{Binding ViewingDocumentName}" FontSize="13" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
+                <Button Grid.Column="1" Classes="IconBtn" Width="30" Height="30" Command="{Binding CloseDocumentPreviewCommand}">
+                  <ic:MaterialIcon Kind="Close" Width="16" Height="16" Foreground="#45545F"/>
+                </Button>
+              </Grid>
+              <Border Background="#F7FCF8" BorderBrush="#EEF2F4" BorderThickness="1" CornerRadius="14" Padding="18" MinHeight="180">
+                <StackPanel Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+                  <ic:MaterialIcon Kind="FileEyeOutline" Width="42" Height="42" Foreground="#168246" HorizontalAlignment="Center"/>
+                  <TextBlock Text="{Binding DocumentFilePath}" FontSize="11" Foreground="#45545F" TextWrapping="Wrap" TextAlignment="Center"/>
+                  <Button Classes="Primary" Command="{Binding OpenSelectedDocumentExternallyCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                      <ic:MaterialIcon Kind="OpenInNew" Width="18" Height="18" Foreground="White"/>
+                      <TextBlock Text="Voir le document" FontWeight="Bold"/>
+                    </StackPanel>
+                  </Button>
+                </StackPanel>
+              </Border>
             </StackPanel>
           </Border>
 

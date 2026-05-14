@@ -21,6 +21,6 @@ public sealed class MainShellViewModelTests
 
         var labels = vm.Tabs.Select(tab => tab.Label).ToArray();
 
-        Assert.Equal(["Accueil", "Comptes", "Paiements", "Cartes", "Profil"], labels);
+        Assert.Equal(["Accueil", "Comptes", "Virements", "Cartes", "Profil"], labels);
     }
 }

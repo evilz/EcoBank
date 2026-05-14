@@ -3,6 +3,7 @@
              xmlns:vm="using:EcoBank.App.ViewModels.Accounts"
              xmlns:home="using:EcoBank.App.ViewModels.Home"
              xmlns:domain="using:EcoBank.Core.Domain.Accounts"
+             xmlns:ops="using:EcoBank.Core.Domain.Operations"
              xmlns:ic="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="EcoBank.App.Views.Accounts.AccountsView"
              x:DataType="vm:AccountsViewModel"
@@ -90,6 +91,50 @@
                          FontSize="12"
                          Foreground="#8A9AA5"
                          TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+
+          <Border Classes="EcoPanel">
+            <StackPanel Spacing="14">
+              <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Spacing="2">
+                  <TextBlock Text="Opérations" FontSize="15" FontWeight="Bold" Foreground="#101820"/>
+                  <TextBlock Text="Dernières opérations du compte sélectionné" FontSize="11" Foreground="#8A9AA5"/>
+                </StackPanel>
+                <ic:MaterialIcon Grid.Column="1" Kind="ReceiptTextOutline" Width="20" Height="20" Foreground="#168246" VerticalAlignment="Center"/>
+              </Grid>
+
+              <ItemsControl ItemsSource="{Binding Operations}" IsVisible="{Binding HasOperations}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="ops:Operation">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,0,0,12" MinHeight="44">
+                      <Border Classes="EcoIconTile">
+                        <ic:MaterialIcon Kind="{Binding Category, Converter={x:Static home:CategoryToIconConverter.Instance}}" Width="19" Height="19" Foreground="#168246" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      </Border>
+                      <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Label}" FontSize="13" FontWeight="Bold" Foreground="#101820" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Date, StringFormat='{}{0:dd/MM/yyyy}'}" FontSize="11" Foreground="#8A9AA5"/>
+                      </StackPanel>
+                      <TextBlock Grid.Column="2" FontSize="13" FontWeight="Bold" VerticalAlignment="Center">
+                        <TextBlock.Foreground>
+                          <Binding Path="Amount" Converter="{x:Static home:AmountToColorConverter.Instance}"/>
+                        </TextBlock.Foreground>
+                        <TextBlock.Text>
+                          <MultiBinding Converter="{x:Static home:SignedMoneyTextConverter.Instance}">
+                            <Binding Path="Amount"/>
+                            <Binding Path="Currency"/>
+                          </MultiBinding>
+                        </TextBlock.Text>
+                      </TextBlock>
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+
+              <TextBlock Text="Aucune opération disponible pour ce compte."
+                         FontSize="12"
+                         Foreground="#8A9AA5"
+                         IsVisible="{Binding HasNoOperations}"/>
             </StackPanel>
           </Border>
 
