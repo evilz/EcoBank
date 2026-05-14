@@ -44,7 +44,7 @@ Des variantes compactes sont aussi disponibles pour les vues post-connexion :
 | Cartes | `docs/screenshot-feature-cards-mobile.png` |
 | Profil | `docs/screenshot-feature-profile-mobile.png` |
 
-Les captures ci-dessus utilisent le profil de demonstration fourni (`clientId=Demo`, `clientSecret=Demo`, `appUserId=72025cebA`) et des donnees bancaires de demonstration pour documenter le shell Avalonia partage.
+Les captures ci-dessus utilisent le profil de démonstration fourni (clientId=Demo, clientSecret=Demo, appUserId=72025cebA) et des données bancaires de démonstration pour documenter le shell Avalonia partagé.
 
 ## Fonctionnalités
 
