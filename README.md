@@ -38,11 +38,11 @@ Des variantes compactes sont aussi disponibles pour les vues post-connexion :
 
 | Vue | Capture compacte |
 |---|---|
-| Accueil | `docs/screenshot-feature-home-mobile.png` |
-| Comptes | `docs/screenshot-feature-accounts-mobile.png` |
-| Virements | `docs/screenshot-feature-payments-mobile.png` |
-| Cartes | `docs/screenshot-feature-cards-mobile.png` |
-| Profil | `docs/screenshot-feature-profile-mobile.png` |
+| Accueil | ![EcoBank accueil mobile](docs/screenshot-feature-home-mobile.png) |
+| Comptes | ![EcoBank comptes mobile](docs/screenshot-feature-accounts-mobile.png) |
+| Virements | ![EcoBank virements mobile](docs/screenshot-feature-payments-mobile.png) |
+| Cartes | ![EcoBank cartes mobile](docs/screenshot-feature-cards-mobile.png) |
+| Profil | ![EcoBank profil mobile](docs/screenshot-feature-profile-mobile.png) |
 
 Les captures ci-dessus utilisent le profil de démonstration fourni (clientId=Demo, clientSecret=Demo, appUserId=72025cebA) et des données bancaires de démonstration pour documenter le shell Avalonia partagé.
 
