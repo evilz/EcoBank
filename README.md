@@ -22,7 +22,7 @@ L'application cible un parcours client existant : connexion OAuth2 avec `clientI
 
 ![EcoBank ajout de profil mobile](docs/screenshot-add-profile-mobile.png)
 
-### Fonctionnalites apres selection du profil
+### Fonctionnalités après sélection du profil
 
 ![EcoBank accueil](docs/screenshot-feature-home-desktop.png)
 
