@@ -44,6 +44,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 7
           name: ${{ matrix.artifact }}
           path: publish/${{ matrix.rid }}
 
@@ -69,6 +70,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 7
           name: android
           path: publish/android
 
@@ -94,6 +96,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 7
           name: ios
           path: publish/ios
 
@@ -119,6 +122,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 7
           name: browser
           path: publish/browser
 
